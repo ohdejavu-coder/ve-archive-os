@@ -1,0 +1,16 @@
+{
+  "title": "VE Archive",
+  "tagline": "Personal Brand Operating System",
+  "defaultPersona": "default",
+  "footer": "© 2025 VE Archive. 保留所有权利。Built with clarity, maintained with care.",
+  "social": [
+    { "label": "Email", "url": "mailto:hello@vearchive.com", "icon": "mail" },
+    { "label": "GitHub", "url": "https://github.com/ve-archive", "icon": "github" }
+  ],
+  "navigation": [
+    { "label": "作品", "labelEn": "Works", "href": "/works" },
+    { "label": "简历", "labelEn": "Resume", "href": "/resume" },
+    { "label": "关于", "labelEn": "About", "href": "/about" },
+    { "label": "联系", "labelEn": "Contact", "href": "/contact" }
+  ]
+}

@@ -1,0 +1,18 @@
+{
+  "id": "ai",
+  "name": "AI 创作",
+  "nameEn": "AI Creator",
+  "description": "以 AI 创作者身份展示能力",
+  "accentColor": "#6b8fa3",
+  "featuredWorkIds": ["example-02"],
+  "emphasizedSkills": ["AI 创作", "Prompt Engineering", "AI 影像", "流程自动化"],
+  "resumeSections": ["skills", "experience", "education"],
+  "navigation": [
+    { "label": "实验档案", "labelEn": "Experiments", "href": "/works" },
+    { "label": "能力", "labelEn": "Skills", "href": "/resume" },
+    { "label": "关于", "labelEn": "About", "href": "/about" },
+    { "label": "合作", "labelEn": "Collaborate", "href": "/contact" }
+  ],
+  "heroHeadline": "探索 AI 与创作的边界",
+  "heroSubtitle": "AI 影像 · Prompt 工程 · 创意技术"
+}

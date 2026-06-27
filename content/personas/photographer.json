@@ -1,0 +1,18 @@
+{
+  "id": "photographer",
+  "name": "摄影",
+  "nameEn": "Photographer",
+  "description": "以摄影师身份展示作品",
+  "accentColor": "#8b7355",
+  "featuredWorkIds": ["example-01"],
+  "emphasizedSkills": ["摄影", "后期处理", "灯光", "构图"],
+  "resumeSections": ["experience", "skills", "awards"],
+  "navigation": [
+    { "label": "作品集", "labelEn": "Portfolio", "href": "/works" },
+    { "label": "简历", "labelEn": "Resume", "href": "/resume" },
+    { "label": "关于", "labelEn": "About", "href": "/about" },
+    { "label": "联系", "labelEn": "Contact", "href": "/contact" }
+  ],
+  "heroHeadline": "用镜头捕捉决定性瞬间",
+  "heroSubtitle": "摄影 · 光影 · 故事"
+}

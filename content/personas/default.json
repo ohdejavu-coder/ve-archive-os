@@ -1,0 +1,13 @@
+{
+  "id": "default",
+  "name": "默认",
+  "nameEn": "VE Archive",
+  "description": "展示全部能力与作品",
+  "accentColor": "#c8a87c",
+  "featuredWorkIds": ["example-01", "example-02", "example-03"],
+  "emphasizedSkills": ["摄影", "AI 创作", "影视制作", "新媒体"],
+  "resumeSections": ["experience", "skills", "education", "awards"],
+  "navigation": [],
+  "heroHeadline": "用影像讲述值得被看见的故事",
+  "heroSubtitle": "摄影 · 影视 · AI 创作 · 新媒体"
+}

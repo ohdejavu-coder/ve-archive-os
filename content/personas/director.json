@@ -1,0 +1,18 @@
+{
+  "id": "director",
+  "name": "导演",
+  "nameEn": "Director",
+  "description": "以导演身份展示作品",
+  "accentColor": "#a05252",
+  "featuredWorkIds": ["example-03"],
+  "emphasizedSkills": ["导演", "叙事", "影视制作", "后期"],
+  "resumeSections": ["experience", "awards", "skills"],
+  "navigation": [
+    { "label": "作品", "labelEn": "Work", "href": "/works" },
+    { "label": "经历", "labelEn": "Experience", "href": "/resume" },
+    { "label": "关于", "labelEn": "About", "href": "/about" },
+    { "label": "联系", "labelEn": "Contact", "href": "/contact" }
+  ],
+  "heroHeadline": "每一个镜头都在构建世界",
+  "heroSubtitle": "导演 · 叙事 · 电影语言"
+}

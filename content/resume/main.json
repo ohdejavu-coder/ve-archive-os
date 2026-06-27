@@ -1,0 +1,72 @@
+{
+  "basics": {
+    "name": "创作者姓名",
+    "nameEn": "Your Name",
+    "title": "摄影师 / 导演 / AI 创作者",
+    "titleEn": "Photographer / Director / AI Creator",
+    "location": "中国 · 上海",
+    "email": "hello@vearchive.com",
+    "website": "https://vearchive.com"
+  },
+  "summary": "拥有电影制作专业背景的视觉创作者，擅长摄影、短片导演及 AI 辅助创作。致力于用影像语言讲述具有人文深度的故事。",
+  "summaryEn": "A visual creator with a background in film production, specializing in photography, short film directing, and AI-assisted creation. Dedicated to telling stories with humanistic depth through visual language.",
+  "experience": [
+    {
+      "company": "某影视制作公司",
+      "companyEn": "A Film Production Company",
+      "role": "导演助理 / 摄影师",
+      "roleEn": "Assistant Director / Photographer",
+      "startDate": "2023-06",
+      "endDate": "2025-03",
+      "description": "参与多部商业短片及纪录片的拍摄制作，负责摄影、灯光及后期调色。独立完成 3 个商业项目的摄影指导工作。",
+      "descriptionEn": "Participated in the production of multiple commercial short films and documentaries. Served as Director of Photography for 3 commercial projects.",
+      "highlights": [
+        "完成 3 个商业项目的摄影指导",
+        "建立标准化后期工作流程"
+      ]
+    },
+    {
+      "company": "自由创作",
+      "companyEn": "Freelance",
+      "role": "独立创作者",
+      "roleEn": "Independent Creator",
+      "startDate": "2021-09",
+      "endDate": "2023-05",
+      "description": "以自由职业者身份承接摄影及短视频制作项目。期间探索 AI 工具在创作流程中的应用。",
+      "descriptionEn": "Worked as a freelance photographer and video creator. Explored AI tools in creative workflows during this period.",
+      "highlights": [
+        "服务 10+ 品牌客户",
+        "建立 AI 辅助创作工作流"
+      ]
+    }
+  ],
+  "education": [
+    {
+      "institution": "某电影学院",
+      "institutionEn": "A Film Academy",
+      "degree": "学士",
+      "degreeEn": "Bachelor",
+      "field": "电影制作",
+      "fieldEn": "Film Production",
+      "startDate": "2017",
+      "endDate": "2021"
+    }
+  ],
+  "skills": [
+    { "name": "摄影", "nameEn": "Photography", "category": "创作", "level": 5 },
+    { "name": "导演", "nameEn": "Directing", "category": "创作", "level": 4 },
+    { "name": "后期剪辑", "nameEn": "Editing", "category": "技术", "level": 4 },
+    { "name": "调色", "nameEn": "Color Grading", "category": "技术", "level": 4 },
+    { "name": "灯光", "nameEn": "Lighting", "category": "技术", "level": 3 },
+    { "name": "AI 创作", "nameEn": "AI Creation", "category": "技术", "level": 4 },
+    { "name": "项目管理", "nameEn": "Project Management", "category": "软技能", "level": 3 }
+  ],
+  "languages": [
+    { "name": "中文", "nameEn": "Chinese", "level": "母语" },
+    { "name": "英语", "nameEn": "English", "level": "工作语言" }
+  ],
+  "awards": [
+    { "title": "大学生电影节 · 最佳摄影提名", "titleEn": "Student Film Festival · Best Cinematography Nominee", "year": 2024, "issuer": "大学生电影节组委会" },
+    { "title": "城市摄影展 · 入围作品", "titleEn": "Urban Photography Exhibition · Selected Work", "year": 2025, "issuer": "城市摄影展组委会" }
+  ]
+}

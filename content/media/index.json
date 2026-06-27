@@ -1,0 +1,32 @@
+{
+  "description": "Media asset registry for VE Archive OS",
+  "assets": {
+    "works": {
+      "example-01": {
+        "directory": "/media/works/example-01",
+        "files": ["thumb.jpg", "01.jpg", "02.jpg"],
+        "note": "Replace with actual images"
+      },
+      "example-02": {
+        "directory": "/media/works/example-02",
+        "files": ["thumb.jpg", "01.jpg", "02.jpg"],
+        "note": "Replace with actual images"
+      },
+      "example-03": {
+        "directory": "/media/works/example-03",
+        "files": ["thumb.jpg", "poster.jpg", "stills-01.jpg", "trailer.mp4"],
+        "note": "Replace with actual images and video"
+      }
+    },
+    "profile": {
+      "directory": "/media/profile",
+      "files": ["avatar.jpg"],
+      "note": "Profile photo"
+    },
+    "brand": {
+      "directory": "/media/brand",
+      "files": ["logo.svg", "favicon.ico"],
+      "note": "Brand assets"
+    }
+  }
+}
