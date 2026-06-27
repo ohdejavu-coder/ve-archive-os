@@ -14,5 +14,8 @@
     { "label": "联系", "labelEn": "Contact", "href": "/contact" }
   ],
   "heroHeadline": "每一个镜头都在构建世界",
-  "heroSubtitle": "导演 · 叙事 · 电影语言"
+  "heroSubtitle": "导演 · 叙事 · 电影语言",
+  "profilePhoto": "/media/profile/avatar.jpg",
+  "personalStatement": "电影是时间的雕塑。作为导演，我的工作是找到那个唯一的视角——让观众看见我一直看见却从未说出口的东西。",
+  "personalStatementEn": "Film is sculpture in time. As a director, my job is to find that singular perspective — letting the audience see what I've always seen but never said."
 }

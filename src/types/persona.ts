@@ -38,4 +38,10 @@ export interface Persona {
   heroHeadline?: string;
   /** Hero subtitle override */
   heroSubtitle?: string;
+  /** Path to profile photo for this persona's hero */
+  profilePhoto?: string;
+  /** Personal statement — prominently displayed in hero (1-2 sentences) */
+  personalStatement?: string;
+  /** English version of personal statement */
+  personalStatementEn?: string;
 }

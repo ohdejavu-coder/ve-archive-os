@@ -2,7 +2,7 @@
 
 /* ============================================================
    VE Archive OS — Global Styles
-   Information First design. Cinematic, restrained, professional.
+   Cinematic, professional, restrained.
    Principle 05: Aesthetics are competitive advantage.
    ============================================================ */
 
@@ -39,7 +39,7 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* ---- Selection styling ---- */
+/* ---- Selection ---- */
 ::selection {
   background-color: var(--accent);
   color: #fff;
@@ -62,14 +62,14 @@ body {
   }
 }
 
-/* ---- Focus styles ---- */
+/* ---- Focus ---- */
 :focus-visible {
   outline: 2px solid var(--accent);
   outline-offset: 2px;
   border-radius: 2px;
 }
 
-/* ---- Animation: fade in (used by PersonaSwitcher dropdown) ---- */
+/* ---- Animation: fade in ---- */
 @keyframes fade-in {
   from { opacity: 0; transform: translateY(-4px); }
   to { opacity: 1; transform: translateY(0); }
@@ -77,4 +77,20 @@ body {
 
 .animate-in {
   animation: fade-in 150ms ease-out;
+}
+
+/* ---- Hero image fade-in ---- */
+@keyframes image-reveal {
+  from {
+    opacity: 0;
+    transform: scale(1.02);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.hero-image-reveal {
+  animation: image-reveal 800ms ease-out both;
 }
