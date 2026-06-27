@@ -5,6 +5,13 @@ import { Typography } from "@/components/ui/Typography";
 import { Button } from "@/components/ui/Button";
 import { usePersona } from "@/lib/identity/context";
 import { FilmStrip } from "./FilmStrip";
+import { PortraitPhoto } from "@/components/content/PortraitPhoto";
+import type { Work } from "@/types/work";
+
+interface HeroProps {
+  /** Works for the FilmStrip background thumbnails */
+  works?: Work[];
+}
 
 /**
  * Hero section — redesigned.
@@ -12,13 +19,13 @@ import { FilmStrip } from "./FilmStrip";
  * Layout (desktop):
  *   Left column: Name, title, personal statement, CTAs
  *   Right column: Large cinematic portrait
- *   Background: Netflix-style scrolling film stills
+ *   Background: Netflix-style scrolling film stills (from real works)
  *
  * This is the first thing anyone sees.
  * It must answer: Who is this person? What do they do? Why should I care?
  * In under 10 seconds.
  */
-export function Hero() {
+export function Hero({ works = [] }: HeroProps) {
   const persona = usePersona();
 
   const headline = persona.heroHeadline ?? "用影像讲述值得被看见的故事";
@@ -29,7 +36,7 @@ export function Hero() {
   return (
     <section className="relative min-h-[85vh] flex items-center overflow-hidden bg-white dark:bg-neutral-950">
       {/* Cinematic film strip background */}
-      <FilmStrip />
+      <FilmStrip works={works} />
 
       {/* Content */}
       <Container className="relative z-20 w-full">
@@ -95,41 +102,12 @@ export function Hero() {
                 className="absolute -inset-3 rounded-2xl opacity-20"
                 style={{ backgroundColor: persona.accentColor }}
               />
-
-              {/* Photo container */}
-              <div className="relative w-full h-full rounded-xl overflow-hidden border border-neutral-200 dark:border-neutral-800 shadow-lg bg-neutral-100 dark:bg-neutral-800">
-                <img
-                  src={photoPath}
-                  alt={`${persona.name} — ${persona.nameEn}`}
-                  className="w-full h-full object-cover"
-                  onError={(e) => {
-                    // Fallback: show a styled placeholder if image fails to load
-                    const target = e.currentTarget;
-                    target.style.display = "none";
-                    const parent = target.parentElement;
-                    if (parent) {
-                      parent.classList.add(
-                        "flex",
-                        "items-center",
-                        "justify-center"
-                      );
-                      const placeholder = document.createElement("div");
-                      placeholder.className =
-                        "text-center p-6 space-y-3";
-                      placeholder.innerHTML = `
-                        <div style="width:64px;height:64px;border-radius:50%;background:${persona.accentColor}20;margin:0 auto;display:flex;align-items:center;justify-content:center;">
-                          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="${persona.accentColor}" stroke-width="1.5" opacity="0.5">
-                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
-                            <circle cx="12" cy="7" r="4"/>
-                          </svg>
-                        </div>
-                        <p style="color:${persona.accentColor};font-size:0.875rem;opacity:0.6;">添加个人照片</p>
-                      `;
-                      parent.appendChild(placeholder);
-                    }
-                  }}
-                />
-              </div>
+              <PortraitPhoto
+                src={photoPath}
+                alt={`${persona.name} — ${persona.nameEn}`}
+                accentColor={persona.accentColor}
+                aspectRatio="aspect-[4/5]"
+              />
             </div>
           </div>
         </div>

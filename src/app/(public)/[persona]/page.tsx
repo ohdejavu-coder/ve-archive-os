@@ -7,10 +7,7 @@ import { IdentityProvider } from "@/lib/identity/context";
 
 /**
  * Persona home/landing page.
- * Shows: Hero → Featured Works → CTA
- *
- * Works are loaded server-side and passed as props.
- * The page must answer "Who are you?" within seconds.
+ * Shows: Hero (with real work thumbnails in FilmStrip) → Works → CTA
  */
 export default async function PersonaHomePage({
   params,
@@ -23,7 +20,7 @@ export default async function PersonaHomePage({
 
   return (
     <IdentityProvider identity={identity}>
-      <Hero />
+      <Hero works={works} />
       <WorkGrid works={works} />
       <CTA />
     </IdentityProvider>
