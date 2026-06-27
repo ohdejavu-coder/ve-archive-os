@@ -1,5 +1,7 @@
+import { notFound } from "next/navigation";
 import { resolveIdentity } from "@/lib/identity/resolver";
 import { IdentityProvider } from "@/lib/identity/context";
+import { isValidPersona } from "@/lib/content/personas";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { PersonaBanner } from "@/components/content/PersonaBanner";
@@ -35,6 +37,12 @@ export default async function PersonaLayout({
   params: Promise<{ persona: string }>;
 }) {
   const { persona: personaId } = await params;
+
+  // Trigger 404 for invalid persona IDs
+  if (!isValidPersona(personaId)) {
+    notFound();
+  }
+
   const identity = resolveIdentity(personaId);
 
   return (
