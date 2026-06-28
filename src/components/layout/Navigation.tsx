@@ -7,13 +7,15 @@ import { cn } from "@/lib/utils/cn";
 import type { PersonaNavigationItem } from "@/types/persona";
 
 /**
- * Main navigation. Items come from persona config or site default.
+ * Main navigation.
+ * "主页" is always the first item.
+ * Remaining items come from persona config or site defaults.
  */
 export function Navigation() {
   const persona = usePersona();
   const pathname = usePathname();
 
-  const items: PersonaNavigationItem[] =
+  const personaItems: PersonaNavigationItem[] =
     persona.navigation.length > 0
       ? persona.navigation
       : [
@@ -23,15 +25,25 @@ export function Navigation() {
           { label: "联系", labelEn: "Contact", href: "/contact" },
         ];
 
+  // Always prepend "主页"
+  const items: PersonaNavigationItem[] = [
+    { label: "主页", labelEn: "Home", href: "" },
+    ...personaItems,
+  ];
+
   return (
     <nav className="flex items-center gap-1" aria-label="主导航">
       {items.map((item) => {
-        const fullHref = `/${persona.id}${item.href}`;
+        // Home link is the persona root
+        const fullHref =
+          item.href === ""
+            ? `/${persona.id}`
+            : `/${persona.id}${item.href}`;
         const isActive = pathname === fullHref;
 
         return (
           <Link
-            key={item.href}
+            key={item.label}
             href={fullHref}
             className={cn(
               "px-3 py-1.5 rounded-md text-sm font-medium",
