@@ -1,25 +1,28 @@
 import { notFound } from "next/navigation";
 import { resolveIdentity } from "@/lib/identity/resolver";
 import { IdentityProvider } from "@/lib/identity/context";
-import { isValidPersona } from "@/lib/content/personas";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { PersonaBanner } from "@/components/content/PersonaBanner";
 import { createMetadata } from "@/lib/utils/metadata";
 
-/**
- * Persona-scoped layout.
- * Wraps all pages under /[persona] with:
- * - Identity context (current persona)
- * - Header + Footer
- * - Persona banner (subtle context indicator)
- */
+const VALID_PERSONAS = ["default", "photographer", "ai", "director", "freelance"];
+
 export async function generateMetadata({
   params,
 }: {
   params: Promise<{ persona: string }>;
 }) {
   const { persona: personaId } = await params;
+
+  if (!VALID_PERSONAS.includes(personaId)) {
+    return createMetadata({
+      title: "页面未找到 — VE Archive",
+      description: "该页面不存在",
+      path: "",
+    });
+  }
+
   const identity = resolveIdentity(personaId);
 
   return createMetadata({
@@ -38,8 +41,7 @@ export default async function PersonaLayout({
 }) {
   const { persona: personaId } = await params;
 
-  // Trigger 404 for invalid persona IDs
-  if (!isValidPersona(personaId)) {
+  if (!VALID_PERSONAS.includes(personaId)) {
     notFound();
   }
 
