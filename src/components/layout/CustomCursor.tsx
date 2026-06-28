@@ -3,10 +3,14 @@
 import { useEffect, useRef } from "react";
 
 /**
- * Swiss red-dot cursor.
- * - Default: 12px red dot
- * - Interactive (links/buttons): grows to 28px with border ring
- * - Images: inverts to 32px cyan with ripple
+ * Swiss red-dot custom cursor.
+ *
+ * - Default: 12px red dot (mix-blend-mode: difference for visibility)
+ * - Interactive (a, button, input, etc): grows to 28px ring
+ * - Images: 36px cyan circle with ripple animation
+ *
+ * Native cursor is hidden ONLY after the custom cursor successfully mounts.
+ * If this component fails, the native cursor remains visible (fail-safe).
  */
 export function CustomCursor() {
   const dotRef = useRef<HTMLDivElement>(null);
@@ -15,52 +19,54 @@ export function CustomCursor() {
     const dot = dotRef.current;
     if (!dot) return;
 
-    let raf = 0;
-    let mx = 0, my = 0;
+    // Show immediately at center
+    dot.style.left = window.innerWidth / 2 + "px";
+    dot.style.top = window.innerHeight / 2 + "px";
+    dot.style.opacity = "1";
 
-    function onMouseMove(e: MouseEvent) {
+    // Add class to body to hide native cursor — only after we're confirmed working
+    document.body.classList.add("cursor-custom-active");
+
+    let mx = window.innerWidth / 2;
+    let my = window.innerHeight / 2;
+    let ticking = false;
+
+    function move(e: MouseEvent) {
       mx = e.clientX;
       my = e.clientY;
-      if (!raf) {
-        raf = requestAnimationFrame(() => {
+      if (!ticking) {
+        ticking = true;
+        requestAnimationFrame(() => {
           dot!.style.left = mx + "px";
           dot!.style.top = my + "px";
-          raf = 0;
+          ticking = false;
         });
       }
     }
 
-    function onMouseOver(e: MouseEvent) {
-      const target = e.target as HTMLElement;
-      if (!target) return;
+    function over(e: MouseEvent) {
+      const t = e.target as HTMLElement;
+      if (!t || !dot) return;
 
-      // Images trigger cyan mode
-      if (target.tagName === "IMG" || target.closest("[data-cursor-image]")) {
-        dot!.className = "on-image";
+      if (t.tagName === "IMG" || t.closest("[data-cursor-image]")) {
+        dot.className = "on-image";
         return;
       }
-
-      // Interactive elements trigger ring mode
-      const interactive = target.closest(
+      const inter = t.closest(
         'a, button, input, textarea, select, [role="button"], [data-cursor-interactive]'
       );
-      if (interactive) {
-        dot!.className = "on-interactive";
-        return;
-      }
-
-      dot!.className = "";
+      dot.className = inter ? "on-interactive" : "";
     }
 
-    document.addEventListener("mousemove", onMouseMove, { passive: true });
-    document.addEventListener("mouseover", onMouseOver, { passive: true });
+    document.addEventListener("mousemove", move, { passive: true });
+    document.addEventListener("mouseover", over, { passive: true });
 
     return () => {
-      document.removeEventListener("mousemove", onMouseMove);
-      document.removeEventListener("mouseover", onMouseOver);
-      cancelAnimationFrame(raf);
+      document.removeEventListener("mousemove", move);
+      document.removeEventListener("mouseover", over);
+      document.body.classList.remove("cursor-custom-active");
     };
   }, []);
 
-  return <div ref={dotRef} id="custom-cursor" />;
+  return <div ref={dotRef} id="custom-cursor" style={{ opacity: 0 }} />;
 }

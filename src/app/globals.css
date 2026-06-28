@@ -2,9 +2,7 @@
 
 /* ============================================================
    VE Archive OS — Swiss International Style
-   ============================================================
    Grid · Asymmetry · Sans-serif · Red/Black/White
-   Helvetica thinking. Bold clarity. Negative space.
    ============================================================ */
 
 :root {
@@ -15,7 +13,6 @@
   --teal: #2a9d8f;
   --paper: #f8f8f5;
   --line: #e0e0dc;
-
   --font-mono: var(--font-geist-mono, "SF Mono", "Fira Code", monospace);
 }
 
@@ -36,19 +33,27 @@
   }
 }
 
-/* ---- Base ---- */
 body {
   background: var(--bg);
   color: var(--fg);
   font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
+}
+
+/* Cursor hidden only when custom cursor is active (set by JS) */
+body.cursor-custom-active {
+  cursor: none;
+}
+body.cursor-custom-active a,
+body.cursor-custom-active button,
+body.cursor-custom-active input,
+body.cursor-custom-active textarea,
+body.cursor-custom-active select,
+body.cursor-custom-active [role="button"] {
   cursor: none;
 }
 
-::selection {
-  background: var(--red);
-  color: #fff;
-}
+::selection { background: var(--red); color: #fff; }
 
 /* ---- Custom Cursor ---- */
 #custom-cursor {
@@ -63,21 +68,18 @@ body {
   transition: width 0.15s ease, height 0.15s ease, background 0.2s ease;
   mix-blend-mode: difference;
 }
-
 #custom-cursor.on-interactive {
   width: 28px;
   height: 28px;
   background: transparent;
   border: 2px solid var(--red);
 }
-
 #custom-cursor.on-image {
-  width: 32px;
-  height: 32px;
+  width: 36px;
+  height: 36px;
   background: var(--cyan);
   mix-blend-mode: normal;
 }
-
 #custom-cursor.on-image::after {
   content: '';
   position: absolute;
@@ -87,22 +89,13 @@ body {
   opacity: 0.5;
   animation: cursor-ripple 0.8s ease-out infinite;
 }
-
 @keyframes cursor-ripple {
   0% { transform: scale(0.8); opacity: 0.6; }
   100% { transform: scale(1.4); opacity: 0; }
 }
 
-/* Restore pointer on interactive elements (cursor: none hides it) */
-a, button, input, textarea, select, [role="button"] {
-  cursor: none;
-}
-
 /* ---- Focus ---- */
-:focus-visible {
-  outline: 2px solid var(--red);
-  outline-offset: 2px;
-}
+:focus-visible { outline: 2px solid var(--red); outline-offset: 2px; }
 
 /* ---- Scrollbar ---- */
 ::-webkit-scrollbar { width: 4px; }
@@ -114,20 +107,16 @@ a, button, input, textarea, select, [role="button"] {
   from { opacity: 0; transform: translateY(12px); }
   to { opacity: 1; transform: translateY(0); }
 }
-main > * {
-  animation: page-enter 500ms ease-out both;
-}
+main > * { animation: page-enter 500ms ease-out both; }
 
 /* ---- Hero image reveal ---- */
 @keyframes image-reveal {
   from { opacity: 0; transform: scale(1.03); }
   to { opacity: 1; transform: scale(1); }
 }
-.hero-image-reveal {
-  animation: image-reveal 1s ease-out both;
-}
+.hero-image-reveal { animation: image-reveal 1s ease-out both; }
 
-/* ---- Swiss grid lines (subtle, optional) ---- */
+/* ---- Swiss grid ---- */
 .swiss-grid {
   background-image:
     linear-gradient(to right, var(--line) 1px, transparent 1px),
