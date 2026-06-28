@@ -36,10 +36,10 @@ body.cursor-ready textarea,
 body.cursor-ready select,
 body.cursor-ready [role="button"] { cursor: none; }
 
-/* ---- Cursor: pure red dot, blend-mode inverts to cyan on light bg ---- */
+/* ---- Cursor: pure red dot, blend-mode inverts based on background ---- */
 #cursor-dot {
-  width: 10px;
-  height: 10px;
+  width: 12px;
+  height: 12px;
   background: #ff0000;
   border-radius: 50%;
   position: fixed;
@@ -51,8 +51,8 @@ body.cursor-ready [role="button"] { cursor: none; }
 }
 
 #cursor-dot.big {
-  width: 34px;
-  height: 34px;
+  width: 68px;
+  height: 68px;
 }
 
 ::selection { background: var(--red); color: #fff; }
