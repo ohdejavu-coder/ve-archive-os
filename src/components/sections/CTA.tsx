@@ -2,32 +2,33 @@
 
 import { Container } from "@/components/ui/Container";
 import { Typography } from "@/components/ui/Typography";
-import { Button } from "@/components/ui/Button";
 import { usePersona } from "@/lib/identity/context";
 
-/**
- * Call-to-action section.
- * Placed at the bottom of pages to drive connection.
- * Goal: partner decides to contact within 3 minutes (per Success Metrics).
- */
 export function CTA() {
   const persona = usePersona();
 
   return (
-    <section className="py-16 md:py-20 bg-neutral-50 dark:bg-neutral-900/50">
+    <section className="py-24 bg-[var(--paper)] dark:bg-neutral-900/50">
       <Container size="narrow">
-        <div className="text-center space-y-4">
-          <Typography variant="h3">
-            开始合作
-          </Typography>
-          <Typography variant="body" className="text-neutral-500 max-w-md mx-auto">
-            如果你对我的作品和能力感兴趣，欢迎随时联系我。
-          </Typography>
-          <div className="pt-2">
-            <Button href={`/${persona.id}/contact`} variant="primary" size="lg">
-              联系我
-            </Button>
+        <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-8">
+          <div className="space-y-2 max-w-md">
+            <div className="flex items-center gap-2 mb-1">
+              <div className="w-6 h-0.5 bg-[var(--red)]" />
+              <span className="text-[11px] tracking-[0.2em] uppercase text-neutral-400">
+                Collaborate
+              </span>
+            </div>
+            <Typography variant="h2">开始合作</Typography>
+            <Typography variant="body" className="text-neutral-500">
+              对我的作品和能力感兴趣？随时联系我。
+            </Typography>
           </div>
+          <a
+            href={`/${persona.id}/contact`}
+            className="inline-flex items-center px-8 py-3.5 rounded-sm text-sm font-semibold tracking-wide bg-black text-white dark:bg-white dark:text-black hover:opacity-80 transition-opacity uppercase"
+          >
+            联系我
+          </a>
         </div>
       </Container>
     </section>

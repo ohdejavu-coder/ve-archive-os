@@ -3,7 +3,6 @@ import { resolveIdentity } from "@/lib/identity/resolver";
 import { IdentityProvider } from "@/lib/identity/context";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
-import { PersonaBanner } from "@/components/content/PersonaBanner";
 import { createMetadata } from "@/lib/utils/metadata";
 
 const VALID_PERSONAS = ["default", "photographer", "ai", "director", "freelance"];
@@ -14,17 +13,10 @@ export async function generateMetadata({
   params: Promise<{ persona: string }>;
 }) {
   const { persona: personaId } = await params;
-
   if (!VALID_PERSONAS.includes(personaId)) {
-    return createMetadata({
-      title: "页面未找到 — VE Archive",
-      description: "该页面不存在",
-      path: "",
-    });
+    return createMetadata({ title: "404", description: "", path: "" });
   }
-
   const identity = resolveIdentity(personaId);
-
   return createMetadata({
     title: `${identity.persona.name} — VE Archive`,
     description: identity.persona.description,
@@ -50,7 +42,6 @@ export default async function PersonaLayout({
   return (
     <IdentityProvider identity={identity}>
       <Header />
-      <PersonaBanner />
       <main className="flex-1">{children}</main>
       <Footer />
     </IdentityProvider>

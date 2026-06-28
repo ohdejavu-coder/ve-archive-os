@@ -14,7 +14,6 @@ export async function generateMetadata({
 }) {
   const { persona } = await params;
   const identity = resolveIdentity(persona);
-
   return createMetadata({
     title: `作品集 — ${identity.persona.name}`,
     description: `${identity.persona.name}的作品展示`,
@@ -22,10 +21,6 @@ export async function generateMetadata({
   });
 }
 
-/**
- * Works grid page — all works for the current persona.
- * Data loaded server-side, passed as props to client components.
- */
 export default async function WorksPage({
   params,
 }: {
@@ -37,18 +32,28 @@ export default async function WorksPage({
 
   return (
     <IdentityProvider identity={identity}>
-      <section className="py-16">
-        <Container size="narrow">
-          <div className="mb-12">
-            <Typography variant="h1">作品</Typography>
-            <Typography variant="body" className="text-neutral-500 mt-2">
-              以下是以「{identity.persona.name}」身份展示的作品。
+      <section className="py-20 md:py-28">
+        <Container>
+          {/* Title — left-aligned with red line, Swiss style */}
+          <div className="mb-16">
+            <div className="flex items-center gap-3 mb-4">
+              <div className="w-8 h-0.5 bg-[var(--red)]" />
+              <span className="text-xs tracking-[0.3em] uppercase text-neutral-400 font-medium">
+                Works
+              </span>
+            </div>
+            <Typography variant="h1" cinematic>
+              作品
+            </Typography>
+            <Typography variant="body" className="text-neutral-500 mt-4 max-w-md">
+              以下是以「{identity.persona.name}」身份展示的作品。点击分类筛选，或直接浏览全部。
             </Typography>
           </div>
+
+          <WorkGrid works={works} />
         </Container>
-        <WorkGrid works={works} />
-        <CTA />
       </section>
+      <CTA />
     </IdentityProvider>
   );
 }

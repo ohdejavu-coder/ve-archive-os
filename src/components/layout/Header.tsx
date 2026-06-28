@@ -4,26 +4,28 @@ import { Navigation } from "./Navigation";
 import { PersonaSwitcher } from "./PersonaSwitcher";
 
 /**
- * Site header. Clean and restrained — per Principle 05.
- * Fixed height, no sticky behavior by default (avoids visual noise).
+ * Swiss-minimal header.
+ * Clean border-bottom. VE Archive on left, nav center, persona right.
+ * Red accent dot after the brand name.
  */
 export function Header() {
   return (
-    <header className="border-b border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-950">
+    <header className="border-b border-neutral-200 dark:border-neutral-800 bg-[var(--bg)]">
       <Container>
-        <div className="flex items-center justify-between h-16">
-          {/* Left: Site title */}
+        <div className="flex items-center justify-between h-14">
+          {/* Left: brand */}
           <Link
             href="/"
-            className="text-lg font-semibold tracking-tight text-neutral-900 dark:text-neutral-100 hover:opacity-70 transition-opacity"
+            className="flex items-center gap-2 text-sm font-semibold tracking-tight text-neutral-900 dark:text-neutral-100 hover:opacity-60 transition-opacity uppercase"
           >
             VE Archive
+            <span className="w-1.5 h-1.5 rounded-full bg-[var(--red)]" />
           </Link>
 
-          {/* Center: Navigation */}
+          {/* Center: nav */}
           <Navigation />
 
-          {/* Right: Persona switcher */}
+          {/* Right: persona */}
           <PersonaSwitcher />
         </div>
       </Container>

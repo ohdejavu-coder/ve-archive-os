@@ -1,117 +1,126 @@
 "use client";
 
-import { Container } from "@/components/ui/Container";
-import { Typography } from "@/components/ui/Typography";
-import { Button } from "@/components/ui/Button";
 import { usePersona } from "@/lib/identity/context";
-import { FilmStrip } from "./FilmStrip";
-import { PortraitPhoto } from "@/components/content/PortraitPhoto";
+import { useSiteContent } from "@/lib/content/ContentContext";
+import { Button } from "@/components/ui/Button";
 import type { Work } from "@/types/work";
 
 interface HeroProps {
-  /** Works for the FilmStrip background thumbnails */
   works?: Work[];
 }
 
 /**
- * Hero section — redesigned.
+ * Swiss-Netflix Hero.
  *
- * Layout (desktop):
- *   Left column: Name, title, personal statement, CTAs
- *   Right column: Large cinematic portrait
- *   Background: Netflix-style scrolling film stills (from real works)
+ * Full-bleed background image from first work thumbnail.
+ * Dark gradient overlay. Text positioned bottom-left.
+ * Bold headline + personal statement.
+ * Red accent line. CTA buttons.
  *
  * This is the first thing anyone sees.
- * It must answer: Who is this person? What do they do? Why should I care?
- * In under 10 seconds.
+ * It must answer: WHO. WHAT. WHY. In 5 seconds.
  */
 export function Hero({ works = [] }: HeroProps) {
   const persona = usePersona();
+  const { overrides } = useSiteContent();
 
-  const headline = persona.heroHeadline ?? "用影像讲述值得被看见的故事";
-  const subtitle = persona.heroSubtitle ?? "";
-  const statement = persona.personalStatement ?? "";
-  const photoPath = persona.profilePhoto ?? "/media/profile/avatar.jpg";
+  // Override-supporting content
+  const headline = (overrides.personas?.[persona.id]?.heroHeadline as string)
+    ?? persona.heroHeadline
+    ?? "用影像讲述值得被看见的故事";
+  const subtitle = (overrides.personas?.[persona.id]?.heroSubtitle as string)
+    ?? persona.heroSubtitle
+    ?? "";
+  const statement = (overrides.personas?.[persona.id]?.personalStatement as string)
+    ?? persona.personalStatement
+    ?? "";
+
+  // Background: first work thumbnail or gradient
+  const bgImage = works.length > 0 && works[0].thumbnail
+    ? works[0].thumbnail
+    : null;
 
   return (
-    <section className="relative min-h-[85vh] flex items-center overflow-hidden bg-white dark:bg-neutral-950">
-      {/* Cinematic film strip background */}
-      <FilmStrip works={works} />
+    <section className="relative h-screen min-h-[600px] max-h-[900px] flex items-end overflow-hidden bg-neutral-900">
+      {/* Background image */}
+      {bgImage ? (
+        <>
+          <img
+            src={bgImage}
+            alt=""
+            className="absolute inset-0 w-full h-full object-cover hero-image-reveal"
+          />
+          {/* Overlay gradient — dark at bottom for text readability */}
+          <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-black/10" />
+        </>
+      ) : (
+        <div className="absolute inset-0 bg-neutral-900">
+          {/* Abstract Swiss grid pattern when no image */}
+          <div className="absolute inset-0 swiss-grid opacity-10" />
+          <div className="absolute inset-0 bg-gradient-to-t from-black via-black/60 to-transparent" />
+        </div>
+      )}
 
-      {/* Content */}
-      <Container className="relative z-20 w-full">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 items-center py-16 lg:py-0">
-          {/* ---- LEFT: Text content ---- */}
-          <div className="lg:col-span-7 space-y-6">
-            {/* Subtle identity label */}
-            <div className="flex items-center gap-2">
-              <span
-                className="w-8 h-px"
-                style={{ backgroundColor: persona.accentColor }}
-              />
-              <span className="text-xs uppercase tracking-[0.2em] text-neutral-400 font-medium">
-                {persona.nameEn}
-              </span>
-            </div>
-
-            {/* Main headline */}
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-bold leading-[1.08] tracking-tight text-neutral-900 dark:text-neutral-100">
-              {headline}
-            </h1>
-
-            {/* Subtitle */}
-            {subtitle && (
-              <p className="text-lg sm:text-xl text-neutral-500 max-w-xl leading-relaxed">
-                {subtitle}
-              </p>
-            )}
-
-            {/* Personal statement — the soul of the hero */}
-            {statement && (
-              <div className="relative pl-5 border-l-2" style={{ borderColor: persona.accentColor }}>
-                <p className="text-base sm:text-lg text-neutral-600 dark:text-neutral-400 leading-relaxed max-w-lg italic">
-                  "{statement}"
-                </p>
-              </div>
-            )}
-
-            {/* CTAs */}
-            <div className="flex flex-wrap items-center gap-3 pt-2">
-              <Button
-                href={`/${persona.id}/works`}
-                variant="primary"
-                size="lg"
-              >
-                查看作品
-              </Button>
-              <Button
-                href={`/${persona.id}/contact`}
-                variant="secondary"
-                size="lg"
-              >
-                联系我
-              </Button>
-            </div>
+      {/* Content — bottom-left aligned, Swiss asymmetric */}
+      <div className="relative z-10 w-full pb-16 md:pb-24 px-6 md:px-16 lg:px-24">
+        <div className="max-w-4xl space-y-6">
+          {/* Red identity line + label */}
+          <div className="flex items-center gap-3">
+            <div className="w-12 h-0.5 bg-[var(--red)]" />
+            <span className="text-xs tracking-[0.3em] uppercase text-white/60 font-medium">
+              {persona.nameEn}
+            </span>
           </div>
 
-          {/* ---- RIGHT: Profile photo ---- */}
-          <div className="lg:col-span-5 flex justify-center lg:justify-end">
-            <div className="relative w-64 h-80 sm:w-72 sm:h-96 lg:w-80 lg:h-[30rem]">
-              {/* Decorative frame */}
-              <div
-                className="absolute -inset-3 rounded-2xl opacity-20"
-                style={{ backgroundColor: persona.accentColor }}
-              />
-              <PortraitPhoto
-                src={photoPath}
-                alt={`${persona.name} — ${persona.nameEn}`}
-                accentColor={persona.accentColor}
-                aspectRatio="aspect-[4/5]"
-              />
+          {/* Headline — big, bold, Swiss */}
+          <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold leading-[0.95] tracking-tight text-white max-w-3xl">
+            {headline}
+          </h1>
+
+          {/* Subtitle */}
+          {subtitle && (
+            <p className="text-lg md:text-xl text-white/60 max-w-xl leading-relaxed">
+              {subtitle}
+            </p>
+          )}
+
+          {/* Personal statement — italic, Swiss quote style */}
+          {statement && (
+            <div className="flex items-start gap-4 pt-2 max-w-lg">
+              <div className="w-0.5 h-full min-h-[2rem] bg-[var(--red)] shrink-0 mt-1" />
+              <p className="text-base md:text-lg text-white/50 italic leading-relaxed">
+                &ldquo;{statement}&rdquo;
+              </p>
             </div>
+          )}
+
+          {/* CTA buttons */}
+          <div className="flex flex-wrap items-center gap-4 pt-4">
+            <a
+              href={`/${persona.id}/works`}
+              className="inline-flex items-center justify-center px-8 py-3.5 rounded-sm text-sm font-semibold tracking-wide bg-white text-black hover:bg-neutral-200 transition-colors uppercase"
+            >
+              查看作品
+            </a>
+            <a
+              href={`/${persona.id}/contact`}
+              className="inline-flex items-center justify-center px-8 py-3.5 rounded-sm text-sm font-semibold tracking-wide border border-white/30 text-white hover:border-white/60 transition-colors uppercase"
+            >
+              联系我
+            </a>
           </div>
         </div>
-      </Container>
+      </div>
+
+      {/* Scroll indicator — subtle */}
+      <div className="absolute bottom-6 right-8 z-10 hidden md:block">
+        <div className="flex flex-col items-center gap-2 text-white/30">
+          <div className="w-px h-8 bg-white/20" />
+          <span className="text-[10px] tracking-[0.2em] uppercase rotate-90 origin-center mt-4">
+            scroll
+          </span>
+        </div>
+      </div>
     </section>
   );
 }
