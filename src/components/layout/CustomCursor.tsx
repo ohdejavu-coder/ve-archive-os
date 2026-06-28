@@ -1,18 +1,22 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect } from "react";
 
+/**
+ * Swiss red-dot cursor.
+ *
+ * Creates the cursor element directly in the DOM (bypassing React).
+ * This ensures it always renders, regardless of component tree.
+ */
 export function CustomCursor() {
-  const dotRef = useRef<HTMLDivElement>(null);
-
   useEffect(() => {
-    const dot = dotRef.current;
-    if (!dot) return;
+    // Already created?
+    if (document.getElementById("custom-cursor")) return;
 
-    // Start visible at center
-    dot.style.left = "50vw";
-    dot.style.top = "50vh";
-    dot.style.opacity = "1";
+    // Create the cursor dot directly in DOM
+    const dot = document.createElement("div");
+    dot.id = "custom-cursor";
+    document.body.appendChild(dot);
 
     // Hide native cursor
     document.body.classList.add("cursor-custom-active");
@@ -21,20 +25,23 @@ export function CustomCursor() {
     let my = window.innerHeight / 2;
     let frame = 0;
 
+    // Set initial position
+    dot.style.left = mx + "px";
+    dot.style.top = my + "px";
+
     function onMove(e: MouseEvent) {
       mx = e.clientX;
       my = e.clientY;
       if (!frame) {
         frame = requestAnimationFrame(() => {
-          // Position
-          dot!.style.left = mx + "px";
-          dot!.style.top = my + "px";
+          dot.style.left = mx + "px";
+          dot.style.top = my + "px";
 
-          // What's under cursor?
+          // Detect what's under cursor
           const el = document.elementFromPoint(mx, my);
           if (el) {
             if (el.tagName === "IMG" || el.closest("[data-cursor-image]")) {
-              dot!.className = "on-image";
+              dot.className = "on-image";
             } else if (
               el.tagName === "A" ||
               el.tagName === "BUTTON" ||
@@ -44,9 +51,9 @@ export function CustomCursor() {
               el.closest("[role='button']") ||
               el.closest("[data-cursor-interactive]")
             ) {
-              dot!.className = "on-interactive";
+              dot.className = "on-interactive";
             } else {
-              dot!.className = "";
+              dot.className = "";
             }
           }
 
@@ -61,8 +68,10 @@ export function CustomCursor() {
       document.removeEventListener("mousemove", onMove);
       cancelAnimationFrame(frame);
       document.body.classList.remove("cursor-custom-active");
+      dot.remove();
     };
   }, []);
 
-  return <div ref={dotRef} id="custom-cursor" style={{ opacity: 0 }} />;
+  // This component renders nothing — everything is in the DOM
+  return null;
 }

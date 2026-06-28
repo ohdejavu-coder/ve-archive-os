@@ -27,12 +27,22 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  // Load ALL content at root level — passed to ContentProvider
   const site = loadSiteConfig();
   const personas = loadPersonas();
   let resume: Resume;
-  try { resume = loadJSON<Resume>("resume/main.json"); } catch {
-    resume = { basics: {} as Resume["basics"], summary: "", summaryEn: "", experience: [], education: [], skills: [], languages: [], awards: [] } as Resume;
+  try {
+    resume = loadJSON<Resume>("resume/main.json");
+  } catch {
+    resume = {
+      basics: {} as Resume["basics"],
+      summary: "",
+      summaryEn: "",
+      experience: [],
+      education: [],
+      skills: [],
+      languages: [],
+      awards: [],
+    } as Resume;
   }
   let aboutPage = "";
   let contactPage = "";
@@ -41,6 +51,14 @@ export default function RootLayout({
 
   return (
     <html lang="zh-CN" className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}>
+      <head>
+        <script src="https://cdn.tailwindcss.com" />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `tailwind.config={darkMode:"class",theme:{extend:{colors:{background:"var(--bg)",foreground:"var(--fg)",accent:"var(--red)"}}}}`,
+          }}
+        />
+      </head>
       <body className="min-h-full flex flex-col">
         <ContentProviderClient
           initialSite={site}
