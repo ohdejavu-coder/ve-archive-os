@@ -65,20 +65,21 @@ body.cursor-custom-active [role="button"] {
   pointer-events: none;
   z-index: 9999;
   transform: translate(-50%, -50%);
-  transition: width 0.15s ease, height 0.15s ease, background 0.2s ease;
-  mix-blend-mode: difference;
+  transition: width 0.15s ease, height 0.15s ease, background-color 0.2s ease, box-shadow 0.2s ease;
+  box-shadow: 0 0 0 2px rgba(230, 57, 70, 0.15), 0 0 8px rgba(230, 57, 70, 0.1);
 }
 #custom-cursor.on-interactive {
   width: 28px;
   height: 28px;
   background: transparent;
   border: 2px solid var(--red);
+  box-shadow: 0 0 0 4px rgba(230, 57, 70, 0.1);
 }
 #custom-cursor.on-image {
   width: 36px;
   height: 36px;
   background: var(--cyan);
-  mix-blend-mode: normal;
+  box-shadow: 0 0 0 3px rgba(0, 150, 199, 0.2), 0 0 16px rgba(0, 150, 199, 0.15);
 }
 #custom-cursor.on-image::after {
   content: '';
