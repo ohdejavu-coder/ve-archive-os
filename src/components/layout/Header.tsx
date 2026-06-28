@@ -1,13 +1,8 @@
 import Link from "next/link";
 import { Container } from "@/components/ui/Container";
 import { Navigation } from "./Navigation";
-import { PersonaSwitcher } from "./PersonaSwitcher";
+import { LanguageSwitcher } from "./LanguageSwitcher";
 
-/**
- * Swiss-minimal header.
- * Clean border-bottom. VE Archive on left, nav center, persona right.
- * Red accent dot after the brand name.
- */
 export function Header() {
   return (
     <header className="border-b border-neutral-200 dark:border-neutral-800 bg-[var(--bg)]">
@@ -25,8 +20,8 @@ export function Header() {
           {/* Center: nav */}
           <Navigation />
 
-          {/* Right: persona */}
-          <PersonaSwitcher />
+          {/* Right: language */}
+          <LanguageSwitcher />
         </div>
       </Container>
     </header>
