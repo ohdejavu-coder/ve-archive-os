@@ -39,8 +39,8 @@ body.cursor-ready [role="button"] { cursor: none; }
 /* ---- Cursor ---- */
 /* Default: solid red dot. Always red. Every page. */
 #cursor-dot {
-  width: 18px;
-  height: 18px;
+  width: 14px;
+  height: 14px;
   background: #ff0000;
   border-radius: 50%;
   position: fixed;
@@ -52,8 +52,8 @@ body.cursor-ready [role="button"] { cursor: none; }
 
 /* Interactive: grows + blend-mode difference kicks in for auto-color inversion */
 #cursor-dot.big {
-  width: 28px;
-  height: 28px;
+  width: 50px;
+  height: 50px;
   mix-blend-mode: difference;
 }
 

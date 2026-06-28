@@ -86,7 +86,7 @@ const CURSOR_SCRIPT = `
     var el=document.elementFromPoint(mx,my);
     var big=!!(el&&el.closest('a,button,input,textarea,select,[role=button]'));
     d.className=big?'big':'';
-    var s=big?14:9;
+    var s=big?25:7;
     d.style.transform='translate('+(mx-s)+'px,'+(my-s)+'px)';
     f=0;
   })}}
