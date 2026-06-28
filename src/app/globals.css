@@ -51,8 +51,8 @@ body.cursor-ready [role="button"] { cursor: none; }
 }
 
 #cursor-dot.big {
-  width: 28px;
-  height: 28px;
+  width: 34px;
+  height: 34px;
 }
 
 ::selection { background: var(--red); color: #fff; }
