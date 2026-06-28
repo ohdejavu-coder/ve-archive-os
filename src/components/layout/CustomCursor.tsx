@@ -3,75 +3,66 @@
 import { useEffect } from "react";
 
 /**
- * Swiss red-dot cursor.
+ * Pure red dot cursor. mix-blend-mode: difference.
  *
- * Creates the cursor element directly in the DOM (bypassing React).
- * This ensures it always renders, regardless of component tree.
+ * On white → appears red.
+ * On dark  → inverts to cyan/sky-blue.
+ * On interactive elements → grows 3x.
+ *
+ * No glow. No shadow. One element. One blend mode.
+ * The browser calculates the color. We just ship pure red.
  */
 export function CustomCursor() {
   useEffect(() => {
-    // Already created?
-    if (document.getElementById("custom-cursor")) return;
+    if (document.getElementById("cursor-dot")) return;
 
-    // Create the cursor dot directly in DOM
     const dot = document.createElement("div");
-    dot.id = "custom-cursor";
+    dot.id = "cursor-dot";
     document.body.appendChild(dot);
 
-    // Hide native cursor
-    document.body.classList.add("cursor-custom-active");
-
-    let mx = window.innerWidth / 2;
-    let my = window.innerHeight / 2;
+    // Show native cursor fallback until first mouse move
+    let ready = false;
+    let mx = -100;
+    let my = -100;
     let frame = 0;
 
-    // Set initial position
-    dot.style.left = mx + "px";
-    dot.style.top = my + "px";
-
-    function onMove(e: MouseEvent) {
+    function move(e: MouseEvent) {
       mx = e.clientX;
       my = e.clientY;
+
+      if (!ready) {
+        ready = true;
+        document.body.classList.add("cursor-ready");
+      }
+
       if (!frame) {
         frame = requestAnimationFrame(() => {
-          dot.style.left = mx + "px";
-          dot.style.top = my + "px";
-
-          // Detect what's under cursor
           const el = document.elementFromPoint(mx, my);
+          let big = false;
           if (el) {
-            if (el.tagName === "IMG" || el.closest("[data-cursor-image]")) {
-              dot.className = "on-image";
-            } else if (
-              el.tagName === "A" ||
-              el.tagName === "BUTTON" ||
-              el.tagName === "INPUT" ||
-              el.tagName === "TEXTAREA" ||
-              el.tagName === "SELECT" ||
-              el.closest("[role='button']") ||
-              el.closest("[data-cursor-interactive]")
-            ) {
-              dot.className = "on-interactive";
-            } else {
-              dot.className = "";
-            }
+            big = !!el.closest(
+              'a, button, input, textarea, select, [role="button"]'
+            );
           }
+          dot.className = big ? "big" : "";
+
+          const s = big ? 14 : 5;
+          dot.style.transform = `translate(${mx - s}px, ${my - s}px)`;
 
           frame = 0;
         });
       }
     }
 
-    document.addEventListener("mousemove", onMove, { passive: true });
+    document.addEventListener("mousemove", move, { passive: true });
 
     return () => {
-      document.removeEventListener("mousemove", onMove);
+      document.removeEventListener("mousemove", move);
       cancelAnimationFrame(frame);
-      document.body.classList.remove("cursor-custom-active");
+      document.body.classList.remove("cursor-ready");
       dot.remove();
     };
   }, []);
 
-  // This component renders nothing — everything is in the DOM
   return null;
 }
