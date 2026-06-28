@@ -36,7 +36,8 @@ body.cursor-ready textarea,
 body.cursor-ready select,
 body.cursor-ready [role="button"] { cursor: none; }
 
-/* ---- Cursor: pure red dot, blend-mode inverts based on background ---- */
+/* ---- Cursor ---- */
+/* Default: solid red dot. Always red. Every page. */
 #cursor-dot {
   width: 18px;
   height: 18px;
@@ -46,13 +47,14 @@ body.cursor-ready [role="button"] { cursor: none; }
   pointer-events: none;
   z-index: 9999;
   will-change: transform;
-  mix-blend-mode: difference;
-  transition: width 0.12s ease, height 0.12s ease;
+  transition: width 0.12s ease, height 0.12s ease, mix-blend-mode 0s;
 }
 
+/* Interactive: grows + blend-mode difference kicks in for auto-color inversion */
 #cursor-dot.big {
   width: 28px;
   height: 28px;
+  mix-blend-mode: difference;
 }
 
 ::selection { background: var(--red); color: #fff; }
