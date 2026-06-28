@@ -1,6 +1,5 @@
 /* ============================================================
    VE Archive OS — Swiss International Style
-   Grid · Asymmetry · Sans-serif · Red/Black/White
    ============================================================ */
 
 * {
@@ -37,6 +36,22 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+/* ---- Custom Cursor (pure CSS) ---- */
+/* Red dot — 12x12 inline SVG as data URI */
+body {
+  cursor: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'><circle cx='12' cy='12' r='6' fill='%23e63946' opacity='0.9'/><circle cx='12' cy='12' r='8' fill='none' stroke='%23e63946' stroke-width='1' opacity='0.3'/></svg>") 12 12, auto;
+}
+
+/* Buttons + links: bigger ring */
+a, button, input[type="button"], input[type="submit"], [role="button"] {
+  cursor: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='40' height='40' viewBox='0 0 40 40'><circle cx='20' cy='20' r='6' fill='%23e63946' opacity='0.8'/><circle cx='20' cy='20' r='14' fill='none' stroke='%23e63946' stroke-width='2' opacity='0.4'/></svg>") 20 20, pointer;
+}
+
+/* Images: cyan circle */
+img {
+  cursor: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='44' height='44' viewBox='0 0 44 44'><circle cx='22' cy='22' r='10' fill='%230096c7' opacity='0.9'/><circle cx='22' cy='22' r='14' fill='none' stroke='%230096c7' stroke-width='2' opacity='0.4'/><circle cx='22' cy='22' r='18' fill='none' stroke='%230096c7' stroke-width='1' opacity='0.2'/></svg>") 22 22, auto;
+}
+
 /* ---- Selection ---- */
 ::selection {
   background: var(--red);
@@ -53,53 +68,6 @@ body {
 ::-webkit-scrollbar { width: 4px; }
 ::-webkit-scrollbar-track { background: transparent; }
 ::-webkit-scrollbar-thumb { background: var(--line); border-radius: 0; }
-
-/* ---- Custom Cursor ---- */
-body.cursor-custom-active { cursor: none; }
-body.cursor-custom-active a,
-body.cursor-custom-active button,
-body.cursor-custom-active input,
-body.cursor-custom-active textarea,
-body.cursor-custom-active select,
-body.cursor-custom-active [role="button"] { cursor: none; }
-
-#custom-cursor {
-  width: 12px;
-  height: 12px;
-  background: var(--red);
-  border-radius: 50%;
-  position: fixed;
-  pointer-events: none;
-  z-index: 9999;
-  will-change: transform;
-}
-#custom-cursor.on-interactive {
-  width: 28px;
-  height: 28px;
-  background: transparent;
-  border: 2px solid var(--red);
-  transition: width 0.15s, height 0.15s, background 0.15s, border 0.15s;
-}
-#custom-cursor.on-image {
-  width: 36px;
-  height: 36px;
-  background: var(--cyan);
-  border: none;
-  transition: width 0.15s, height 0.15s, background 0.15s;
-}
-#custom-cursor.on-image::after {
-  content: '';
-  position: absolute;
-  inset: -4px;
-  border: 1px solid var(--cyan);
-  border-radius: 50%;
-  animation: cursor-ripple 0.8s ease-out infinite;
-}
-
-@keyframes cursor-ripple {
-  from { opacity: 0.6; transform: scale(0.8); }
-  to { opacity: 0; transform: scale(1.4); }
-}
 
 /* ---- Page transitions ---- */
 @keyframes page-enter {
