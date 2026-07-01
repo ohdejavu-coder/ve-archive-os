@@ -110,7 +110,7 @@ export function ResumeClient({ identity, fileResume }: { identity: IdentityState
         )}
 
         {/* Download button */}
-        <div className="mt-10 pt-6 border-t border-neutral-200 dark:border-neutral-800">
+        <div className="mt-10 pt-6 pb-16 border-t border-neutral-200 dark:border-neutral-800">
           <a
             href="/resume/ve-archive-resume.pdf"
             download
