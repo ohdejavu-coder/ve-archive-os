@@ -1,0 +1,20 @@
+{
+  "$schema": "https://codesandbox.io/.codesandbox/tasks.json",
+  "setupTasks": [
+    {
+      "name": "Install Dependencies",
+      "command": "npm install --legacy-peer-deps"
+    }
+  ],
+  "tasks": {
+    "dev": {
+      "name": "dev",
+      "command": "npm run dev",
+      "runAtStart": true,
+      "preview": {
+        "port": 3000,
+        "prLink": "direct"
+      }
+    }
+  }
+}
