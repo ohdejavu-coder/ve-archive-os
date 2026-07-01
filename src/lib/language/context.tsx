@@ -1,46 +1,35 @@
 "use client";
 
-import { createContext, useContext, useState, useCallback, useEffect, type ReactNode } from "react";
+import { createContext, useContext, type ReactNode } from "react";
 
 type Lang = "zh" | "en";
 
 interface LangState {
   lang: Lang;
-  toggle: () => void;
   t: (zh: string, en: string) => string;
 }
 
 const LangContext = createContext<LangState>({
   lang: "zh",
-  toggle: () => {},
   t: (zh: string) => zh,
 });
 
-export function LanguageProvider({ children }: { children: ReactNode }) {
-  const [lang, setLang] = useState<Lang>("zh");
-
-  useEffect(() => {
-    try {
-      const saved = localStorage.getItem("ve-lang");
-      if (saved === "en") setLang("en");
-    } catch {}
-  }, []);
-
-  const toggle = useCallback(() => {
-    setLang((prev) => {
-      const next = prev === "zh" ? "en" : "zh";
-      try { localStorage.setItem("ve-lang", next); } catch {}
-      return next;
-    });
-  }, []);
-
-  const t = useCallback(
-    (zh: string, en: string) => (lang === "en" ? en : zh),
-    [lang]
-  );
+/**
+ * Provides current language to children.
+ * The lang value comes from the SERVER (searchParams).
+ * No toggle function — switching is done via URL with <a href="?lang=en">.
+ */
+export function LanguageProvider({
+  children,
+  lang,
+}: {
+  children: ReactNode;
+  lang: Lang;
+}) {
+  const t = (zh: string, en: string) => (lang === "en" ? en : zh);
 
   return (
-    <LangContext.Provider value={{ lang, toggle, t }}>
+    <LangContext.Provider value={{ lang, t }}>
       {children}
     </LangContext.Provider>
   );

@@ -1,8 +1,6 @@
 import { notFound } from "next/navigation";
 import { resolveIdentity } from "@/lib/identity/resolver";
-import { IdentityProvider } from "@/lib/identity/context";
-import { Header } from "@/components/layout/Header";
-import { Footer } from "@/components/layout/Footer";
+import { PersonaShell } from "@/components/layout/PersonaShell";
 import { createMetadata } from "@/lib/utils/metadata";
 
 const VALID_PERSONAS = ["default", "photographer", "ai", "director", "freelance"];
@@ -24,6 +22,11 @@ export async function generateMetadata({
   });
 }
 
+/**
+ * Persona layout.
+ * Language is handled by the client-side LanguageProvider reading from the URL.
+ * The PersonaShell reads `window.location.search` for `?lang=en` param.
+ */
 export default async function PersonaLayout({
   children,
   params,
@@ -40,10 +43,8 @@ export default async function PersonaLayout({
   const identity = resolveIdentity(personaId);
 
   return (
-    <IdentityProvider identity={identity}>
-      <Header />
-      <main className="flex-1">{children}</main>
-      <Footer />
-    </IdentityProvider>
+    <PersonaShell identity={identity}>
+      {children}
+    </PersonaShell>
   );
 }

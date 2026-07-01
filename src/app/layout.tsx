@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
-import { ContentProviderClient } from "./ContentProviderClient";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -18,6 +17,12 @@ export const metadata: Metadata = {
   description: "Personal Brand Operating System",
 };
 
+/**
+ * Root layout — minimal.
+ * Persona pages get their own PersonaShell (Header + Footer + Language + Cursor).
+ * CCR pages are standalone.
+ * No client providers at this level.
+ */
 export default function RootLayout({
   children,
 }: {
@@ -25,11 +30,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="zh-CN" className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}>
-      <body className="min-h-full flex flex-col">
-        <ContentProviderClient>
-          {children}
-        </ContentProviderClient>
-      </body>
+      <body className="min-h-full flex flex-col">{children}</body>
     </html>
   );
 }
