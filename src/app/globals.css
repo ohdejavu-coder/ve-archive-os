@@ -1,4 +1,10 @@
-@import "tailwindcss";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ============================================================
+   VE Archive OS — Swiss International Style
+   ============================================================ */
 
 :root {
   --bg: #ffffff;
@@ -9,104 +15,87 @@
   --line: #e0e0dc;
 }
 
-:root.dark {
+.dark {
   --bg: #0d0d0d;
   --fg: #f0f0f0;
   --paper: #1a1a1a;
   --line: #2a2a2a;
 }
 
-@theme inline {
-  --color-background: var(--bg);
-  --color-foreground: var(--fg);
-  --color-accent: var(--red);
-  --font-sans: var(--font-geist-sans, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif);
-  --font-mono: var(--font-geist-mono, "SF Mono", "Fira Code", monospace);
+@layer base {
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  html, body {
+    height: 100%;
+  }
+
+  body {
+    font-family: var(--font-geist-sans), -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+    background: var(--bg);
+    color: var(--fg);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* ---- Custom Cursor ---- */
+  body.cursor-ready { cursor: none; }
+  body.cursor-ready a,
+  body.cursor-ready button,
+  body.cursor-ready input,
+  body.cursor-ready textarea,
+  body.cursor-ready select,
+  body.cursor-ready [role="button"] { cursor: none; }
+
+  ::selection { background: var(--red); color: #fff; }
+  :focus-visible { outline: 2px solid var(--red); outline-offset: 2px; }
+
+  ::-webkit-scrollbar { width: 4px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: var(--line); border-radius: 0; }
 }
 
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+@layer components {
+  #cursor-dot {
+    width: 14px;
+    height: 14px;
+    background: #ff0000;
+    border-radius: 50%;
+    position: fixed;
+    pointer-events: none;
+    z-index: 9999;
+    will-change: transform;
+    transition: width 0.12s ease, height 0.12s ease, mix-blend-mode 0s;
+  }
+
+  #cursor-dot.big {
+    width: 50px;
+    height: 50px;
+    mix-blend-mode: difference;
+  }
+
+  .swiss-grid {
+    background-image:
+      linear-gradient(to right, var(--line) 1px, transparent 1px),
+      linear-gradient(to bottom, var(--line) 1px, transparent 1px);
+    background-size: 80px 80px;
+    background-position: center center;
+  }
 }
 
-html, body {
-  height: 100%;
-}
+@layer utilities {
+  @keyframes page-enter {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  main > * { animation: page-enter 500ms ease-out both; }
 
-body {
-  font-family: var(--font-sans);
-  background: var(--bg);
-  color: var(--fg);
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-/* ---- Custom Cursor ---- */
-body.cursor-ready {
-  cursor: none;
-}
-body.cursor-ready a,
-body.cursor-ready button,
-body.cursor-ready input,
-body.cursor-ready textarea,
-body.cursor-ready select,
-body.cursor-ready [role="button"] {
-  cursor: none;
-}
-
-#cursor-dot {
-  width: 14px;
-  height: 14px;
-  background: #ff0000;
-  border-radius: 50%;
-  position: fixed;
-  pointer-events: none;
-  z-index: 9999;
-  will-change: transform;
-  transition: width 0.12s ease, height 0.12s ease, mix-blend-mode 0s;
-}
-
-#cursor-dot.big {
-  width: 50px;
-  height: 50px;
-  mix-blend-mode: difference;
-}
-
-/* ---- Selection ---- */
-::selection {
-  background: var(--red);
-  color: #fff;
-}
-
-/* ---- Focus ---- */
-:focus-visible {
-  outline: 2px solid var(--red);
-  outline-offset: 2px;
-}
-
-/* ---- Scrollbar ---- */
-::-webkit-scrollbar { width: 4px; }
-::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb { background: var(--line); border-radius: 0; }
-
-/* ---- Page transitions ---- */
-@keyframes page-enter {
-  from { opacity: 0; transform: translateY(12px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-main > * { animation: page-enter 500ms ease-out both; }
-
-@keyframes image-reveal {
-  from { opacity: 0; transform: scale(1.03); }
-  to { opacity: 1; transform: scale(1); }
-}
-.hero-image-reveal { animation: image-reveal 1s ease-out both; }
-
-.swiss-grid {
-  background-image:
-    linear-gradient(to right, var(--line) 1px, transparent 1px),
-    linear-gradient(to bottom, var(--line) 1px, transparent 1px);
-  background-size: 80px 80px;
-  background-position: center center;
+  @keyframes image-reveal {
+    from { opacity: 0; transform: scale(1.03); }
+    to { opacity: 1; transform: scale(1); }
+  }
+  .hero-image-reveal { animation: image-reveal 1s ease-out both; }
 }
