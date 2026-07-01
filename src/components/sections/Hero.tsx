@@ -2,7 +2,6 @@
 
 import { usePersona } from "@/lib/identity/context";
 import { useLang } from "@/lib/language/context";
-import { useStoredField } from "@/lib/content/useStoredField";
 import type { Work } from "@/types/work";
 
 interface HeroProps { works?: Work[] }
@@ -11,10 +10,10 @@ export function Hero({ works = [] }: HeroProps) {
   const persona = usePersona();
   const { lang } = useLang();
 
-  const [headline] = useStoredField("heroHeadline", persona.heroHeadline ?? "用影像讲述值得被看见的故事");
-  const [subtitle] = useStoredField("heroSubtitle", persona.heroSubtitle ?? "");
-  const [stmtZh] = useStoredField("personalStatement", persona.personalStatement ?? "");
-  const [stmtEn] = useStoredField("personalStatementEn", persona.personalStatementEn ?? "");
+  const headline = persona.heroHeadline ?? "用影像讲述值得被看见的故事";
+  const subtitle = persona.heroSubtitle ?? "";
+  const stmtZh = persona.personalStatement ?? "";
+  const stmtEn = persona.personalStatementEn ?? "";
   const statement = lang === "en" && stmtEn ? stmtEn : stmtZh;
   const bgImage = works.length > 0 && works[0].thumbnail ? works[0].thumbnail : null;
 
@@ -40,12 +39,20 @@ export function Hero({ works = [] }: HeroProps) {
               {lang === "en" ? persona.nameEn : persona.name}
             </span>
           </div>
-          <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold leading-[0.95] tracking-tight text-white max-w-3xl">{headline}</h1>
-          {subtitle && <p className="text-lg md:text-xl text-white/60 max-w-xl leading-relaxed">{subtitle}</p>}
+          <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold leading-[0.95] tracking-tight text-white max-w-3xl">
+            <span data-ccr-target="heroHeadline">{headline}</span>
+          </h1>
+          {subtitle && (
+            <p className="text-lg md:text-xl text-white/60 max-w-xl leading-relaxed">
+              <span data-ccr-target="heroSubtitle">{subtitle}</span>
+            </p>
+          )}
           {statement && (
             <div className="flex items-start gap-4 pt-2 max-w-lg">
               <div className="w-0.5 min-h-[2rem] bg-[var(--red)] shrink-0 mt-1" />
-              <p className="text-base md:text-lg text-white/50 italic leading-relaxed">&ldquo;{statement}&rdquo;</p>
+              <p className="text-base md:text-lg text-white/50 italic leading-relaxed">
+                &ldquo;<span data-ccr-target="personalStatement">{stmtZh}</span>&rdquo;
+              </p>
             </div>
           )}
           <div className="flex flex-wrap items-center gap-4 pt-4">

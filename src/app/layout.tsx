@@ -17,15 +17,38 @@ export const metadata: Metadata = {
   description: "Personal Brand Operating System",
 };
 
-const CURSOR = `
+const SYNC_SCRIPT = `
 (function(){
-  var d=document.getElementById('cursor-dot');
-  if(!d){
-    d=document.createElement('div');
-    d.id='cursor-dot';
-    document.body.appendChild(d);
-    document.body.classList.add('cursor-ready');
-  }
+  try{
+    var s=JSON.parse(localStorage.getItem("ve-content")||"{}");
+    var els=document.querySelectorAll("[data-ccr-target]");
+    for(var i=0;i<els.length;i++){
+      var el=els[i];
+      var k=el.getAttribute("data-ccr-target");
+      if(s[k]!==undefined){
+        if(el.tagName==="TEXTAREA"||el.tagName==="INPUT")continue;
+        el.textContent=s[k];
+      }
+    }
+    // MDX content special handling: replace innerHTML for page content
+    var mdxEls=document.querySelectorAll("[data-ccr-mdxtarget]");
+    for(var j=0;j<mdxEls.length;j++){
+      var mel=mdxEls[j];
+      var mk=mel.getAttribute("data-ccr-mdxtarget");
+      if(s[mk]!==undefined){
+        mel.innerHTML=s[mk].replace(/\\n/g,"<br>");
+      }
+    }
+  }catch(e){}
+})();
+`.replace(/\s+/g, ' ');
+
+const CURSOR_SCRIPT = `
+(function(){
+  var d=document.createElement('div');
+  d.id='cursor-dot';
+  document.body.appendChild(d);
+  document.body.classList.add('cursor-ready');
   var mx=0,my=0,f=0;
   function m(e){
     mx=e.clientX;my=e.clientY;
@@ -40,7 +63,7 @@ const CURSOR = `
   }
   document.addEventListener('mousemove',m,{passive:true});
 })();
-`.replace(/\s+/g, ' ').trim();
+`.replace(/\s+/g, ' ');
 
 export default function RootLayout({
   children,
@@ -51,8 +74,8 @@ export default function RootLayout({
     <html lang="zh-CN" className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}>
       <body className="min-h-full flex flex-col">
         {children}
-        {/* Cursor fires before any React, survives all hydration failures */}
-        <script dangerouslySetInnerHTML={{ __html: CURSOR }} />
+        <script dangerouslySetInnerHTML={{ __html: SYNC_SCRIPT }} />
+        <script dangerouslySetInnerHTML={{ __html: CURSOR_SCRIPT }} />
       </body>
     </html>
   );

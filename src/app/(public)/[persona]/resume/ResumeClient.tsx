@@ -2,7 +2,6 @@
 
 import { usePersona } from "@/lib/identity/context";
 import { useLang } from "@/lib/language/context";
-import { useStoredField } from "@/lib/content/useStoredField";
 import { Container } from "@/components/ui/Container";
 import { Typography } from "@/components/ui/Typography";
 import { Divider } from "@/components/ui/Divider";
@@ -13,22 +12,16 @@ import { Mail, MapPin, Globe, Download } from "lucide-react";
 import type { Resume } from "@/types/content";
 import type { IdentityState } from "@/lib/identity/types";
 
+/**
+ * Resume page client.
+ * SSR renders file defaults inside <span data-ccr-target="..."> tags.
+ * Root layout script reads localStorage and overrides textContent post-load.
+ * Zero dependency on React hooks for content loading.
+ */
 export function ResumeClient({ identity, fileResume }: { identity: IdentityState; fileResume: Resume }) {
   const persona = usePersona();
   const { lang } = useLang();
   const showSection = (name: string) => persona.resumeSections.includes(name);
-
-  // Read basics from localStorage with file defaults
-  const [name] = useStoredField("resume_basics_name", fileResume.basics.name);
-  const [nameEn] = useStoredField("resume_basics_nameEn", fileResume.basics.nameEn);
-  const [title] = useStoredField("resume_basics_title", fileResume.basics.title);
-  const [titleEn] = useStoredField("resume_basics_titleEn", fileResume.basics.titleEn);
-  const [location] = useStoredField("resume_basics_location", fileResume.basics.location);
-  const [email] = useStoredField("resume_basics_email", fileResume.basics.email);
-  const [phone] = useStoredField("resume_basics_phone", fileResume.basics.phone ?? "");
-  const [website] = useStoredField("resume_basics_website", fileResume.basics.website ?? "");
-  const [summary] = useStoredField("resume_summary", fileResume.summary);
-  const [summaryEn] = useStoredField("resume_summaryEn", fileResume.summaryEn);
 
   return (
     <section className="py-16">
@@ -40,20 +33,24 @@ export function ResumeClient({ identity, fileResume }: { identity: IdentityState
           </Typography>
         </div>
 
-        {/* Basics */}
         <div className="mb-10 p-6 rounded-lg border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900">
-          <Typography variant="h2" className="mb-1">{lang === "en" ? nameEn : name}</Typography>
-          <Typography variant="body" className="text-neutral-500 mb-3">{lang === "en" ? titleEn : title}</Typography>
+          <Typography variant="h2" className="mb-1">
+            <span data-ccr-target="resume_basics_name">{lang === "en" ? fileResume.basics.nameEn : fileResume.basics.name}</span>
+          </Typography>
+          <Typography variant="body" className="text-neutral-500 mb-3">
+            <span data-ccr-target="resume_basics_title">{lang === "en" ? fileResume.basics.titleEn : fileResume.basics.title}</span>
+          </Typography>
 
           <div className="flex flex-wrap gap-4 text-sm text-neutral-500">
-            <span className="flex items-center gap-1"><MapPin size={14} />{location}</span>
-            <span className="flex items-center gap-1"><Mail size={14} />{email}</span>
-            {website && <span className="flex items-center gap-1"><Globe size={14} />{website}</span>}
-            {phone && <span className="flex items-center gap-1">{phone}</span>}
+            <span className="flex items-center gap-1"><MapPin size={14} /><span data-ccr-target="resume_basics_location">{fileResume.basics.location}</span></span>
+            <span className="flex items-center gap-1"><Mail size={14} /><span data-ccr-target="resume_basics_email">{fileResume.basics.email}</span></span>
+            {fileResume.basics.website && <span className="flex items-center gap-1"><Globe size={14} /><span data-ccr-target="resume_basics_website">{fileResume.basics.website}</span></span>}
           </div>
 
           <Divider className="my-4" />
-          <Typography variant="body">{lang === "en" ? summaryEn : summary}</Typography>
+          <Typography variant="body">
+            <span data-ccr-target="resume_summary">{lang === "en" ? fileResume.summaryEn : fileResume.summary}</span>
+          </Typography>
         </div>
 
         {showSection("experience") && fileResume.experience.length > 0 && (
@@ -62,21 +59,18 @@ export function ResumeClient({ identity, fileResume }: { identity: IdentityState
             <Timeline items={fileResume.experience} type="experience" />
           </div>
         )}
-
         {showSection("skills") && fileResume.skills.length > 0 && (
           <div className="mb-12">
             <Typography variant="h3" className="mb-6">{lang === "en" ? "Skills" : "技能"}</Typography>
             <SkillMatrix skills={fileResume.skills} />
           </div>
         )}
-
         {showSection("education") && fileResume.education.length > 0 && (
           <div className="mb-12">
             <Typography variant="h3" className="mb-6">{lang === "en" ? "Education" : "教育背景"}</Typography>
             <Timeline items={fileResume.education} type="education" />
           </div>
         )}
-
         {showSection("awards") && fileResume.awards.length > 0 && (
           <div className="mb-12">
             <Typography variant="h3" className="mb-6">{lang === "en" ? "Awards" : "获奖与荣誉"}</Typography>
@@ -93,7 +87,6 @@ export function ResumeClient({ identity, fileResume }: { identity: IdentityState
             </div>
           </div>
         )}
-
         {fileResume.languages.length > 0 && (
           <div className="mb-12">
             <Typography variant="h3" className="mb-4">{lang === "en" ? "Languages" : "语言能力"}</Typography>
@@ -109,15 +102,9 @@ export function ResumeClient({ identity, fileResume }: { identity: IdentityState
           </div>
         )}
 
-        {/* Download button */}
         <div className="mt-10 pt-6 pb-16 border-t border-neutral-200 dark:border-neutral-800">
-          <a
-            href="/resume/ve-archive-resume.pdf"
-            download
-            className="inline-flex items-center gap-2 px-6 py-3 rounded-sm text-sm font-medium bg-black text-white dark:bg-white dark:text-black hover:opacity-80 transition-opacity"
-          >
-            <Download size={16} />
-            {lang === "en" ? "Download Resume (PDF)" : "下载我的简历 (PDF)"}
+          <a href="/resume/ve-archive-resume.pdf" download className="inline-flex items-center gap-2 px-6 py-3 rounded-sm text-sm font-medium bg-black text-white dark:bg-white dark:text-black hover:opacity-80 transition-opacity">
+            <Download size={16} />{lang === "en" ? "Download Resume (PDF)" : "下载我的简历 (PDF)"}
           </a>
         </div>
       </Container>
