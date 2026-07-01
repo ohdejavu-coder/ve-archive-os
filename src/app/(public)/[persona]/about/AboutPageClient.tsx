@@ -1,17 +1,32 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { usePersona } from "@/lib/identity/context";
-import { useSiteContent } from "@/lib/content/ContentContext";
+import { useLang } from "@/lib/language/context";
 import { Container } from "@/components/ui/Container";
 import { Typography } from "@/components/ui/Typography";
 import { MDXRenderer } from "@/components/content/MDXRenderer";
 import { PortraitPhoto } from "@/components/content/PortraitPhoto";
 import { CTA } from "@/components/sections/CTA";
 
+function useStoredPage(key: string, fallback: string): string {
+  const [val, setVal] = useState(fallback);
+  useEffect(() => {
+    try {
+      const raw = localStorage.getItem("ve-content");
+      if (raw) {
+        const s = JSON.parse(raw) as Record<string, string>;
+        if (s[key]) setVal(s[key]);
+      }
+    } catch {}
+  }, [key]);
+  return val;
+}
+
 export function AboutPageClient({ fileContent }: { fileContent: string }) {
   const persona = usePersona();
-  const { pages } = useSiteContent();
-  const content = pages.about || fileContent;
+  const { lang } = useLang();
+  const content = useStoredPage("page_about", fileContent);
   const photoPath = persona.profilePhoto ?? "/media/profile/avatar.jpg";
   const statement = persona.personalStatement ?? "";
 
@@ -23,7 +38,9 @@ export function AboutPageClient({ fileContent }: { fileContent: string }) {
             <div className="w-8 h-0.5 bg-[var(--red)]" />
             <span className="text-xs tracking-[0.3em] uppercase text-neutral-400 font-medium">About</span>
           </div>
-          <Typography variant="h1" cinematic>关于</Typography>
+          <Typography variant="h1" cinematic>
+            {lang === "en" ? "About" : "关于"}
+          </Typography>
         </div>
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 lg:gap-20">
           <div className="lg:col-span-8">
