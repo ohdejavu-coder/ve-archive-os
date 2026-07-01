@@ -1,31 +1,17 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import { usePersona } from "@/lib/identity/context";
 import { useLang } from "@/lib/language/context";
+import { useStoredField } from "@/lib/content/useStoredField";
 import { Container } from "@/components/ui/Container";
 import { Typography } from "@/components/ui/Typography";
 import { MDXRenderer } from "@/components/content/MDXRenderer";
 import { ContactForm } from "@/components/sections/ContactForm";
 
-function useStoredPage(key: string, fallback: string): string {
-  const [val, setVal] = useState(fallback);
-  useEffect(() => {
-    try {
-      const raw = localStorage.getItem("ve-content");
-      if (raw) {
-        const s = JSON.parse(raw) as Record<string, string>;
-        if (s[key]) setVal(s[key]);
-      }
-    } catch {}
-  }, [key]);
-  return val;
-}
-
 export function ContactPageClient({ fileContent }: { fileContent: string }) {
   const persona = usePersona();
   const { lang } = useLang();
-  const content = useStoredPage("page_contact", fileContent);
+  const [content] = useStoredField("page_contact", fileContent);
 
   return (
     <section className="py-20 md:py-28">
@@ -35,13 +21,9 @@ export function ContactPageClient({ fileContent }: { fileContent: string }) {
             <div className="w-8 h-0.5 bg-[var(--red)]" />
             <span className="text-xs tracking-[0.3em] uppercase text-neutral-400 font-medium">Contact</span>
           </div>
-          <Typography variant="h1" cinematic>
-            {lang === "en" ? "Contact" : "联系"}
-          </Typography>
+          <Typography variant="h1" cinematic>{lang === "en" ? "Contact" : "联系"}</Typography>
         </div>
-        <div className="mb-16 max-w-2xl">
-          <MDXRenderer content={content} />
-        </div>
+        <div className="mb-16 max-w-2xl"><MDXRenderer content={content} /></div>
         <div className="mb-20 grid grid-cols-1 sm:grid-cols-3 gap-8">
           {[
             { step: "01", title: lang === "en" ? "Fill Form" : "填写表单", desc: lang === "en" ? "Tell me about your project" : "告诉我你的需求和合作意图" },

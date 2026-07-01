@@ -1,38 +1,21 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import { usePersona } from "@/lib/identity/context";
 import { useLang } from "@/lib/language/context";
+import { useStoredField } from "@/lib/content/useStoredField";
 import type { Work } from "@/types/work";
 
-function useField(key: string, fallback: string): string {
-  const [val, setVal] = useState(fallback);
-  useEffect(() => {
-    try {
-      const raw = localStorage.getItem("ve-content");
-      if (raw) {
-        const s = JSON.parse(raw) as Record<string, string>;
-        if (s[key]) setVal(s[key]);
-      }
-    } catch {}
-  }, [key]);
-  return val;
-}
-
-interface HeroProps {
-  works?: Work[];
-}
+interface HeroProps { works?: Work[] }
 
 export function Hero({ works = [] }: HeroProps) {
   const persona = usePersona();
   const { lang } = useLang();
 
-  const headline = useField("heroHeadline", persona.heroHeadline ?? "用影像讲述值得被看见的故事");
-  const subtitle = useField("heroSubtitle", persona.heroSubtitle ?? "");
-  const stmtZh = useField("personalStatement", persona.personalStatement ?? "");
-  const stmtEn = useField("personalStatementEn", persona.personalStatementEn ?? "");
+  const [headline] = useStoredField("heroHeadline", persona.heroHeadline ?? "用影像讲述值得被看见的故事");
+  const [subtitle] = useStoredField("heroSubtitle", persona.heroSubtitle ?? "");
+  const [stmtZh] = useStoredField("personalStatement", persona.personalStatement ?? "");
+  const [stmtEn] = useStoredField("personalStatementEn", persona.personalStatementEn ?? "");
   const statement = lang === "en" && stmtEn ? stmtEn : stmtZh;
-
   const bgImage = works.length > 0 && works[0].thumbnail ? works[0].thumbnail : null;
 
   return (
@@ -57,12 +40,8 @@ export function Hero({ works = [] }: HeroProps) {
               {lang === "en" ? persona.nameEn : persona.name}
             </span>
           </div>
-          <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold leading-[0.95] tracking-tight text-white max-w-3xl">
-            {headline}
-          </h1>
-          {subtitle && (
-            <p className="text-lg md:text-xl text-white/60 max-w-xl leading-relaxed">{subtitle}</p>
-          )}
+          <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold leading-[0.95] tracking-tight text-white max-w-3xl">{headline}</h1>
+          {subtitle && <p className="text-lg md:text-xl text-white/60 max-w-xl leading-relaxed">{subtitle}</p>}
           {statement && (
             <div className="flex items-start gap-4 pt-2 max-w-lg">
               <div className="w-0.5 min-h-[2rem] bg-[var(--red)] shrink-0 mt-1" />
@@ -77,15 +56,6 @@ export function Hero({ works = [] }: HeroProps) {
               {lang === "en" ? "Contact" : "联系我"}
             </a>
           </div>
-        </div>
-      </div>
-
-      <div className="absolute bottom-6 right-8 z-10 hidden md:block">
-        <div className="flex flex-col items-center gap-2 text-white/30">
-          <div className="w-px h-8 bg-white/20" />
-          <span className="text-[10px] tracking-[0.2em] uppercase rotate-90 origin-center mt-4">
-            {lang === "en" ? "scroll" : "滚动"}
-          </span>
         </div>
       </div>
     </section>
