@@ -3,7 +3,6 @@
 import { type ReactNode } from "react";
 import { LanguageProvider } from "@/lib/language/context";
 import { IdentityProvider } from "@/lib/identity/context";
-import { CursorScript } from "./CursorScript";
 import { Container } from "@/components/ui/Container";
 import Link from "next/link";
 import type { IdentityState } from "@/lib/identity/types";
@@ -34,7 +33,6 @@ export function PersonaShell({
   return (
     <LanguageProvider lang={lang}>
       <IdentityProvider identity={identity}>
-        <CursorScript />
         <header className="border-b border-neutral-200 dark:border-neutral-800 border-solid">
           <Container>
             <div className="flex items-center justify-between h-14">

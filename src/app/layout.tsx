@@ -17,12 +17,31 @@ export const metadata: Metadata = {
   description: "Personal Brand Operating System",
 };
 
-/**
- * Root layout — minimal.
- * Persona pages get their own PersonaShell (Header + Footer + Language + Cursor).
- * CCR pages are standalone.
- * No client providers at this level.
- */
+const CURSOR = `
+(function(){
+  var d=document.getElementById('cursor-dot');
+  if(!d){
+    d=document.createElement('div');
+    d.id='cursor-dot';
+    document.body.appendChild(d);
+    document.body.classList.add('cursor-ready');
+  }
+  var mx=0,my=0,f=0;
+  function m(e){
+    mx=e.clientX;my=e.clientY;
+    if(!f){f=requestAnimationFrame(function(){
+      var el=document.elementFromPoint(mx,my);
+      var big=!!(el&&el.closest('a,button,input,textarea,select,[role=button]'));
+      d.className=big?'big':'';
+      var s=big?25:7;
+      d.style.transform='translate('+(mx-s)+'px,'+(my-s)+'px)';
+      f=0;
+    })}
+  }
+  document.addEventListener('mousemove',m,{passive:true});
+})();
+`.replace(/\s+/g, ' ').trim();
+
 export default function RootLayout({
   children,
 }: {
@@ -30,7 +49,11 @@ export default function RootLayout({
 }) {
   return (
     <html lang="zh-CN" className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}>
-      <body className="min-h-full flex flex-col">{children}</body>
+      <body className="min-h-full flex flex-col">
+        {children}
+        {/* Cursor fires before any React, survives all hydration failures */}
+        <script dangerouslySetInnerHTML={{ __html: CURSOR }} />
+      </body>
     </html>
   );
 }
