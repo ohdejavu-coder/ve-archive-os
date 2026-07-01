@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { Container } from "@/components/ui/Container";
 import { Navigation } from "./Navigation";
+import { PersonaDropdown } from "./PersonaDropdown";
 import { LanguageSwitcher } from "./LanguageSwitcher";
 
 export function Header() {
@@ -20,8 +21,12 @@ export function Header() {
           {/* Center: nav */}
           <Navigation />
 
-          {/* Right: language */}
-          <LanguageSwitcher />
+          {/* Right: persona + language */}
+          <div className="flex items-center gap-3">
+            <PersonaDropdown />
+            <div className="w-px h-4 bg-neutral-200 dark:bg-neutral-700" />
+            <LanguageSwitcher />
+          </div>
         </div>
       </Container>
     </header>

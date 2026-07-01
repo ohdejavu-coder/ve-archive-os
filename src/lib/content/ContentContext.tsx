@@ -91,7 +91,18 @@ export function ContentProvider({
 
 export function useSiteContent(): ContentState {
   const ctx = useContext(ContentContext);
-  if (!ctx) throw new Error("useSiteContent must be used within ContentProvider");
+  // Return safe fallback during SSR / before hydration
+  if (!ctx) {
+    return {
+      site: { title: "", tagline: "", defaultPersona: "default", footer: "", social: [], navigation: [] } as SiteConfig,
+      personas: [],
+      resume: { basics: {} as Resume["basics"], summary: "", summaryEn: "", experience: [], education: [], skills: [], languages: [], awards: [] } as Resume,
+      pages: { about: "", contact: "" },
+      overrides: {},
+      setField: () => {},
+      resetAll: () => {},
+    };
+  }
   return ctx;
 }
 

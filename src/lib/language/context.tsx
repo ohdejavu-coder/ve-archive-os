@@ -1,37 +1,43 @@
 "use client";
 
-import { createContext, useContext, useState, useEffect, type ReactNode } from "react";
+import { createContext, useContext, useState, useCallback, useEffect, type ReactNode } from "react";
 
 type Lang = "zh" | "en";
 
 interface LangState {
   lang: Lang;
   toggle: () => void;
-  /** Pick CN or EN field */
   t: (zh: string, en: string) => string;
 }
 
-const LangContext = createContext<LangState | null>(null);
+const LangContext = createContext<LangState>({
+  lang: "zh",
+  toggle: () => {},
+  t: (zh: string) => zh,
+});
 
 export function LanguageProvider({ children }: { children: ReactNode }) {
   const [lang, setLang] = useState<Lang>("zh");
 
   useEffect(() => {
-    const saved = localStorage.getItem("ve-lang");
-    if (saved === "en") setLang("en");
+    try {
+      const saved = localStorage.getItem("ve-lang");
+      if (saved === "en") setLang("en");
+    } catch {}
   }, []);
 
-  function toggle() {
+  const toggle = useCallback(() => {
     setLang((prev) => {
       const next = prev === "zh" ? "en" : "zh";
-      localStorage.setItem("ve-lang", next);
+      try { localStorage.setItem("ve-lang", next); } catch {}
       return next;
     });
-  }
+  }, []);
 
-  function t(zh: string, en: string) {
-    return lang === "en" ? en : zh;
-  }
+  const t = useCallback(
+    (zh: string, en: string) => (lang === "en" ? en : zh),
+    [lang]
+  );
 
   return (
     <LangContext.Provider value={{ lang, toggle, t }}>
@@ -41,10 +47,5 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
 }
 
 export function useLang(): LangState {
-  const ctx = useContext(LangContext);
-  if (!ctx) {
-    // SSR fallback: return default Chinese
-    return { lang: "zh", toggle: () => {}, t: (zh: string) => zh };
-  }
-  return ctx;
+  return useContext(LangContext);
 }
