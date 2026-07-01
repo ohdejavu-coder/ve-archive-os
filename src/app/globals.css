@@ -1,13 +1,10 @@
-/* ============================================================
-   VE Archive OS — Swiss International Style
-   ============================================================ */
-
-* { margin: 0; padding: 0; box-sizing: border-box; }
+@import "tailwindcss";
 
 :root {
   --bg: #ffffff;
   --fg: #111111;
-  --red: #ff1a1a;
+  --red: #e63946;
+  --cyan: #0096c7;
   --paper: #f8f8f5;
   --line: #e0e0dc;
 }
@@ -19,25 +16,45 @@
   --line: #2a2a2a;
 }
 
-html, body { height: 100%; }
+@theme inline {
+  --color-background: var(--bg);
+  --color-foreground: var(--fg);
+  --color-accent: var(--red);
+  --font-sans: var(--font-geist-sans, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif);
+  --font-mono: var(--font-geist-mono, "SF Mono", "Fira Code", monospace);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  height: 100%;
+}
 
 body {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+  font-family: var(--font-sans);
   background: var(--bg);
   color: var(--fg);
   -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-body.cursor-ready { cursor: none; }
+/* ---- Custom Cursor ---- */
+body.cursor-ready {
+  cursor: none;
+}
 body.cursor-ready a,
 body.cursor-ready button,
 body.cursor-ready input,
 body.cursor-ready textarea,
 body.cursor-ready select,
-body.cursor-ready [role="button"] { cursor: none; }
+body.cursor-ready [role="button"] {
+  cursor: none;
+}
 
-/* ---- Cursor ---- */
-/* Default: solid red dot. Always red. Every page. */
 #cursor-dot {
   width: 14px;
   height: 14px;
@@ -50,20 +67,30 @@ body.cursor-ready [role="button"] { cursor: none; }
   transition: width 0.12s ease, height 0.12s ease, mix-blend-mode 0s;
 }
 
-/* Interactive: grows + blend-mode difference kicks in for auto-color inversion */
 #cursor-dot.big {
   width: 50px;
   height: 50px;
   mix-blend-mode: difference;
 }
 
-::selection { background: var(--red); color: #fff; }
-:focus-visible { outline: 2px solid var(--red); outline-offset: 2px; }
+/* ---- Selection ---- */
+::selection {
+  background: var(--red);
+  color: #fff;
+}
 
+/* ---- Focus ---- */
+:focus-visible {
+  outline: 2px solid var(--red);
+  outline-offset: 2px;
+}
+
+/* ---- Scrollbar ---- */
 ::-webkit-scrollbar { width: 4px; }
 ::-webkit-scrollbar-track { background: transparent; }
 ::-webkit-scrollbar-thumb { background: var(--line); border-radius: 0; }
 
+/* ---- Page transitions ---- */
 @keyframes page-enter {
   from { opacity: 0; transform: translateY(12px); }
   to { opacity: 1; transform: translateY(0); }
