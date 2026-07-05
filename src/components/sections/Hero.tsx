@@ -1,27 +1,39 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import { usePersona } from "@/lib/identity/context";
 import { useLang } from "@/lib/language/context";
 import type { Work } from "@/types/work";
 
 interface HeroProps { works?: Work[] }
 
+function useLocalOverrides(): Record<string, string> {
+  const [data, setData] = useState<Record<string, string>>({});
+  useEffect(() => {
+    try {
+      const raw = localStorage.getItem("ve-content");
+      if (raw) setData(JSON.parse(raw));
+    } catch {}
+  }, []);
+  return data;
+}
+
 export function Hero({ works = [] }: HeroProps) {
   const persona = usePersona();
   const { lang } = useLang();
+  const local = useLocalOverrides();
 
-  // Pick zh/en based on current language
-  const headline = lang === "en" && persona.heroHeadlineEn
-    ? persona.heroHeadlineEn
-    : persona.heroHeadline ?? "用影像讲述值得被看见的故事";
+  const headlineZh = local.heroHeadline || persona.heroHeadline || "用影像讲述值得被看见的故事";
+  const headlineEn = local.heroHeadlineEn || persona.heroHeadlineEn;
+  const headline = lang === "en" && headlineEn ? headlineEn : headlineZh;
 
   const subtitle = lang === "en" && persona.heroSubtitleEn
     ? persona.heroSubtitleEn
     : persona.heroSubtitle ?? "";
 
-  const statement = lang === "en" && persona.personalStatementEn
-    ? persona.personalStatementEn
-    : persona.personalStatement ?? "";
+  const statementZh = local.personalStatement || persona.personalStatement || "";
+  const statementEn = local.personalStatementEn || persona.personalStatementEn || "";
+  const statement = lang === "en" && statementEn ? statementEn : statementZh;
 
   const bgImage = works.length > 0 && works[0].thumbnail ? works[0].thumbnail : null;
 

@@ -9,14 +9,23 @@ import type { Resume } from "@/types/content";
 function loadCookie(): Record<string, string> {
   if (typeof document === "undefined") return {};
   try {
+    // Primary source: localStorage (always reliable)
+    const ls = localStorage.getItem("ve-content");
+    if (ls) return JSON.parse(ls) as Record<string, string>;
+    // Fallback: cookie
     const m = document.cookie.match(/(?:^|;\s*)ve-json=([^;]*)/);
-    return m ? (JSON.parse(decodeURIComponent(m[1])) as Record<string, string>) : {};
+    if (m) return JSON.parse(decodeURIComponent(m[1])) as Record<string, string>;
+    return {};
   } catch { return {}; }
 }
 
 function saveCookie(obj: Record<string, string>) {
-  try { document.cookie = `ve-json=${encodeURIComponent(JSON.stringify(obj))};path=/;max-age=86400`; return true; }
-  catch { return false; }
+  try {
+    const json = JSON.stringify(obj);
+    localStorage.setItem("ve-content", json);
+    document.cookie = `ve-json=${encodeURIComponent(json)};path=/;max-age=86400`;
+    return true;
+  } catch { return false; }
 }
 
 // ---- Tab list ----

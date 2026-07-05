@@ -1,5 +1,6 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import { usePersona } from "@/lib/identity/context";
 import { useLang } from "@/lib/language/context";
 import { useOverrides } from "@/lib/content/OverrideContext";
@@ -18,27 +19,34 @@ export function ResumeClient({ identity, fileResume }: { identity: IdentityState
   const overrides = useOverrides();
   const showSection = (name: string) => persona.resumeSections.includes(name);
 
-  // Cookie overrides take precedence over file defaults
-  const name = overrides.resume_basics_name ?? fileResume.basics.name;
-  const nameEn = overrides.resume_basics_nameEn ?? fileResume.basics.nameEn;
-  const title = overrides.resume_basics_title ?? fileResume.basics.title;
-  const titleEn = overrides.resume_basics_titleEn ?? fileResume.basics.titleEn;
-  const location = overrides.resume_basics_location ?? fileResume.basics.location;
-  const email = overrides.resume_basics_email ?? fileResume.basics.email;
-  const website = overrides.resume_basics_website ?? fileResume.basics.website ?? "";
-  const summary = overrides.resume_summary ?? fileResume.summary;
-  const summaryEn = overrides.resume_summaryEn ?? fileResume.summaryEn;
-
-  // Core strengths from cookie override (JSON string) or file data
-  let coreStrengths = fileResume.coreStrengths ?? [];
-  if (overrides.coreStrengths_json) {
+  // Read from BOTH sources: cookie (SSR) and localStorage (client fallback)
+  const [localData, setLocalData] = useState<Record<string, string>>({});
+  useEffect(() => {
     try {
-      coreStrengths = JSON.parse(overrides.coreStrengths_json);
+      const raw = localStorage.getItem("ve-content");
+      if (raw) setLocalData(JSON.parse(raw));
     } catch {}
+  }, []);
+
+  // Merge: localStorage > cookie > file default
+  const merged = { ...overrides, ...localData };
+
+  const name = merged.resume_basics_name ?? fileResume.basics.name;
+  const nameEn = merged.resume_basics_nameEn ?? fileResume.basics.nameEn;
+  const title = merged.resume_basics_title ?? fileResume.basics.title;
+  const titleEn = merged.resume_basics_titleEn ?? fileResume.basics.titleEn;
+  const location = merged.resume_basics_location ?? fileResume.basics.location;
+  const email = merged.resume_basics_email ?? fileResume.basics.email;
+  const website = merged.resume_basics_website ?? fileResume.basics.website ?? "";
+  const summary = merged.resume_summary ?? fileResume.summary;
+  const summaryEn = merged.resume_summaryEn ?? fileResume.summaryEn;
+
+  let coreStrengths = fileResume.coreStrengths ?? [];
+  if (merged.coreStrengths_json) {
+    try { coreStrengths = JSON.parse(merged.coreStrengths_json); } catch {}
   }
 
-  // Hidden sections from cookie
-  const hiddenSet = new Set((overrides.hiddenResumeSections ?? "").split(",").filter(Boolean));
+  const hiddenSet = new Set((merged.hiddenResumeSections ?? "").split(",").filter(Boolean));
   const isVisible = (section: string) => !hiddenSet.has(section);
 
   return (
