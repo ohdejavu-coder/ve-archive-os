@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { usePersona } from "@/lib/identity/context";
+import { useLang } from "@/lib/language/context";
 import { Badge } from "@/components/ui/Badge";
 import { Typography } from "@/components/ui/Typography";
 import { cn } from "@/lib/utils/cn";
@@ -15,8 +16,17 @@ interface WorkCardProps {
  * Work card — thumbnail + metadata.
  * Clean and scannable. HR should grasp the work in seconds.
  */
+const CAT: Record<string, { zh: string; en: string }> = {
+  photography: { zh: "摄影", en: "Photo" },
+  film: { zh: "影视", en: "Film" },
+  ai: { zh: "AI", en: "AI" },
+  "new-media": { zh: "新媒体", en: "New Media" },
+};
+
 export function WorkCard({ work }: WorkCardProps) {
   const persona = usePersona();
+  const { lang } = useLang();
+  const t = (zh: string, en: string) => lang === "en" ? en : zh;
 
   return (
     <Link
@@ -49,10 +59,7 @@ export function WorkCard({ work }: WorkCardProps) {
       <div className="p-4 space-y-2">
         <div className="flex items-center gap-2">
           <Badge color={persona.accentColor}>
-            {work.category === "photography" && "摄影"}
-            {work.category === "film" && "影视"}
-            {work.category === "ai" && "AI"}
-            {work.category === "new-media" && "新媒体"}
+            {t(CAT[work.category]?.zh ?? work.category, CAT[work.category]?.en ?? work.category)}
           </Badge>
           <Typography variant="caption">{work.year}</Typography>
         </div>
