@@ -319,7 +319,10 @@ export function CCREditor({ fileResume }: { fileResume: Resume }) {
                   <Field l="个人简介（中文）" a v={summary} onChange={setSummary} />
                   <Field l="Summary (EN)" a v={summaryEn} onChange={setSummaryEn} />
                 </div>
-                <SaveBtn onClick={saveResumeToCookie} label="保存基本信息" hint="保存后去简历页刷新即可看到更新" />
+
+                <div className="sticky bottom-6 bg-white dark:bg-neutral-950 py-4 border-t border-neutral-200 dark:border-neutral-800">
+                  <SaveBtn onClick={saveResumeToCookie} label="保存基本信息" hint="保存后去简历页刷新即可看到更新" />
+                </div>
               </section>
 
               <hr className="border-neutral-200 dark:border-neutral-800" />
