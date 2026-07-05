@@ -232,7 +232,7 @@ export function CCREditor({ fileResume }: { fileResume: Resume }) {
   const is = "w-full px-3 py-2 rounded border border-neutral-300 dark:border-neutral-700 bg-white dark:bg-neutral-900 text-xs focus:outline-none focus:ring-2 focus:ring-[var(--red)] focus:border-transparent transition-colors";
 
   return (
-    <div className="h-screen bg-white dark:bg-neutral-950 flex flex-col overflow-hidden">
+    <div className="min-h-screen bg-white dark:bg-neutral-950">
       {/* Top bar */}
       <header className="h-14 border-b border-neutral-200 dark:border-neutral-800 flex items-center justify-between px-8 bg-white dark:bg-neutral-950 sticky top-0 z-10">
         <div className="flex items-center gap-6">
@@ -248,9 +248,9 @@ export function CCREditor({ fileResume }: { fileResume: Resume }) {
         </div>
       </header>
 
-      <div className="flex flex-1 min-h-0">
-        {/* Sidebar — scrolls independently */}
-        <aside className="w-56 shrink-0 border-r border-neutral-200 dark:border-neutral-800 overflow-y-auto">
+      <div className="flex min-h-[calc(100vh-3.5rem)]">
+        {/* Sidebar — sticky, scrolls with page */}
+        <aside className="w-56 shrink-0 border-r border-neutral-200 dark:border-neutral-800 sticky top-14 h-screen overflow-y-auto">
           <nav className="p-3 space-y-0.5">
             {TABS.map((t) => (
               <button
@@ -277,8 +277,8 @@ export function CCREditor({ fileResume }: { fileResume: Resume }) {
           </div>
         </aside>
 
-        {/* Content — scrollable */}
-        <main className="flex-1 p-8 sm:p-12 max-w-4xl overflow-y-auto">
+        {/* Content — scrolls with page */}
+        <main className="flex-1 p-8 sm:p-12 max-w-4xl">
 
           {/* ============== HERO TAB ============== */}
           {activeTab === "hero" && (
@@ -563,8 +563,8 @@ export function CCREditor({ fileResume }: { fileResume: Resume }) {
         </main>
       </div>
 
-      {/* Fixed bottom save bar */}
-      <div className="shrink-0 border-t border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-950 px-8 py-3 flex items-center justify-end gap-4">
+      {/* Sticky bottom save bar */}
+      <div className="sticky bottom-0 border-t border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-950 px-8 py-3 flex items-center justify-end gap-4">
         {activeTab === "resume" && (
           <>
             <span className="text-xs text-neutral-500">编辑完毕记得保存，去简历页刷新看效果</span>

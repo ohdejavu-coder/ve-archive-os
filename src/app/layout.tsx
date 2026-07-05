@@ -22,6 +22,13 @@ const SCRIPT = `
     cf=0;
   })}}
   document.addEventListener("mousemove",cm,{passive:true});
+  document.addEventListener("scroll",function(){mx+=0;my+=0;show();if(!cf){cf=requestAnimationFrame(function(){
+    var el2=document.elementFromPoint(mx,my);
+    var bg2=!!(el2&&el2.closest("a,button,input,textarea,select,[role=button]"));
+    d.className=bg2?"big":"";
+    var s2=bg2?25:7;d.style.transform="translate("+(mx-s2)+"px,"+(my-s2)+"px)";
+    cf=0;
+  })}},{passive:true, capture:true});
   document.addEventListener("mouseleave",hide);
   document.addEventListener("mouseenter",function(){d.style.opacity="1";});
 })();
