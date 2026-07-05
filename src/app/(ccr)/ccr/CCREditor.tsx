@@ -562,35 +562,6 @@ export function CCREditor({ fileResume }: { fileResume: Resume }) {
 
         </main>
       </div>
-
-      {/* Sticky bottom save bar */}
-      <div className="sticky bottom-0 border-t border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-950 px-8 py-3 flex items-center justify-end gap-4">
-        {activeTab === "resume" && (
-          <>
-            <span className="text-xs text-neutral-500">编辑完毕记得保存，去简历页刷新看效果</span>
-            <button onClick={saveResumeToCookie} className="px-6 py-2 rounded-sm text-sm font-medium bg-black text-white dark:bg-white dark:text-black hover:opacity-80 transition-opacity">保存基本信息</button>
-          </>
-        )}
-        {activeTab === "hero" && (
-          <>
-            <span className="text-xs text-neutral-500">编辑完毕记得保存，去首页刷新看效果</span>
-            <button onClick={saveHeroToCookie} className="px-6 py-2 rounded-sm text-sm font-medium bg-black text-white dark:bg-white dark:text-black hover:opacity-80 transition-opacity">保存 Hero 内容</button>
-          </>
-        )}
-        {activeTab === "pages" && (
-          <>
-            <span className="text-xs text-neutral-500">编辑完毕记得保存</span>
-            <button onClick={savePagesToCookie} className="px-6 py-2 rounded-sm text-sm font-medium bg-black text-white dark:bg-white dark:text-black hover:opacity-80 transition-opacity">保存页面文字</button>
-          </>
-        )}
-        {activeTab === "site" && (
-          <>
-            <span className="text-xs text-neutral-500">编辑完毕记得保存</span>
-            <button onClick={saveSiteToCookie} className="px-6 py-2 rounded-sm text-sm font-medium bg-black text-white dark:bg-white dark:text-black hover:opacity-80 transition-opacity">保存网站设置</button>
-          </>
-        )}
-        <span className="text-xs text-neutral-400">{savedMsg}</span>
-      </div>
     </div>
   );
 }
