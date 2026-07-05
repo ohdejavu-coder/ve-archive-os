@@ -10,6 +10,13 @@
   },
   "summary": "拥有电影制作专业背景的视觉创作者，擅长摄影、短片导演及 AI 辅助创作。致力于用影像语言讲述具有人文深度的故事。",
   "summaryEn": "A visual creator with a background in film production, specializing in photography, short film directing, and AI-assisted creation. Dedicated to telling stories with humanistic depth through visual language.",
+  "coreStrengths": [
+    { "zh": "电影感视觉叙事", "en": "Cinematic Visual Storytelling" },
+    { "zh": "全流程制作能力", "en": "End-to-End Production" },
+    { "zh": "AI 辅助创作", "en": "AI-Assisted Creation" },
+    { "zh": "跨领域协作", "en": "Cross-Disciplinary Collaboration" },
+    { "zh": "项目管理", "en": "Project Management" }
+  ],
   "experience": [
     {
       "company": "某影视制作公司",

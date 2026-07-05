@@ -52,6 +52,23 @@ export function ResumeClient({ identity, fileResume }: { identity: IdentityState
           <Typography variant="body">{lang === "en" ? summaryEn : summary}</Typography>
         </div>
 
+        {/* Core Strengths — above Experience */}
+        {fileResume.coreStrengths && fileResume.coreStrengths.length > 0 && (
+          <div className="mb-12">
+            <Typography variant="h3" className="mb-6">{lang === "en" ? "Core Strengths" : "核心优势"}</Typography>
+            <div className="flex flex-wrap gap-3">
+              {fileResume.coreStrengths.map((s, i) => (
+                <span
+                  key={i}
+                  className="px-4 py-2 rounded-lg border border-neutral-200 dark:border-neutral-700 bg-neutral-50 dark:bg-neutral-900 text-sm font-medium text-neutral-700 dark:text-neutral-300 hover:border-[var(--red)] hover:text-[var(--red)] transition-colors"
+                >
+                  {lang === "en" ? s.en : s.zh}
+                </span>
+              ))}
+            </div>
+          </div>
+        )}
+
         {showSection("experience") && fileResume.experience.length > 0 && (
           <div className="mb-12">
             <Typography variant="h3" className="mb-6">{lang === "en" ? "Experience" : "工作经历"}</Typography>

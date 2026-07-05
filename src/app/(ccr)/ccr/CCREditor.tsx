@@ -65,6 +65,9 @@ export function CCREditor({ fileResume }: { fileResume: Resume }) {
   const [skills, setSkills] = useState<SkillEntry[]>(() =>
     fileResume.skills.map((s) => ({ ...s }))
   );
+  const [coreStrengths, setCoreStrengths] = useState<{ zh: string; en: string }[]>(() =>
+    (fileResume.coreStrengths ?? []).map((s) => ({ ...s }))
+  );
   const [languages, setLanguages] = useState<LangEntry[]>(() =>
     fileResume.languages.map((l) => ({ ...l }))
   );
@@ -169,6 +172,7 @@ export function CCREditor({ fileResume }: { fileResume: Resume }) {
       },
       summary,
       summaryEn,
+      coreStrengths,
       experience,
       education,
       skills,
@@ -176,7 +180,7 @@ export function CCREditor({ fileResume }: { fileResume: Resume }) {
       awards,
     };
     setResumeJson(JSON.stringify(obj, null, 2));
-  }, [basicsName, basicsNameEn, basicsTitle, basicsTitleEn, basicsLocation, basicsEmail, basicsPhone, basicsWebsite, summary, summaryEn, experience, education, skills, languages, awards]);
+  }, [basicsName, basicsNameEn, basicsTitle, basicsTitleEn, basicsLocation, basicsEmail, basicsPhone, basicsWebsite, summary, summaryEn, coreStrengths, experience, education, skills, languages, awards]);
 
   // Reset
   const reset = useCallback(() => {
@@ -284,6 +288,24 @@ export function CCREditor({ fileResume }: { fileResume: Resume }) {
                 </div>
                 <SaveBtn onClick={saveBasicsToCookie} label="保存基本信息" hint="保存后去简历页刷新即可看到更新" />
               </section>
+
+              <hr className="border-neutral-200 dark:border-neutral-800" />
+
+              {/* ---- Core Strengths ---- */}
+              <SectionCard
+                title="核心优势"
+                count={coreStrengths.length}
+                onAdd={() => setCoreStrengths((p) => [...p, { zh: "", en: "" }])}
+              >
+                {coreStrengths.map((s, i) => (
+                  <div key={i} className="flex items-center gap-3 p-2 rounded border border-neutral-100 dark:border-neutral-800">
+                    <span className="text-xs text-neutral-400 w-5">{i + 1}</span>
+                    <FieldL l="中文" v={s.zh} onChange={(v) => { const n = [...coreStrengths]; n[i] = { ...n[i], zh: v }; setCoreStrengths(n); }} inline />
+                    <FieldL l="English" v={s.en} onChange={(v) => { const n = [...coreStrengths]; n[i] = { ...n[i], en: v }; setCoreStrengths(n); }} inline />
+                    <button onClick={() => setCoreStrengths((p) => p.filter((_, j) => j !== i))} className="text-xs text-red-400 hover:text-red-600 shrink-0">✕</button>
+                  </div>
+                ))}
+              </SectionCard>
 
               <hr className="border-neutral-200 dark:border-neutral-800" />
 
