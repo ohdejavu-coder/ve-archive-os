@@ -42,10 +42,10 @@ export function ResumeClient({ identity, fileResume }: { identity: IdentityState
   const summaryEn = merged.resume_summaryEn ?? fileResume.summaryEn;
 
   let coreStrengths = fileResume.coreStrengths ?? [];
-  let experience = experience ?? [];
-  let education = education ?? [];
-  let languages = languages ?? [];
-  let awards = awards ?? [];
+  let experience = fileResume.experience ?? [];
+  let education = fileResume.education ?? [];
+  let languages = fileResume.languages ?? [];
+  let awards = fileResume.awards ?? [];
   try {
     if (merged.coreStrengths_json) coreStrengths = JSON.parse(merged.coreStrengths_json);
     if (merged.experience_json) experience = JSON.parse(merged.experience_json);
