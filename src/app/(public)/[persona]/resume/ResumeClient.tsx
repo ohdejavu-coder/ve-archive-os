@@ -79,7 +79,7 @@ export function ResumeClient({ identity, fileResume }: { identity: IdentityState
               {coreStrengths.map((s, i) => (
                 <div
                   key={i}
-                  className="group inline-flex flex-col rounded-2xl border border-neutral-200 dark:border-neutral-700 bg-neutral-50 dark:bg-neutral-900 text-lg font-medium text-neutral-700 dark:text-neutral-300 hover:border-[var(--red)] hover:shadow-xl transition-all duration-300 cursor-default min-w-[160px]"
+                  className="group inline-flex flex-col rounded-2xl border border-neutral-200 dark:border-neutral-700 bg-neutral-50 dark:bg-neutral-900 text-lg font-medium text-neutral-700 dark:text-neutral-300 hover:border-[var(--red)] hover:shadow-xl transition-all duration-300 min-w-[160px]" data-cursor-interactive
                 >
                   {/* Main label */}
                   <span className="px-6 py-3.5 group-hover:pb-2 group-hover:text-[var(--red)] transition-colors duration-200 flex items-center gap-2">

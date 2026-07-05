@@ -8,16 +8,24 @@ const geistMono = Geist_Mono({ variable: "--font-geist-mono", subsets: ["latin"]
 export const metadata: Metadata = { title: "VE Archive OS", description: "Personal Brand Operating System" };
 
 const SCRIPT = `(function(){
-var d=document.createElement("div");d.id="cursor-dot";d.style.opacity="0";
+var d=document.createElement("div");d.id="cursor-dot";
 document.body.appendChild(d);
-var mx=0,my=0,visible=false;
-function show(){if(!visible){visible=true;d.style.transition="opacity .15s ease,width .2s ease,height .2s ease,background .2s ease";d.style.opacity="1";document.body.classList.add("cursor-ready");}}
-function hide(){if(visible){visible=false;d.style.transition="opacity .15s ease,width .2s ease,height .2s ease,background .2s ease";d.style.opacity="0";document.body.classList.remove("cursor-ready");}}
-function tick(){show();var el=document.elementFromPoint(mx,my);var big=!!(el&&el.closest("a,button,input,textarea,select,[role=button]"));d.className=big?"big":"";var s=big?25:7;d.style.transform="translate("+(mx-s)+"px,"+(my-s)+"px)";requestAnimationFrame(tick);}
+var mx=0,my=0,hover=false,tracking=false;
+function tick(){
+  var el=document.elementFromPoint(mx,my);
+  var big=!!(el&&el.closest("a,button,input,textarea,select,[role=button],[data-cursor-interactive],.cursor-default,[class*=cursor-default]"));
+  // Only update class if changed
+  var next=big?"big":"";
+  if(d.className!==next)d.className=next;
+  var s=big?25:7;d.style.transform="translate("+(mx-s)+"px,"+(my-s)+"px)";
+  requestAnimationFrame(tick);
+}
+function show(){if(!tracking){tracking=true;document.body.classList.add("cursor-ready");d.style.opacity="1";}}
+function hide(){tracking=false;document.body.classList.remove("cursor-ready");d.style.opacity="0";}
 function cm(e){mx=e.clientX;my=e.clientY;show();}
 document.addEventListener("mousemove",cm,{passive:true});
 document.addEventListener("mouseleave",hide);
-document.addEventListener("mouseenter",function(){d.style.opacity="1";});
+document.addEventListener("mouseenter",show);
 tick();
 })();`.replace(/\s+/g," ");
 
