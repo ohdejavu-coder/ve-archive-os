@@ -160,7 +160,7 @@ export function CCREditor({ fileResume }: { fileResume: Resume }) {
     });
   }, []);
 
-  // Save basics + core strengths to cookie
+  // Save basics + ALL resume data to cookie
   const saveResumeToCookie = useCallback(() => {
     const c = loadCookie();
     const updates: Record<string, string> = {
@@ -175,11 +175,15 @@ export function CCREditor({ fileResume }: { fileResume: Resume }) {
       resume_summary: summary,
       resume_summaryEn: summaryEn,
       coreStrengths_json: JSON.stringify(coreStrengths),
+      experience_json: JSON.stringify(experience),
+      education_json: JSON.stringify(education),
+      languages_json: JSON.stringify(languages),
+      awards_json: JSON.stringify(awards),
       hiddenResumeSections: Array.from(hiddenSections).join(","),
     };
     const merged = { ...c, ...updates };
     if (saveCookie(merged)) setSavedMsg(`已保存 ${new Date().toLocaleTimeString("zh-CN")}`);
-  }, [basicsName, basicsNameEn, basicsTitle, basicsTitleEn, basicsLocation, basicsEmail, basicsPhone, basicsWebsite, summary, summaryEn, coreStrengths]);
+  }, [basicsName, basicsNameEn, basicsTitle, basicsTitleEn, basicsLocation, basicsEmail, basicsPhone, basicsWebsite, summary, summaryEn, coreStrengths, experience, education, languages, awards]);
 
   // Save hero to cookie
   const saveHeroToCookie = useCallback(() => {
@@ -603,6 +607,17 @@ export function CCREditor({ fileResume }: { fileResume: Resume }) {
 
         </main>
       </div>
+
+      {/* Sticky bottom save bar */}
+      {activeTab === "resume" && (
+        <div className="sticky bottom-0 border-t border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-950 px-8 py-3 flex items-center justify-between z-10">
+          <span className="text-xs text-neutral-500">编辑完成点击保存 → 去简历页刷新看效果</span>
+          <div className="flex items-center gap-3">
+            <span className="text-xs text-neutral-400">{savedMsg}</span>
+            <button onClick={saveResumeToCookie} className="px-6 py-2 rounded-sm text-sm font-medium bg-black text-white dark:bg-white dark:text-black hover:opacity-80 transition-opacity">保存基本信息</button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

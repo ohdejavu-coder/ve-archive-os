@@ -33,7 +33,12 @@ export function PersonaShell({
   const mergedIdentity = { ...identity, persona: mergedPersona };
 
   const { persona } = mergedIdentity;
-  const { allPersonas } = identity;
+  const { allPersonas: all } = identity;
+  // Filter personas based on visibility cookie
+  const visible = contentOverrides.personas_visible
+    ? new Set(contentOverrides.personas_visible.split(","))
+    : new Set(["default", "photographer", "ai", "director", "freelance"]);
+  const allPersonas = all.filter((p) => visible.has(p.id));
   const t = (zh: string, en: string) => (lang === "en" ? en : zh);
 
   const navItems = persona.navigation.length > 0

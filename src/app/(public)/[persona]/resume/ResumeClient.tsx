@@ -42,9 +42,17 @@ export function ResumeClient({ identity, fileResume }: { identity: IdentityState
   const summaryEn = merged.resume_summaryEn ?? fileResume.summaryEn;
 
   let coreStrengths = fileResume.coreStrengths ?? [];
-  if (merged.coreStrengths_json) {
-    try { coreStrengths = JSON.parse(merged.coreStrengths_json); } catch {}
-  }
+  let experience = experience ?? [];
+  let education = education ?? [];
+  let languages = languages ?? [];
+  let awards = awards ?? [];
+  try {
+    if (merged.coreStrengths_json) coreStrengths = JSON.parse(merged.coreStrengths_json);
+    if (merged.experience_json) experience = JSON.parse(merged.experience_json);
+    if (merged.education_json) education = JSON.parse(merged.education_json);
+    if (merged.languages_json) languages = JSON.parse(merged.languages_json);
+    if (merged.awards_json) awards = JSON.parse(merged.awards_json);
+  } catch {}
 
   const hiddenSet = new Set((merged.hiddenResumeSections ?? "").split(",").filter(Boolean));
   const isVisible = (section: string) => !hiddenSet.has(section);
@@ -109,23 +117,23 @@ export function ResumeClient({ identity, fileResume }: { identity: IdentityState
           </div>
         )}
 
-        {isVisible("experience") && showSection("experience") && fileResume.experience.length > 0 && (
+        {isVisible("experience") && showSection("experience") && experience.length > 0 && (
           <div className="mb-12">
             <Typography variant="h3" className="mb-6">{lang === "en" ? "Experience" : "工作经历"}</Typography>
-            <Timeline items={fileResume.experience} type="experience" />
+            <Timeline items={experience} type="experience" />
           </div>
         )}
-        {isVisible("education") && showSection("education") && fileResume.education.length > 0 && (
+        {isVisible("education") && showSection("education") && education.length > 0 && (
           <div className="mb-12">
             <Typography variant="h3" className="mb-6">{lang === "en" ? "Education" : "教育背景"}</Typography>
-            <Timeline items={fileResume.education} type="education" />
+            <Timeline items={education} type="education" />
           </div>
         )}
-        {isVisible("awards") && showSection("awards") && fileResume.awards.length > 0 && (
+        {isVisible("awards") && showSection("awards") && awards.length > 0 && (
           <div className="mb-12">
             <Typography variant="h3" className="mb-6">{lang === "en" ? "Awards" : "获奖与荣誉"}</Typography>
             <div className="space-y-3">
-              {fileResume.awards.map((award, i) => (
+              {awards.map((award, i) => (
                 <div key={i} className="flex items-start gap-3 p-3 rounded-md border border-neutral-100 dark:border-neutral-800">
                   <span className="text-xs text-neutral-400 font-mono mt-0.5">{award.year}</span>
                   <div>
@@ -137,11 +145,11 @@ export function ResumeClient({ identity, fileResume }: { identity: IdentityState
             </div>
           </div>
         )}
-        {isVisible("languages") && fileResume.languages.length > 0 && (
+        {isVisible("languages") && languages.length > 0 && (
           <div className="mb-12">
             <Typography variant="h3" className="mb-4">{lang === "en" ? "Languages" : "语言能力"}</Typography>
             <div className="flex flex-wrap gap-4">
-              {fileResume.languages.map((l, i) => (
+              {languages.map((l, i) => (
                 <div key={i} className="px-4 py-2 rounded-md border border-neutral-200 dark:border-neutral-800 text-sm">
                   <span className="font-medium">{lang === "en" ? l.nameEn : l.name}</span>
                   <span className="text-neutral-400 mx-1">·</span>
