@@ -1,5 +1,6 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import { usePersona } from "@/lib/identity/context";
 import { useLang } from "@/lib/language/context";
 import { useOverrides } from "@/lib/content/OverrideContext";
@@ -8,11 +9,26 @@ import { Typography } from "@/components/ui/Typography";
 import { MDXRenderer } from "@/components/content/MDXRenderer";
 import { ContactForm } from "@/components/sections/ContactForm";
 
+function useLocalData(): Record<string, string> {
+  const [data, setData] = useState<Record<string, string>>({});
+  useEffect(() => {
+    try {
+      const raw = localStorage.getItem("ve-content");
+      if (raw) setData(JSON.parse(raw));
+    } catch {}
+  }, []);
+  return data;
+}
+
 export function ContactPageClient({ fileContent }: { fileContent: string }) {
   const persona = usePersona();
   const { lang } = useLang();
   const overrides = useOverrides();
-  const content = overrides.page_contact ?? fileContent;
+  const localData = useLocalData();
+
+  const pageContactZh = localData.page_contact_zh ?? overrides.page_contact_zh ?? fileContent;
+  const pageContactEn = localData.page_contact_en ?? overrides.page_contact_en ?? "";
+  const content = lang === "en" && pageContactEn ? pageContactEn : pageContactZh;
 
   return (
     <section className="py-20 md:py-28">

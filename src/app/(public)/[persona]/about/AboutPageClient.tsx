@@ -1,5 +1,6 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import { usePersona } from "@/lib/identity/context";
 import { useLang } from "@/lib/language/context";
 import { useOverrides } from "@/lib/content/OverrideContext";
@@ -10,12 +11,29 @@ import { PortraitPhoto } from "@/components/content/PortraitPhoto";
 import { CTA } from "@/components/sections/CTA";
 import { Download } from "lucide-react";
 
+/** Read ve-content localStorage (same key as CCR uses) */
+function useLocalData(): Record<string, string> {
+  const [data, setData] = useState<Record<string, string>>({});
+  useEffect(() => {
+    try {
+      const raw = localStorage.getItem("ve-content");
+      if (raw) setData(JSON.parse(raw));
+    } catch {}
+  }, []);
+  return data;
+}
+
 export function AboutPageClient({ fileContent }: { fileContent: string }) {
   const persona = usePersona();
   const { lang } = useLang();
   const overrides = useOverrides();
+  const localData = useLocalData();
 
-  const content = overrides.page_about ?? fileContent;
+  // Merge: localStorage > cookie > file
+  const pageAboutZh = localData.page_about_zh ?? overrides.page_about_zh ?? fileContent;
+  const pageAboutEn = localData.page_about_en ?? overrides.page_about_en ?? "";
+  const content = lang === "en" && pageAboutEn ? pageAboutEn : pageAboutZh;
+
   const statement = persona.personalStatement ?? "";
 
   return (

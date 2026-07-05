@@ -97,8 +97,10 @@ export function CCREditor({ fileResume }: { fileResume: Resume }) {
   // Hero/pages/site cookie fields
   const [cookieHeroFields, setCookieHeroFields] = useState<Record<string, string>>({});
   const [cookiePageFields, setCookiePageFields] = useState<Record<string, string>>({
-    page_about: "",
-    page_contact: "",
+    page_about_zh: "",
+    page_about_en: "",
+    page_contact_zh: "",
+    page_contact_en: "",
   });
   const [cookieSiteFields, setCookieSiteFields] = useState<Record<string, string>>({
     site_title: "",
@@ -144,7 +146,10 @@ export function CCREditor({ fileResume }: { fileResume: Resume }) {
       personalStatement: c.personalStatement ?? "", personalStatementEn: c.personalStatementEn ?? "",
       profilePhoto: c.profilePhoto ?? "",
     });
-    setCookiePageFields({ page_about: c.page_about ?? "", page_contact: c.page_contact ?? "" });
+    setCookiePageFields({
+      page_about_zh: c.page_about_zh ?? "", page_about_en: c.page_about_en ?? "",
+      page_contact_zh: c.page_contact_zh ?? "", page_contact_en: c.page_contact_en ?? "",
+    });
     setCookieSiteFields({ site_title: c.site_title ?? "", site_footer: c.site_footer ?? "" });
   }, []);
 
@@ -234,7 +239,7 @@ export function CCREditor({ fileResume }: { fileResume: Resume }) {
     document.cookie = "ve-json=;path=/;max-age=0";
     setSavedMsg("");
     setCookieHeroFields({ heroHeadline: "", heroHeadlineEn: "", heroSubtitle: "", heroSubtitleEn: "", personalStatement: "", personalStatementEn: "", profilePhoto: "" });
-    setCookiePageFields({ page_about: "", page_contact: "" });
+    setCookiePageFields({ page_about_zh: "", page_about_en: "", page_contact_zh: "", page_contact_en: "" });
     setCookieSiteFields({ site_title: "", site_footer: "" });
   }, []);
 
@@ -559,8 +564,20 @@ export function CCREditor({ fileResume }: { fileResume: Resume }) {
                 <h2 className="text-xl font-semibold mb-6">页面文字</h2>
                 <p className="text-sm text-neutral-500 mb-8">支持 Markdown 格式。保存后去对应页面刷新即可。</p>
                 <div className="space-y-8">
-                  <div><h3 className="text-base font-medium mb-3">关于页面</h3><Field a v={cookiePageFields.page_about ?? ""} onChange={(v) => setCookiePageFields((p) => ({ ...p, page_about: v }))} /></div>
-                  <div><h3 className="text-base font-medium mb-3">联系页面</h3><Field a v={cookiePageFields.page_contact ?? ""} onChange={(v) => setCookiePageFields((p) => ({ ...p, page_contact: v }))} /></div>
+                  <div>
+                    <h3 className="text-base font-medium mb-3">关于页面</h3>
+                    <Field l="关于页内容（中文）" a v={cookiePageFields.page_about_zh ?? ""} onChange={(v) => setCookiePageFields((p) => ({ ...p, page_about_zh: v }))} />
+                    <div className="mt-4">
+                      <Field l="About Page (English)" a v={cookiePageFields.page_about_en ?? ""} onChange={(v) => setCookiePageFields((p) => ({ ...p, page_about_en: v }))} />
+                    </div>
+                  </div>
+                  <div>
+                    <h3 className="text-base font-medium mb-3 mt-8">联系页面</h3>
+                    <Field l="联系页内容（中文）" a v={cookiePageFields.page_contact_zh ?? ""} onChange={(v) => setCookiePageFields((p) => ({ ...p, page_contact_zh: v }))} />
+                    <div className="mt-4">
+                      <Field l="Contact Page (English)" a v={cookiePageFields.page_contact_en ?? ""} onChange={(v) => setCookiePageFields((p) => ({ ...p, page_contact_en: v }))} />
+                    </div>
+                  </div>
                 </div>
               </div>
               <SaveBtn onClick={savePagesToCookie} label="保存页面文字" hint="保存后去对应页面刷新即可看到更新" />
