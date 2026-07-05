@@ -58,9 +58,9 @@ export function AboutPageClient({ fileContent }: { fileContent: string }) {
             </div>
           </div>
 
-          {/* Right: Photo + Statement — top-aligned with heading */}
-          <aside className="lg:col-span-4">
-            <div className="lg:sticky lg:top-24 space-y-6">
+          {/* Right: Photo + Statement — fixed, does not scroll */}
+          <aside className="lg:col-span-4 lg:sticky lg:top-24 lg:self-start">
+            <div className="space-y-6">
               {/* Photo */}
               <div className="relative w-full aspect-[3/4] rounded-xl overflow-hidden border border-neutral-200 dark:border-neutral-700 shadow-md bg-neutral-100 dark:bg-neutral-800">
                 {photoPath ? (
