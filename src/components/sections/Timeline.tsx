@@ -1,4 +1,5 @@
 import { Typography } from "@/components/ui/Typography";
+import { MDXRenderer } from "@/components/content/MDXRenderer";
 import type { ResumeExperience, ResumeEducation } from "@/types/content";
 
 /**
@@ -54,11 +55,9 @@ export function Timeline({ items, type }: TimelineProps) {
                   : ` · ${(item as ResumeEducation).field}`}
               </Typography>
 
-              {/* Description */}
+              {/* Description — rendered as Markdown */}
               {"description" in item && item.description && (
-                <Typography variant="body-sm" className="mt-2 text-neutral-600 dark:text-neutral-400">
-                  {item.description}
-                </Typography>
+                <MDXRenderer content={item.description} />
               )}
 
               {/* Highlights */}

@@ -9,6 +9,7 @@ import { Typography } from "@/components/ui/Typography";
 import { Divider } from "@/components/ui/Divider";
 import { Timeline } from "@/components/sections/Timeline";
 import { CTA } from "@/components/sections/CTA";
+import { MDXRenderer } from "@/components/content/MDXRenderer";
 import { Mail, MapPin, Globe, Download } from "lucide-react";
 import type { Resume } from "@/types/content";
 import type { IdentityState } from "@/lib/identity/types";
@@ -76,7 +77,7 @@ export function ResumeClient({ identity, fileResume }: { identity: IdentityState
             {website && <span className="flex items-center gap-1"><Globe size={14} />{website}</span>}
           </div>
           <Divider className="my-4" />
-          <Typography variant="body">{lang === "en" ? summaryEn : summary}</Typography>
+          <MDXRenderer content={lang === "en" ? summaryEn : summary} />
         </div>
 
         {/* Core Strengths — expand-on-hover chips that push content down */}
