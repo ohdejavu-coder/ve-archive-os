@@ -8,25 +8,26 @@ const geistMono = Geist_Mono({ variable: "--font-geist-mono", subsets: ["latin"]
 export const metadata: Metadata = { title: "VE Archive OS", description: "Personal Brand Operating System" };
 
 const SCRIPT = `(function(){
-var d=document.createElement("div");d.id="cursor-dot";
+try{
+var d=document.createElement("div");d.id="cursor-dot";d.style.opacity="0";
 document.body.appendChild(d);
-var mx=0,my=0,hover=false,tracking=false;
+var mx=0,my=0,tracking=false;
 function tick(){
   var el=document.elementFromPoint(mx,my);
-  var big=!!(el&&el.closest("a,button,input,textarea,select,[role=button],[data-cursor-interactive],.cursor-default,[class*=cursor-default]"));
-  // Only update class if changed
+  var big=!!(el&&el.closest("a,button,input,textarea,select,[role=button],[data-cursor-interactive]"));
   var next=big?"big":"";
   if(d.className!==next)d.className=next;
   var s=big?25:7;d.style.transform="translate("+(mx-s)+"px,"+(my-s)+"px)";
   requestAnimationFrame(tick);
 }
-function show(){if(!tracking){tracking=true;document.body.classList.add("cursor-ready");d.style.opacity="1";}}
-function hide(){tracking=false;document.body.classList.remove("cursor-ready");d.style.opacity="0";}
+function show(){if(!tracking){tracking=true;try{document.body.classList.add("cursor-ready")}catch(e){};d.style.opacity="1";}}
+function hide(){tracking=false;try{document.body.classList.remove("cursor-ready")}catch(e){};d.style.opacity="0";}
 function cm(e){mx=e.clientX;my=e.clientY;show();}
 document.addEventListener("mousemove",cm,{passive:true});
 document.addEventListener("mouseleave",hide);
-document.addEventListener("mouseenter",show);
+document.addEventListener("mouseenter",function(){d.style.opacity="1";});
 tick();
+}catch(e){}
 })();`.replace(/\s+/g," ");
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

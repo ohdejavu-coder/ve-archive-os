@@ -254,6 +254,7 @@ export function CCREditor({ fileResume }: { fileResume: Resume }) {
           {activeTab === "pages" && <button onClick={savePagesToCookie} className="px-5 py-2 rounded-sm text-sm font-medium bg-black text-white dark:bg-white dark:text-black hover:opacity-80">保存所有更改</button>}
           {activeTab === "site" && <button onClick={saveSiteToCookie} className="px-5 py-2 rounded-sm text-sm font-medium bg-black text-white dark:bg-white dark:text-black hover:opacity-80">保存所有更改</button>}
           {activeTab === "resume" && <button onClick={saveResumeToCookie} className="px-5 py-2 rounded-sm text-sm font-medium bg-black text-white dark:bg-white dark:text-black hover:opacity-80">保存基本信息</button>}
+          {activeTab === "works" && <span className="text-xs text-neutral-500">使用下方"生成 MDX"按钮导出作品文件</span>}
         </div>
       </header>
 
