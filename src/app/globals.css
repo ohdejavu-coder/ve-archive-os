@@ -34,7 +34,8 @@
   body.cursor-ready button,
   body.cursor-ready select,
   body.cursor-ready [role="button"] { cursor: none; }
-  /* inputs/textarea keep native text cursor so user can see insertion point */
+  body.cursor-ready input,
+  body.cursor-ready textarea { cursor: text !important; }
 
   ::selection { background: var(--red); color: #fff; }
   :focus-visible { outline: 2px solid var(--red); outline-offset: 2px; }
