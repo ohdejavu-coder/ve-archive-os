@@ -1,5 +1,6 @@
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
+import remarkBreaks from "remark-breaks";
 import { cn } from "@/lib/utils/cn";
 
 interface MDXRendererProps {
@@ -56,7 +57,7 @@ export function MDXRenderer({ content, className }: MDXRendererProps) {
       )}
     >
       <ReactMarkdown
-        remarkPlugins={[remarkGfm]}
+        remarkPlugins={[remarkGfm, remarkBreaks]}
         components={{
           // Custom link: external links open in new tab
           a: ({ href, children, ...props }) => {
