@@ -654,13 +654,14 @@ const fmtBtn = "px-2 py-0.5 rounded text-[11px] font-medium border border-neutra
 
 function FmtBar({ onChange }: { onChange: (v: string) => void }) {
   return (
-    <div className="flex items-center gap-1 mb-1.5">
+    <div className="flex items-center gap-1 mb-1.5 fmt-area">
       <span className="text-[10px] text-neutral-400 mr-1">格式:</span>
-      <button type="button" className={fmtBtn} onClick={(e) => { const el = (e.target as HTMLElement).closest("div")!.nextElementSibling as HTMLTextAreaElement; if (el) insertAtCursor(el, "**粗体**", onChange); }}><strong>B</strong></button>
-      <button type="button" className={fmtBtn} onClick={(e) => { const el = (e.target as HTMLElement).closest("div")!.nextElementSibling as HTMLTextAreaElement; if (el) insertAtCursor(el, "*斜体*", onChange); }}><em>I</em></button>
-      <button type="button" className={fmtBtn} onClick={(e) => { const el = (e.target as HTMLElement).closest("div")!.nextElementSibling as HTMLTextAreaElement; if (el) insertAtCursor(el, "## 小标题", onChange); }}># H</button>
-      <button type="button" className={fmtBtn} onClick={(e) => { const el = (e.target as HTMLElement).closest("div")!.nextElementSibling as HTMLTextAreaElement; if (el) insertAtCursor(el, "---\n", onChange); }}>―</button>
-      <button type="button" className={fmtBtn} onClick={(e) => { const el = (e.target as HTMLElement).closest("div")!.nextElementSibling as HTMLTextAreaElement; if (el) insertAtCursor(el, "- 列表项", onChange); }}>•</button>
+      <button type="button" className={fmtBtn} onClick={(e) => { const el = (e.target as HTMLElement).closest(".fmt-area")!.nextElementSibling as HTMLTextAreaElement; if (el) insertAtCursor(el, "**粗体**", onChange); }}><strong>B</strong></button>
+      <button type="button" className={fmtBtn} onClick={(e) => { const el = (e.target as HTMLElement).closest(".fmt-area")!.nextElementSibling as HTMLTextAreaElement; if (el) insertAtCursor(el, "*斜体*", onChange); }}><em>I</em></button>
+      <button type="button" className={fmtBtn} onClick={(e) => { const el = (e.target as HTMLElement).closest(".fmt-area")!.nextElementSibling as HTMLTextAreaElement; if (el) insertAtCursor(el, "## 小标题", onChange); }}># H</button>
+      <button type="button" className={fmtBtn} onClick={(e) => { const el = (e.target as HTMLElement).closest(".fmt-area")!.nextElementSibling as HTMLTextAreaElement; if (el) insertAtCursor(el, "---\n", onChange); }}>―</button>
+      <button type="button" className={fmtBtn} onClick={(e) => { const el = (e.target as HTMLElement).closest(".fmt-area")!.nextElementSibling as HTMLTextAreaElement; if (el) insertAtCursor(el, "- 列表项", onChange); }}>•</button>
+      <button type="button" onClick={(e) => { const guide = (e.target as HTMLElement).closest(".fmt-area")!.nextElementSibling!.nextElementSibling as HTMLElement; if (guide) guide.classList.toggle("hidden"); }} className="ml-1 px-2 py-0.5 rounded-full text-[11px] font-medium border border-dashed border-neutral-300 dark:border-neutral-600 text-neutral-400 hover:text-neutral-600 hover:border-neutral-500 transition-colors cursor-pointer" title="Markdown 语法帮助">?</button>
     </div>
   );
 }
@@ -673,6 +674,17 @@ function Field({ l, v, onChange, ph, a, n }: { l?: string; v: string; onChange: 
       {a
         ? <textarea className="w-full px-4 py-3 rounded border border-neutral-300 dark:border-neutral-700 bg-white dark:bg-neutral-900 text-sm focus:outline-none focus:ring-2 focus:ring-[var(--red)] focus:border-transparent transition-colors resize-y" rows={n ?? 4} value={v} onChange={(e) => onChange(e.target.value)} placeholder={ph} />
         : <input className="w-full px-4 py-3 rounded border border-neutral-300 dark:border-neutral-700 bg-white dark:bg-neutral-900 text-sm focus:outline-none focus:ring-2 focus:ring-[var(--red)] focus:border-transparent transition-colors" value={v} onChange={(e) => onChange(e.target.value)} placeholder={ph} />}
+      {a && (
+        <div className="hidden mt-2 p-3 rounded border border-neutral-200 dark:border-neutral-700 bg-neutral-50 dark:bg-neutral-900 text-xs text-neutral-500 dark:text-neutral-400 space-y-1 max-w-md">
+          <div className="font-medium text-neutral-700 dark:text-neutral-300 mb-2">Markdown 语法速查</div>
+          <div><code className="bg-neutral-200 dark:bg-neutral-700 px-1 rounded">**文字**</code> → <strong>粗体</strong></div>
+          <div><code className="bg-neutral-200 dark:bg-neutral-700 px-1 rounded">*文字*</code> → <em>斜体</em></div>
+          <div><code className="bg-neutral-200 dark:bg-neutral-700 px-1 rounded">## 文字</code> → <span className="text-lg font-semibold">小标题</span></div>
+          <div><code className="bg-neutral-200 dark:bg-neutral-700 px-1 rounded">---</code> → 分割线</div>
+          <div><code className="bg-neutral-200 dark:bg-neutral-700 px-1 rounded">- 文字</code> → 列表项</div>
+          <div className="pt-1 text-[11px] text-neutral-400">在 CCR 里写语法 → 保存 → 去网页刷新看效果</div>
+        </div>
+      )}
     </div>
   );
 }
