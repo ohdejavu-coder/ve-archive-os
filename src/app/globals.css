@@ -39,9 +39,16 @@
 
   ::selection { background: var(--red); color: #fff; }
   :focus-visible { outline: 2px solid var(--red); outline-offset: 2px; }
-  ::-webkit-scrollbar { width: 4px; }
-  ::-webkit-scrollbar-track { background: transparent; }
-  ::-webkit-scrollbar-thumb { background: var(--line); border-radius: 0; }
+
+  ::-webkit-scrollbar { width: 10px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: #c0c0c0; border-radius: 5px; border: 2px solid var(--bg); }
+  ::-webkit-scrollbar-thumb:hover { background: #999; }
+
+  @media (prefers-color-scheme: dark) {
+    ::-webkit-scrollbar-thumb { background: #555; border-color: var(--bg); }
+    ::-webkit-scrollbar-thumb:hover { background: #777; }
+  }
 }
 
 @layer components {
@@ -54,7 +61,6 @@
     pointer-events: none;
     z-index: 9999;
     will-change: transform, opacity;
-    /* Smooth transitions set by JS */
   }
 
   #cursor-dot.big {

@@ -277,8 +277,8 @@ export function CCREditor({ fileResume }: { fileResume: Resume }) {
           </div>
         </aside>
 
-        {/* Content — scrolls with page */}
-        <main className="flex-1 p-8 sm:p-12 max-w-4xl">
+        {/* Content — scrolls with page, centered */}
+        <main className="flex-1 p-8 sm:p-12 max-w-5xl mx-auto w-full">
 
           {/* ============== HERO TAB ============== */}
           {activeTab === "hero" && (
