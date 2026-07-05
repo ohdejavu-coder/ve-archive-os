@@ -13,8 +13,10 @@
     { "label": "合作方式", "labelEn": "Work With Me", "href": "/contact" }
   ],
   "heroHeadline": "专业的视觉解决方案",
+  "heroHeadlineEn": "Professional Visual Solutions",
   "heroSubtitle": "商业摄影 · 影视制作 · AI 创作",
+  "heroSubtitleEn": "Commercial Photography · Film Production · AI Creation",
   "profilePhoto": "/media/profile/avatar.jpg",
   "personalStatement": "每一个品牌都值得被认真看见。我提供从创意到交付的全流程视觉服务——不炫技，不迎合，只做对品牌真正有效的视觉内容。",
-  "personalStatementEn": "Every brand deserves to be truly seen. I provide end-to-end visual services from concept to delivery — no gimmicks, no pandering, just visual content that genuinely works for your brand."
+  "personalStatementEn": "Every brand deserves to be truly seen. I provide end-to-end visual services from concept to delivery — no gimmicks, just visual content that genuinely works for your brand."
 }

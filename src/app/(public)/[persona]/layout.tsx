@@ -23,6 +23,12 @@ export async function generateMetadata({
   });
 }
 
+/**
+ * Persona layout.
+ * Reads ve-lang cookie → language
+ * Reads ve-json cookie → content overrides from CCR
+ * Injects both into PersonaShell.
+ */
 export default async function PersonaLayout({
   children,
   params,
@@ -35,16 +41,22 @@ export default async function PersonaLayout({
 
   const identity = resolveIdentity(personaId);
 
+  // Language from cookie
   let lang: "zh" | "en" = "zh";
+  let contentOverrides: Record<string, string> = {};
   try {
     const c = await cookies();
     if (c.get("ve-lang")?.value === "en") lang = "en";
+    const raw = c.get("ve-json")?.value;
+    if (raw) {
+      contentOverrides = JSON.parse(decodeURIComponent(raw)) as Record<string, string>;
+    }
   } catch {
-    // cookies() may fail in some edge cases — default to zh
+    // cookies() may fail — default to zh, no overrides
   }
 
   return (
-    <PersonaShell identity={identity} lang={lang}>
+    <PersonaShell identity={identity} lang={lang} contentOverrides={contentOverrides}>
       {children}
     </PersonaShell>
   );

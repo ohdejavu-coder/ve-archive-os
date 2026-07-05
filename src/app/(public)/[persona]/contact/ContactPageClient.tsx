@@ -2,7 +2,7 @@
 
 import { usePersona } from "@/lib/identity/context";
 import { useLang } from "@/lib/language/context";
-import { useStoredField } from "@/lib/content/useStoredField";
+import { useOverrides } from "@/lib/content/OverrideContext";
 import { Container } from "@/components/ui/Container";
 import { Typography } from "@/components/ui/Typography";
 import { MDXRenderer } from "@/components/content/MDXRenderer";
@@ -11,7 +11,8 @@ import { ContactForm } from "@/components/sections/ContactForm";
 export function ContactPageClient({ fileContent }: { fileContent: string }) {
   const persona = usePersona();
   const { lang } = useLang();
-  const [content] = useStoredField("page_contact", fileContent);
+  const overrides = useOverrides();
+  const content = overrides.page_contact ?? fileContent;
 
   return (
     <section className="py-20 md:py-28">

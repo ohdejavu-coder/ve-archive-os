@@ -2,7 +2,7 @@
 
 import { usePersona } from "@/lib/identity/context";
 import { useLang } from "@/lib/language/context";
-import { useStoredField } from "@/lib/content/useStoredField";
+import { useOverrides } from "@/lib/content/OverrideContext";
 import { Container } from "@/components/ui/Container";
 import { Typography } from "@/components/ui/Typography";
 import { MDXRenderer } from "@/components/content/MDXRenderer";
@@ -13,8 +13,9 @@ import { Download } from "lucide-react";
 export function AboutPageClient({ fileContent }: { fileContent: string }) {
   const persona = usePersona();
   const { lang } = useLang();
-  const [content] = useStoredField("page_about", fileContent);
-  const [photoPath] = useStoredField("profilePhoto", persona.profilePhoto ?? "/media/profile/avatar.jpg");
+  const overrides = useOverrides();
+
+  const content = overrides.page_about ?? fileContent;
   const statement = persona.personalStatement ?? "";
 
   return (
@@ -30,21 +31,15 @@ export function AboutPageClient({ fileContent }: { fileContent: string }) {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 lg:gap-20">
           <div className="lg:col-span-8">
             <MDXRenderer content={content} />
-            {/* Download resume button */}
             <div className="mt-10 pt-6 pb-16 border-t border-neutral-200 dark:border-neutral-800">
-              <a
-                href="/resume/ve-archive-resume.pdf"
-                download
-                className="inline-flex items-center gap-2 px-6 py-3 rounded-sm text-sm font-medium bg-black text-white dark:bg-white dark:text-black hover:opacity-80 transition-opacity"
-              >
-                <Download size={16} />
-                {lang === "en" ? "Download Resume (PDF)" : "下载我的简历 (PDF)"}
+              <a href="/resume/ve-archive-resume.pdf" download className="inline-flex items-center gap-2 px-6 py-3 rounded-sm text-sm font-medium bg-black text-white dark:bg-white dark:text-black hover:opacity-80 transition-opacity">
+                <Download size={16} />{lang === "en" ? "Download Resume (PDF)" : "下载我的简历 (PDF)"}
               </a>
             </div>
           </div>
           <aside className="lg:col-span-4">
             <div className="lg:sticky lg:top-24 space-y-6">
-              <PortraitPhoto src={photoPath} alt={persona.name} accentColor="#e63946" />
+              <PortraitPhoto src={persona.profilePhoto ?? "/media/profile/avatar.jpg"} alt={persona.name} accentColor="#e63946" />
               {statement && (
                 <div className="border-l-2 border-[var(--red)] pl-4">
                   <p className="text-sm text-neutral-600 dark:text-neutral-400 leading-relaxed italic">&ldquo;{statement}&rdquo;</p>

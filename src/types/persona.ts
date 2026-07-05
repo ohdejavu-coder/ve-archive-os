@@ -34,14 +34,18 @@ export interface Persona {
   resumeSections: string[];
   /** Custom navigation for this persona. If empty, uses default nav. */
   navigation: PersonaNavigationItem[];
-  /** Hero headline override (optional — falls back to site default) */
+  /** Hero headline (Chinese) */
   heroHeadline?: string;
-  /** Hero subtitle override */
+  /** Hero headline (English) */
+  heroHeadlineEn?: string;
+  /** Hero subtitle (Chinese) */
   heroSubtitle?: string;
-  /** Path to profile photo for this persona's hero */
+  /** Hero subtitle (English) */
+  heroSubtitleEn?: string;
+  /** Path to profile photo */
   profilePhoto?: string;
-  /** Personal statement — prominently displayed in hero (1-2 sentences) */
+  /** Personal statement (Chinese) */
   personalStatement?: string;
-  /** English version of personal statement */
+  /** Personal statement (English) */
   personalStatementEn?: string;
 }

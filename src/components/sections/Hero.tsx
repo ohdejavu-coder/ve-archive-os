@@ -10,11 +10,19 @@ export function Hero({ works = [] }: HeroProps) {
   const persona = usePersona();
   const { lang } = useLang();
 
-  const headline = persona.heroHeadline ?? "用影像讲述值得被看见的故事";
-  const subtitle = persona.heroSubtitle ?? "";
-  const stmtZh = persona.personalStatement ?? "";
-  const stmtEn = persona.personalStatementEn ?? "";
-  const statement = lang === "en" && stmtEn ? stmtEn : stmtZh;
+  // Pick zh/en based on current language
+  const headline = lang === "en" && persona.heroHeadlineEn
+    ? persona.heroHeadlineEn
+    : persona.heroHeadline ?? "用影像讲述值得被看见的故事";
+
+  const subtitle = lang === "en" && persona.heroSubtitleEn
+    ? persona.heroSubtitleEn
+    : persona.heroSubtitle ?? "";
+
+  const statement = lang === "en" && persona.personalStatementEn
+    ? persona.personalStatementEn
+    : persona.personalStatement ?? "";
+
   const bgImage = works.length > 0 && works[0].thumbnail ? works[0].thumbnail : null;
 
   return (
@@ -40,18 +48,16 @@ export function Hero({ works = [] }: HeroProps) {
             </span>
           </div>
           <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold leading-[0.95] tracking-tight text-white max-w-3xl">
-            <span data-ccr-target="heroHeadline">{headline}</span>
+            {headline}
           </h1>
           {subtitle && (
-            <p className="text-lg md:text-xl text-white/60 max-w-xl leading-relaxed">
-              <span data-ccr-target="heroSubtitle">{subtitle}</span>
-            </p>
+            <p className="text-lg md:text-xl text-white/60 max-w-xl leading-relaxed">{subtitle}</p>
           )}
           {statement && (
             <div className="flex items-start gap-4 pt-2 max-w-lg">
               <div className="w-0.5 min-h-[2rem] bg-[var(--red)] shrink-0 mt-1" />
               <p className="text-base md:text-lg text-white/50 italic leading-relaxed">
-                &ldquo;<span data-ccr-target="personalStatement">{stmtZh}</span>&rdquo;
+                &ldquo;{statement}&rdquo;
               </p>
             </div>
           )}

@@ -14,8 +14,10 @@
     { "label": "合作", "labelEn": "Collaborate", "href": "/contact" }
   ],
   "heroHeadline": "探索 AI 与创作的边界",
+  "heroHeadlineEn": "Exploring the Frontier of AI and Creativity",
   "heroSubtitle": "AI 影像 · Prompt 工程 · 创意技术",
+  "heroSubtitleEn": "AI Imaging · Prompt Engineering · Creative Technology",
   "profilePhoto": "/media/profile/avatar.jpg",
   "personalStatement": "AI 不是替代创作者，而是创作者的新工具。我在算法与审美之间寻找平衡，探索技术如何服务于表达。",
-  "personalStatementEn": "AI doesn't replace creators — it gives them new tools. I seek balance between algorithms and aesthetics, exploring how technology serves expression."
+  "personalStatementEn": "AI doesn't replace creators — it gives them new tools. I seek the balance between algorithms and aesthetics, exploring how technology can serve expression."
 }

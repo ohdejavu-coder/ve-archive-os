@@ -2,6 +2,7 @@
 
 import { usePersona } from "@/lib/identity/context";
 import { useLang } from "@/lib/language/context";
+import { useOverrides } from "@/lib/content/OverrideContext";
 import { Container } from "@/components/ui/Container";
 import { Typography } from "@/components/ui/Typography";
 import { Divider } from "@/components/ui/Divider";
@@ -12,16 +13,22 @@ import { Mail, MapPin, Globe, Download } from "lucide-react";
 import type { Resume } from "@/types/content";
 import type { IdentityState } from "@/lib/identity/types";
 
-/**
- * Resume page client.
- * SSR renders file defaults inside <span data-ccr-target="..."> tags.
- * Root layout script reads localStorage and overrides textContent post-load.
- * Zero dependency on React hooks for content loading.
- */
 export function ResumeClient({ identity, fileResume }: { identity: IdentityState; fileResume: Resume }) {
   const persona = usePersona();
   const { lang } = useLang();
+  const overrides = useOverrides();
   const showSection = (name: string) => persona.resumeSections.includes(name);
+
+  // Cookie overrides take precedence over file defaults
+  const name = overrides.resume_basics_name ?? fileResume.basics.name;
+  const nameEn = overrides.resume_basics_nameEn ?? fileResume.basics.nameEn;
+  const title = overrides.resume_basics_title ?? fileResume.basics.title;
+  const titleEn = overrides.resume_basics_titleEn ?? fileResume.basics.titleEn;
+  const location = overrides.resume_basics_location ?? fileResume.basics.location;
+  const email = overrides.resume_basics_email ?? fileResume.basics.email;
+  const website = overrides.resume_basics_website ?? fileResume.basics.website ?? "";
+  const summary = overrides.resume_summary ?? fileResume.summary;
+  const summaryEn = overrides.resume_summaryEn ?? fileResume.summaryEn;
 
   return (
     <section className="py-16">
@@ -34,23 +41,15 @@ export function ResumeClient({ identity, fileResume }: { identity: IdentityState
         </div>
 
         <div className="mb-10 p-6 rounded-lg border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900">
-          <Typography variant="h2" className="mb-1">
-            <span data-ccr-target="resume_basics_name">{lang === "en" ? fileResume.basics.nameEn : fileResume.basics.name}</span>
-          </Typography>
-          <Typography variant="body" className="text-neutral-500 mb-3">
-            <span data-ccr-target="resume_basics_title">{lang === "en" ? fileResume.basics.titleEn : fileResume.basics.title}</span>
-          </Typography>
-
+          <Typography variant="h2" className="mb-1">{lang === "en" ? nameEn : name}</Typography>
+          <Typography variant="body" className="text-neutral-500 mb-3">{lang === "en" ? titleEn : title}</Typography>
           <div className="flex flex-wrap gap-4 text-sm text-neutral-500">
-            <span className="flex items-center gap-1"><MapPin size={14} /><span data-ccr-target="resume_basics_location">{fileResume.basics.location}</span></span>
-            <span className="flex items-center gap-1"><Mail size={14} /><span data-ccr-target="resume_basics_email">{fileResume.basics.email}</span></span>
-            {fileResume.basics.website && <span className="flex items-center gap-1"><Globe size={14} /><span data-ccr-target="resume_basics_website">{fileResume.basics.website}</span></span>}
+            <span className="flex items-center gap-1"><MapPin size={14} />{location}</span>
+            <span className="flex items-center gap-1"><Mail size={14} />{email}</span>
+            {website && <span className="flex items-center gap-1"><Globe size={14} />{website}</span>}
           </div>
-
           <Divider className="my-4" />
-          <Typography variant="body">
-            <span data-ccr-target="resume_summary">{lang === "en" ? fileResume.summaryEn : fileResume.summary}</span>
-          </Typography>
+          <Typography variant="body">{lang === "en" ? summaryEn : summary}</Typography>
         </div>
 
         {showSection("experience") && fileResume.experience.length > 0 && (

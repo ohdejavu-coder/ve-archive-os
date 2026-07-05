@@ -14,8 +14,10 @@
     { "label": "联系", "labelEn": "Contact", "href": "/contact" }
   ],
   "heroHeadline": "用镜头捕捉决定性瞬间",
+  "heroHeadlineEn": "Capturing the Decisive Moment",
   "heroSubtitle": "摄影 · 光影 · 故事",
+  "heroSubtitleEn": "Photography · Light · Narrative",
   "profilePhoto": "/media/profile/avatar.jpg",
   "personalStatement": "每一张照片都是时间的一个切片。我寻找光、结构、和那些不被注意的细节——它们构成了世界的真实纹理。",
-  "personalStatementEn": "Every photograph is a slice of time. I look for light, structure, and the unnoticed details that form the real texture of the world."
+  "personalStatementEn": "Every photograph is a slice of time. I seek out light, structure, and the unnoticed details that form the true texture of the world."
 }

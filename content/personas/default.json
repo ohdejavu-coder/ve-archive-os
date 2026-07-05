@@ -9,8 +9,10 @@
   "resumeSections": ["experience", "skills", "education", "awards"],
   "navigation": [],
   "heroHeadline": "用影像讲述值得被看见的故事",
+  "heroHeadlineEn": "Stories Worth Seeing, Told Through Images",
   "heroSubtitle": "摄影 · 影视 · AI 创作 · 新媒体",
+  "heroSubtitleEn": "Photography · Film · AI Creation · New Media",
   "profilePhoto": "/media/profile/avatar.jpg",
   "personalStatement": "我是一名拥有电影制作背景的视觉创作者。我相信影像不需要翻译——它本身就是最直接的语言。",
-  "personalStatementEn": "I am a visual creator with a background in filmmaking. I believe images don't need translation — they are the most direct language."
+  "personalStatementEn": "I am a visual creator with a background in filmmaking. I believe images need no translation — they are the most direct language there is."
 }

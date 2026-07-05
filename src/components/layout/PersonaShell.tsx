@@ -3,6 +3,7 @@
 import { type ReactNode } from "react";
 import { LanguageProvider } from "@/lib/language/context";
 import { IdentityProvider } from "@/lib/identity/context";
+import { OverrideProvider } from "@/lib/content/OverrideContext";
 import { Container } from "@/components/ui/Container";
 import Link from "next/link";
 import type { IdentityState } from "@/lib/identity/types";
@@ -11,12 +12,28 @@ export function PersonaShell({
   children,
   identity,
   lang,
+  contentOverrides = {},
 }: {
   children: ReactNode;
   identity: IdentityState;
   lang: "zh" | "en";
+  contentOverrides?: Record<string, string>;
 }) {
-  const { persona, allPersonas } = identity;
+  // Merge cookie overrides into persona for Hero/resume components
+  const mergedPersona = {
+    ...identity.persona,
+    heroHeadline: contentOverrides.heroHeadline ?? identity.persona.heroHeadline,
+    heroHeadlineEn: contentOverrides.heroHeadlineEn ?? identity.persona.heroHeadlineEn,
+    heroSubtitle: contentOverrides.heroSubtitle ?? identity.persona.heroSubtitle,
+    heroSubtitleEn: contentOverrides.heroSubtitleEn ?? identity.persona.heroSubtitleEn,
+    personalStatement: contentOverrides.personalStatement ?? identity.persona.personalStatement,
+    personalStatementEn: contentOverrides.personalStatementEn ?? identity.persona.personalStatementEn,
+    profilePhoto: contentOverrides.profilePhoto ?? identity.persona.profilePhoto,
+  };
+  const mergedIdentity = { ...identity, persona: mergedPersona };
+
+  const { persona } = mergedIdentity;
+  const { allPersonas } = identity;
   const t = (zh: string, en: string) => (lang === "en" ? en : zh);
 
   const navItems = persona.navigation.length > 0
@@ -32,7 +49,8 @@ export function PersonaShell({
 
   return (
     <LanguageProvider lang={lang}>
-      <IdentityProvider identity={identity}>
+      <IdentityProvider identity={mergedIdentity}>
+        <OverrideProvider overrides={contentOverrides}>
         <header className="border-b border-neutral-200 dark:border-neutral-800 border-solid">
           <Container>
             <div className="flex items-center justify-between h-14">
@@ -89,6 +107,7 @@ export function PersonaShell({
             </div>
           </Container>
         </footer>
+        </OverrideProvider>
       </IdentityProvider>
     </LanguageProvider>
   );
