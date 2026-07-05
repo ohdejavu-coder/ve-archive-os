@@ -37,6 +37,10 @@ export function ResumeClient({ identity, fileResume }: { identity: IdentityState
     } catch {}
   }
 
+  // Hidden sections from cookie
+  const hiddenSet = new Set((overrides.hiddenResumeSections ?? "").split(",").filter(Boolean));
+  const isVisible = (section: string) => !hiddenSet.has(section);
+
   return (
     <section className="py-16">
       <Container size="narrow">
@@ -60,7 +64,7 @@ export function ResumeClient({ identity, fileResume }: { identity: IdentityState
         </div>
 
         {/* Core Strengths — expand-on-hover chips that push content down */}
-        {coreStrengths.length > 0 && (
+        {isVisible("strengths") && coreStrengths.length > 0 && (
           <div className="mb-12">
             <Typography variant="h3" className="mb-6">{lang === "en" ? "Core Strengths" : "核心优势"}</Typography>
             <div className="flex flex-wrap items-start gap-5">
@@ -97,19 +101,19 @@ export function ResumeClient({ identity, fileResume }: { identity: IdentityState
           </div>
         )}
 
-        {showSection("experience") && fileResume.experience.length > 0 && (
+        {isVisible("experience") && showSection("experience") && fileResume.experience.length > 0 && (
           <div className="mb-12">
             <Typography variant="h3" className="mb-6">{lang === "en" ? "Experience" : "工作经历"}</Typography>
             <Timeline items={fileResume.experience} type="experience" />
           </div>
         )}
-        {showSection("education") && fileResume.education.length > 0 && (
+        {isVisible("education") && showSection("education") && fileResume.education.length > 0 && (
           <div className="mb-12">
             <Typography variant="h3" className="mb-6">{lang === "en" ? "Education" : "教育背景"}</Typography>
             <Timeline items={fileResume.education} type="education" />
           </div>
         )}
-        {showSection("awards") && fileResume.awards.length > 0 && (
+        {isVisible("awards") && showSection("awards") && fileResume.awards.length > 0 && (
           <div className="mb-12">
             <Typography variant="h3" className="mb-6">{lang === "en" ? "Awards" : "获奖与荣誉"}</Typography>
             <div className="space-y-3">
@@ -125,7 +129,7 @@ export function ResumeClient({ identity, fileResume }: { identity: IdentityState
             </div>
           </div>
         )}
-        {fileResume.languages.length > 0 && (
+        {isVisible("languages") && fileResume.languages.length > 0 && (
           <div className="mb-12">
             <Typography variant="h3" className="mb-4">{lang === "en" ? "Languages" : "语言能力"}</Typography>
             <div className="flex flex-wrap gap-4">

@@ -96,25 +96,58 @@ export function CCREditor({ fileResume }: { fileResume: Resume }) {
     site_footer: "",
   });
 
-  // Load all cookie values on mount
+  // Section visibility toggles (stored in cookie)
+  const [hiddenSections, setHiddenSections] = useState<Set<string>>(new Set());
+
+  // Load all cookie values on mount — INCLUDING resume fields
   useEffect(() => {
     const c = loadCookie();
+
+    // Resume basics from cookie (restore prior edits)
+    if (c.resume_basics_name) setBasicsName(c.resume_basics_name);
+    if (c.resume_basics_nameEn) setBasicsNameEn(c.resume_basics_nameEn);
+    if (c.resume_basics_title) setBasicsTitle(c.resume_basics_title);
+    if (c.resume_basics_titleEn) setBasicsTitleEn(c.resume_basics_titleEn);
+    if (c.resume_basics_location) setBasicsLocation(c.resume_basics_location);
+    if (c.resume_basics_email) setBasicsEmail(c.resume_basics_email);
+    if (c.resume_basics_phone) setBasicsPhone(c.resume_basics_phone);
+    if (c.resume_basics_website) setBasicsWebsite(c.resume_basics_website);
+    if (c.resume_summary) setSummary(c.resume_summary);
+    if (c.resume_summaryEn) setSummaryEn(c.resume_summaryEn);
+
+    // Core strengths from cookie
+    if (c.coreStrengths_json) {
+      try {
+        const parsed = JSON.parse(c.coreStrengths_json);
+        setCoreStrengths(parsed);
+      } catch {}
+    }
+
+    // Hidden sections
+    if (c.hiddenResumeSections) {
+      setHiddenSections(new Set(c.hiddenResumeSections.split(",")));
+    }
+
+    // Hero/pages/site
     setCookieHeroFields({
-      heroHeadline: c.heroHeadline ?? "",
-      heroHeadlineEn: c.heroHeadlineEn ?? "",
-      heroSubtitle: c.heroSubtitle ?? "",
-      heroSubtitleEn: c.heroSubtitleEn ?? "",
-      personalStatement: c.personalStatement ?? "",
-      personalStatementEn: c.personalStatementEn ?? "",
+      heroHeadline: c.heroHeadline ?? "", heroHeadlineEn: c.heroHeadlineEn ?? "",
+      heroSubtitle: c.heroSubtitle ?? "", heroSubtitleEn: c.heroSubtitleEn ?? "",
+      personalStatement: c.personalStatement ?? "", personalStatementEn: c.personalStatementEn ?? "",
       profilePhoto: c.profilePhoto ?? "",
     });
-    setCookiePageFields({
-      page_about: c.page_about ?? "",
-      page_contact: c.page_contact ?? "",
-    });
-    setCookieSiteFields({
-      site_title: c.site_title ?? "",
-      site_footer: c.site_footer ?? "",
+    setCookiePageFields({ page_about: c.page_about ?? "", page_contact: c.page_contact ?? "" });
+    setCookieSiteFields({ site_title: c.site_title ?? "", site_footer: c.site_footer ?? "" });
+  }, []);
+
+  // Toggle section visibility
+  const toggleSectionVisibility = useCallback((section: string) => {
+    setHiddenSections((prev) => {
+      const next = new Set(prev);
+      if (next.has(section)) next.delete(section); else next.add(section);
+      const c = loadCookie();
+      c.hiddenResumeSections = Array.from(next).join(",");
+      saveCookie(c);
+      return next;
     });
   }, []);
 
@@ -133,6 +166,7 @@ export function CCREditor({ fileResume }: { fileResume: Resume }) {
       resume_summary: summary,
       resume_summaryEn: summaryEn,
       coreStrengths_json: JSON.stringify(coreStrengths),
+      hiddenResumeSections: Array.from(hiddenSections).join(","),
     };
     const merged = { ...c, ...updates };
     if (saveCookie(merged)) setSavedMsg(`已保存 ${new Date().toLocaleTimeString("zh-CN")}`);
@@ -292,8 +326,10 @@ export function CCREditor({ fileResume }: { fileResume: Resume }) {
 
               {/* ---- Core Strengths ---- */}
               <SectionCard
-                title="核心优势"
+                title="核心优势" sectionKey="strengths"
                 count={coreStrengths.length}
+                hidden={hiddenSections.has("strengths")}
+                onToggle={() => toggleSectionVisibility("strengths")}
                 onAdd={() => setCoreStrengths((p) => [...p, { zh: "", en: "", items: [] }])}
               >
                 {coreStrengths.map((s, i) => (
@@ -353,8 +389,10 @@ export function CCREditor({ fileResume }: { fileResume: Resume }) {
 
               {/* ---- Experience ---- */}
               <SectionCard
-                title="工作经历"
+                title="工作经历" sectionKey="experience"
                 count={experience.length}
+                hidden={hiddenSections.has("experience")}
+                onToggle={() => toggleSectionVisibility("experience")}
                 onAdd={() => setExperience((p) => [...p, { company: "", companyEn: "", role: "", roleEn: "", startDate: "", endDate: "", description: "", descriptionEn: "", highlights: [] }])}
               >
                 {experience.map((exp, i) => (
@@ -379,8 +417,10 @@ export function CCREditor({ fileResume }: { fileResume: Resume }) {
 
               {/* ---- Education ---- */}
               <SectionCard
-                title="教育背景"
+                title="教育背景" sectionKey="education"
                 count={education.length}
+                hidden={hiddenSections.has("education")}
+                onToggle={() => toggleSectionVisibility("education")}
                 onAdd={() => setEducation((p) => [...p, { institution: "", institutionEn: "", degree: "", degreeEn: "", field: "", fieldEn: "", startDate: "", endDate: "" }])}
               >
                 {education.map((edu, i) => (
@@ -405,8 +445,10 @@ export function CCREditor({ fileResume }: { fileResume: Resume }) {
 
               {/* ---- Languages ---- */}
               <SectionCard
-                title="语言能力"
+                title="语言能力" sectionKey="languages"
                 count={languages.length}
+                hidden={hiddenSections.has("languages")}
+                onToggle={() => toggleSectionVisibility("languages")}
                 onAdd={() => setLanguages((p) => [...p, { name: "", nameEn: "", level: "" }])}
               >
                 {languages.map((l, i) => (
@@ -422,8 +464,10 @@ export function CCREditor({ fileResume }: { fileResume: Resume }) {
 
               {/* ---- Awards ---- */}
               <SectionCard
-                title="获奖与荣誉"
+                title="获奖与荣誉" sectionKey="awards"
                 count={awards.length}
+                hidden={hiddenSections.has("awards")}
+                onToggle={() => toggleSectionVisibility("awards")}
                 onAdd={() => setAwards((p) => [...p, { title: "", titleEn: "", year: new Date().getFullYear(), issuer: "" }])}
               >
                 {awards.map((aw, i) => (
@@ -559,12 +603,25 @@ function SaveBtn({ onClick, label, hint }: { onClick: () => void; label: string;
   );
 }
 
-function SectionCard({ title, count, onAdd, children }: { title: string; count: number; onAdd: () => void; children: React.ReactNode }) {
+function SectionCard({ title, count, onAdd, sectionKey, hidden, onToggle, children }: { title: string; count: number; onAdd: () => void; sectionKey?: string; hidden?: boolean; onToggle?: () => void; children: React.ReactNode }) {
   return (
     <div className="space-y-4">
-      <div className="flex items-center justify-between">
-        <h3 className="text-lg font-semibold">{title} ({count})</h3>
-        <button onClick={onAdd} className="px-3 py-1.5 rounded text-xs font-medium bg-black text-white dark:bg-white dark:text-black hover:opacity-80">+ 添加</button>
+      <div className="flex items-center justify-between gap-4">
+        <h3 className="text-lg font-semibold shrink-0">{title} ({count})</h3>
+        <div className="flex items-center gap-3">
+          {onToggle && (
+            <label className="flex items-center gap-2 cursor-pointer text-xs text-neutral-500 select-none">
+              <span>{hidden ? "已隐藏" : "展示中"}</span>
+              <button
+                onClick={onToggle}
+                className={`relative w-9 h-5 rounded-full transition-colors ${hidden ? "bg-neutral-300 dark:bg-neutral-600" : "bg-[var(--red)]"}`}
+              >
+                <span className={`absolute top-0.5 w-4 h-4 rounded-full bg-white transition-transform ${hidden ? "left-0.5" : "left-[18px]"}`} />
+              </button>
+            </label>
+          )}
+          <button onClick={onAdd} className="px-3 py-1.5 rounded text-xs font-medium bg-black text-white dark:bg-white dark:text-black hover:opacity-80">+ 添加</button>
+        </div>
       </div>
       {children}
     </div>
