@@ -118,8 +118,8 @@ export function CCREditor({ fileResume }: { fileResume: Resume }) {
     });
   }, []);
 
-  // Save basics to cookie
-  const saveBasicsToCookie = useCallback(() => {
+  // Save basics + core strengths to cookie
+  const saveResumeToCookie = useCallback(() => {
     const c = loadCookie();
     const updates: Record<string, string> = {
       resume_basics_name: basicsName,
@@ -132,10 +132,11 @@ export function CCREditor({ fileResume }: { fileResume: Resume }) {
       resume_basics_website: basicsWebsite,
       resume_summary: summary,
       resume_summaryEn: summaryEn,
+      coreStrengths_json: JSON.stringify(coreStrengths),
     };
     const merged = { ...c, ...updates };
     if (saveCookie(merged)) setSavedMsg(`已保存 ${new Date().toLocaleTimeString("zh-CN")}`);
-  }, [basicsName, basicsNameEn, basicsTitle, basicsTitleEn, basicsLocation, basicsEmail, basicsPhone, basicsWebsite, summary, summaryEn]);
+  }, [basicsName, basicsNameEn, basicsTitle, basicsTitleEn, basicsLocation, basicsEmail, basicsPhone, basicsWebsite, summary, summaryEn, coreStrengths]);
 
   // Save hero to cookie
   const saveHeroToCookie = useCallback(() => {
@@ -209,13 +210,13 @@ export function CCREditor({ fileResume }: { fileResume: Resume }) {
           {activeTab === "hero" && <button onClick={saveHeroToCookie} className="px-5 py-2 rounded-sm text-sm font-medium bg-black text-white dark:bg-white dark:text-black hover:opacity-80">保存所有更改</button>}
           {activeTab === "pages" && <button onClick={savePagesToCookie} className="px-5 py-2 rounded-sm text-sm font-medium bg-black text-white dark:bg-white dark:text-black hover:opacity-80">保存所有更改</button>}
           {activeTab === "site" && <button onClick={saveSiteToCookie} className="px-5 py-2 rounded-sm text-sm font-medium bg-black text-white dark:bg-white dark:text-black hover:opacity-80">保存所有更改</button>}
-          {activeTab === "resume" && <button onClick={saveBasicsToCookie} className="px-5 py-2 rounded-sm text-sm font-medium bg-black text-white dark:bg-white dark:text-black hover:opacity-80">保存基本信息</button>}
+          {activeTab === "resume" && <button onClick={saveResumeToCookie} className="px-5 py-2 rounded-sm text-sm font-medium bg-black text-white dark:bg-white dark:text-black hover:opacity-80">保存基本信息</button>}
         </div>
       </header>
 
       <div className="flex">
-        {/* Sidebar */}
-        <aside className="w-56 shrink-0 border-r border-neutral-200 dark:border-neutral-800 min-h-[calc(100vh-3.5rem)]">
+        {/* Sidebar — sticky */}
+        <aside className="w-56 shrink-0 border-r border-neutral-200 dark:border-neutral-800 min-h-[calc(100vh-3.5rem)] sticky top-14 self-start">
           <nav className="p-3 space-y-0.5">
             {TABS.map((t) => (
               <button
@@ -284,7 +285,7 @@ export function CCREditor({ fileResume }: { fileResume: Resume }) {
                   <Field l="个人简介（中文）" a v={summary} onChange={setSummary} />
                   <Field l="Summary (EN)" a v={summaryEn} onChange={setSummaryEn} />
                 </div>
-                <SaveBtn onClick={saveBasicsToCookie} label="保存基本信息" hint="保存后去简历页刷新即可看到更新" />
+                <SaveBtn onClick={saveResumeToCookie} label="保存基本信息" hint="保存后去简历页刷新即可看到更新" />
               </section>
 
               <hr className="border-neutral-200 dark:border-neutral-800" />

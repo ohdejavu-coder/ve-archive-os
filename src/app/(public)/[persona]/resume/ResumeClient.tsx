@@ -29,6 +29,14 @@ export function ResumeClient({ identity, fileResume }: { identity: IdentityState
   const summary = overrides.resume_summary ?? fileResume.summary;
   const summaryEn = overrides.resume_summaryEn ?? fileResume.summaryEn;
 
+  // Core strengths from cookie override (JSON string) or file data
+  let coreStrengths = fileResume.coreStrengths ?? [];
+  if (overrides.coreStrengths_json) {
+    try {
+      coreStrengths = JSON.parse(overrides.coreStrengths_json);
+    } catch {}
+  }
+
   return (
     <section className="py-16">
       <Container size="narrow">
@@ -52,11 +60,11 @@ export function ResumeClient({ identity, fileResume }: { identity: IdentityState
         </div>
 
         {/* Core Strengths — expand-on-hover chips that push content down */}
-        {fileResume.coreStrengths && fileResume.coreStrengths.length > 0 && (
+        {coreStrengths.length > 0 && (
           <div className="mb-12">
             <Typography variant="h3" className="mb-6">{lang === "en" ? "Core Strengths" : "核心优势"}</Typography>
             <div className="flex flex-wrap items-start gap-5">
-              {fileResume.coreStrengths.map((s, i) => (
+              {coreStrengths.map((s, i) => (
                 <div
                   key={i}
                   className="group inline-flex flex-col rounded-2xl border border-neutral-200 dark:border-neutral-700 bg-neutral-50 dark:bg-neutral-900 text-lg font-medium text-neutral-700 dark:text-neutral-300 hover:border-[var(--red)] hover:shadow-xl transition-all duration-300 cursor-default min-w-[160px]"
