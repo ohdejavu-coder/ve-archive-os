@@ -14,13 +14,15 @@ document.body.appendChild(d);
 var mx=0,my=0,tracking=false;
 function tick(){
   var el=document.elementFromPoint(mx,my);
-  var big=!!(el&&el.closest("a,button,input,textarea,select,[role=button],[data-cursor-interactive]"));
-  var next=big?"big":"";
+  var isText=!!(el&&(el.tagName==="INPUT"||el.tagName==="TEXTAREA"));
+  if(isText){d.style.opacity="0";}else{if(tracking)d.style.opacity="1";}
+  var big=!!(el&&el.closest("a,button,select,[role=button],[data-cursor-interactive]"));
+  var next=big&&!isText?"big":"";
   if(d.className!==next)d.className=next;
   var s=big?25:7;d.style.transform="translate("+(mx-s)+"px,"+(my-s)+"px)";
   requestAnimationFrame(tick);
 }
-function show(){if(!tracking){tracking=true;try{document.body.classList.add("cursor-ready")}catch(e){};d.style.opacity="1";}}
+function show(){if(!tracking){tracking=true;try{document.body.classList.add("cursor-ready")}catch(e){};}}
 function hide(){tracking=false;try{document.body.classList.remove("cursor-ready")}catch(e){};d.style.opacity="0";}
 function cm(e){mx=e.clientX;my=e.clientY;show();}
 document.addEventListener("mousemove",cm,{passive:true});
