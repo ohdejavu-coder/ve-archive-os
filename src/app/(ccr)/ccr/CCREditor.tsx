@@ -641,10 +641,35 @@ export function CCREditor({ fileResume }: { fileResume: Resume }) {
 
 // ---- Reusable UI pieces ----
 
+function insertAtCursor(el: HTMLTextAreaElement, text: string, onChange: (v: string) => void) {
+  const st = el.selectionStart, ed = el.selectionEnd, v = el.value;
+  const next = v.slice(0, st) + text + v.slice(ed);
+  el.value = next;
+  el.selectionStart = el.selectionEnd = st + text.length;
+  el.focus();
+  onChange(next);
+}
+
+const fmtBtn = "px-2 py-0.5 rounded text-[11px] font-medium border border-neutral-200 dark:border-neutral-600 bg-neutral-50 dark:bg-neutral-800 text-neutral-500 hover:text-neutral-900 dark:hover:text-neutral-100 hover:border-neutral-400 transition-colors cursor-pointer";
+
+function FmtBar({ onChange }: { onChange: (v: string) => void }) {
+  return (
+    <div className="flex items-center gap-1 mb-1.5">
+      <span className="text-[10px] text-neutral-400 mr-1">格式:</span>
+      <button type="button" className={fmtBtn} onClick={(e) => { const el = (e.target as HTMLElement).closest("div")!.nextElementSibling as HTMLTextAreaElement; if (el) insertAtCursor(el, "**粗体**", onChange); }}><strong>B</strong></button>
+      <button type="button" className={fmtBtn} onClick={(e) => { const el = (e.target as HTMLElement).closest("div")!.nextElementSibling as HTMLTextAreaElement; if (el) insertAtCursor(el, "*斜体*", onChange); }}><em>I</em></button>
+      <button type="button" className={fmtBtn} onClick={(e) => { const el = (e.target as HTMLElement).closest("div")!.nextElementSibling as HTMLTextAreaElement; if (el) insertAtCursor(el, "## 小标题", onChange); }}># H</button>
+      <button type="button" className={fmtBtn} onClick={(e) => { const el = (e.target as HTMLElement).closest("div")!.nextElementSibling as HTMLTextAreaElement; if (el) insertAtCursor(el, "---\n", onChange); }}>―</button>
+      <button type="button" className={fmtBtn} onClick={(e) => { const el = (e.target as HTMLElement).closest("div")!.nextElementSibling as HTMLTextAreaElement; if (el) insertAtCursor(el, "- 列表项", onChange); }}>•</button>
+    </div>
+  );
+}
+
 function Field({ l, v, onChange, ph, a, n }: { l?: string; v: string; onChange: (v: string) => void; ph?: string; a?: boolean; n?: number }) {
   return (
     <div>
       {l && <label className="block text-xs font-medium text-neutral-500 mb-1.5">{l}</label>}
+      {a && <FmtBar onChange={onChange} />}
       {a
         ? <textarea className="w-full px-4 py-3 rounded border border-neutral-300 dark:border-neutral-700 bg-white dark:bg-neutral-900 text-sm focus:outline-none focus:ring-2 focus:ring-[var(--red)] focus:border-transparent transition-colors resize-y" rows={n ?? 4} value={v} onChange={(e) => onChange(e.target.value)} placeholder={ph} />
         : <input className="w-full px-4 py-3 rounded border border-neutral-300 dark:border-neutral-700 bg-white dark:bg-neutral-900 text-sm focus:outline-none focus:ring-2 focus:ring-[var(--red)] focus:border-transparent transition-colors" value={v} onChange={(e) => onChange(e.target.value)} placeholder={ph} />}

@@ -35,8 +35,8 @@ export function MDXRenderer({ content, className }: MDXRendererProps) {
         "prose-p:leading-relaxed prose-p:mb-5 prose-p:text-neutral-700 dark:prose-p:text-neutral-300",
         // Links — accent color
         "prose-a:text-accent prose-a:no-underline hover:prose-a:underline prose-a:transition-all",
-        // Strong
-        "prose-strong:text-neutral-900 dark:prose-strong:text-neutral-100 prose-strong:font-semibold",
+        // Strong — prominent bold for emphasis
+        "prose-strong:text-neutral-900 dark:prose-strong:text-neutral-100 prose-strong:font-bold prose-strong:text-[1.02em]",
         // Lists
         "prose-li:leading-relaxed prose-li:marker:text-neutral-400",
         "prose-ul:list-disc prose-ul:pl-5",
