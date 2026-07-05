@@ -2,10 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-/* ============================================================
-   VE Archive OS — Swiss International Style
-   ============================================================ */
-
 :root {
   --bg: #ffffff;
   --fg: #111111;
@@ -23,16 +19,8 @@
 }
 
 @layer base {
-  * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-  }
-
-  html, body {
-    height: 100%;
-  }
-
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { height: 100%; }
   body {
     font-family: var(--font-geist-sans), -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
     background: var(--bg);
@@ -41,7 +29,6 @@
     -moz-osx-font-smoothing: grayscale;
   }
 
-  /* ---- Custom Cursor ---- */
   body.cursor-ready { cursor: none; }
   body.cursor-ready a,
   body.cursor-ready button,
@@ -52,7 +39,6 @@
 
   ::selection { background: var(--red); color: #fff; }
   :focus-visible { outline: 2px solid var(--red); outline-offset: 2px; }
-
   ::-webkit-scrollbar { width: 4px; }
   ::-webkit-scrollbar-track { background: transparent; }
   ::-webkit-scrollbar-thumb { background: var(--line); border-radius: 0; }
@@ -67,8 +53,8 @@
     position: fixed;
     pointer-events: none;
     z-index: 9999;
-    will-change: transform;
-    transition: width 0.12s ease, height 0.12s ease, mix-blend-mode 0s;
+    will-change: transform, opacity;
+    /* Smooth transitions set by JS */
   }
 
   #cursor-dot.big {
