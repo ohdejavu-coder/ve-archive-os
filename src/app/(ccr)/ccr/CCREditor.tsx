@@ -306,6 +306,37 @@ export function CCREditor({ fileResume }: { fileResume: Resume }) {
                   <Field l="头像图片路径" v={cookieHeroFields.profilePhoto ?? ""} onChange={(v) => setCookieHeroFields((p) => ({ ...p, profilePhoto: v }))} ph="/media/profile/avatar.jpg" />
                 </div>
               </div>
+
+              <hr className="border-neutral-200 dark:border-neutral-800" />
+
+              {/* Persona identity display settings */}
+              <div>
+                <h3 className="text-lg font-semibold mb-2">身份展示</h3>
+                <p className="text-sm text-neutral-500 mb-5">新作品默认在哪些身份下可见。修改后保存即可。</p>
+                <div className="flex flex-wrap gap-3">
+                  {["default","photographer","ai","director","freelance"].map((pid) => (
+                    <label key={pid} className="flex items-center gap-2 text-sm cursor-pointer px-4 py-2 rounded border border-neutral-200 dark:border-neutral-700 hover:border-neutral-400 transition-colors">
+                      <input
+                        type="checkbox"
+                        defaultChecked
+                        onChange={(e) => {
+                          const checked = e.target.checked;
+                          const val = pid;
+                          setCookieHeroFields((p) => {
+                            const current = (p.personas_visible ?? "default,photographer,ai,director,freelance").split(",");
+                            const next = checked
+                              ? [...new Set([...current, val])]
+                              : current.filter((v) => v !== val);
+                            return { ...p, personas_visible: next.join(",") };
+                          });
+                        }}
+                        className="rounded"
+                      />
+                      <span>{pid==="default"?"默认":pid==="photographer"?"摄影":pid==="ai"?"AI":pid==="director"?"导演":"商业"}</span>
+                    </label>
+                  ))}
+                </div>
+              </div>
             </div>
           )}
 

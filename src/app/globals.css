@@ -60,7 +60,12 @@
     position: fixed;
     pointer-events: none;
     z-index: 9999;
-    will-change: transform, opacity;
+    will-change: transform, opacity, width, height;
+    transition: width 0.25s cubic-bezier(0.25, 0.1, 0.25, 1),
+                height 0.25s cubic-bezier(0.25, 0.1, 0.25, 1),
+                background-color 0.25s ease,
+                border 0.25s ease,
+                opacity 0.2s ease;
   }
 
   #cursor-dot.big {
