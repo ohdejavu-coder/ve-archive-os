@@ -55,27 +55,27 @@ export function ResumeClient({ identity, fileResume }: { identity: IdentityState
         {fileResume.coreStrengths && fileResume.coreStrengths.length > 0 && (
           <div className="mb-12">
             <Typography variant="h3" className="mb-6">{lang === "en" ? "Core Strengths" : "核心优势"}</Typography>
-            <div className="flex flex-wrap items-start gap-3">
+            <div className="flex flex-wrap items-start gap-4">
               {fileResume.coreStrengths.map((s, i) => (
                 <div
                   key={i}
-                  className="group inline-flex flex-col rounded-lg border border-neutral-200 dark:border-neutral-700 bg-neutral-50 dark:bg-neutral-900 text-sm font-medium text-neutral-700 dark:text-neutral-300 hover:border-[var(--red)] hover:shadow-md transition-all duration-300 cursor-default min-w-[120px]"
+                  className="group inline-flex flex-col rounded-xl border border-neutral-200 dark:border-neutral-700 bg-neutral-50 dark:bg-neutral-900 text-base font-medium text-neutral-700 dark:text-neutral-300 hover:border-[var(--red)] hover:shadow-lg transition-all duration-300 cursor-default min-w-[140px]"
                 >
                   {/* Main label */}
-                  <span className="px-4 py-2 group-hover:pb-1 group-hover:text-[var(--red)] transition-colors duration-200 flex items-center gap-1">
+                  <span className="px-5 py-3 group-hover:pb-1.5 group-hover:text-[var(--red)] transition-colors duration-200 flex items-center gap-2">
                     {lang === "en" ? s.en : s.zh}
                     {s.items && s.items.length > 0 && (
-                      <svg className="w-3 h-3 opacity-40 group-hover:opacity-100 group-hover:rotate-180 transition-all duration-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M6 9l6 6 6-6"/></svg>
+                      <svg className="w-4 h-4 opacity-40 group-hover:opacity-100 group-hover:rotate-180 transition-all duration-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M6 9l6 6 6-6"/></svg>
                     )}
                   </span>
-                  {/* Sub-items — hidden until hover, zero-height when hidden */}
+                  {/* Sub-items — hidden until hover */}
                   {s.items && s.items.length > 0 && (
-                    <div className="max-h-0 opacity-0 group-hover:max-h-[200px] group-hover:opacity-100 group-hover:pb-2 transition-all duration-300 overflow-hidden">
-                      <div className="flex flex-wrap gap-1.5 px-3">
+                    <div className="max-h-0 opacity-0 group-hover:max-h-[300px] group-hover:opacity-100 group-hover:pb-3 transition-all duration-300 overflow-hidden">
+                      <div className="flex flex-wrap gap-2 px-4">
                         {s.items.map((sub, j) => (
                           <span
                             key={j}
-                            className="whitespace-nowrap px-2.5 py-1 rounded-md bg-white dark:bg-neutral-800 text-xs text-neutral-600 dark:text-neutral-400 border border-neutral-100 dark:border-neutral-700 hover:bg-neutral-100 dark:hover:bg-neutral-700 transition-colors"
+                            className="whitespace-nowrap px-3 py-1.5 rounded-lg bg-white dark:bg-neutral-800 text-sm text-neutral-600 dark:text-neutral-400 border border-neutral-100 dark:border-neutral-700 hover:bg-neutral-100 dark:hover:bg-neutral-700 transition-colors"
                           >
                             {lang === "en" ? sub.en : sub.zh}
                           </span>
