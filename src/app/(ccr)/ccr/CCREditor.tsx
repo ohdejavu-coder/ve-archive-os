@@ -232,7 +232,7 @@ export function CCREditor({ fileResume }: { fileResume: Resume }) {
   const is = "w-full px-3 py-2 rounded border border-neutral-300 dark:border-neutral-700 bg-white dark:bg-neutral-900 text-xs focus:outline-none focus:ring-2 focus:ring-[var(--red)] focus:border-transparent transition-colors";
 
   return (
-    <div className="min-h-screen bg-white dark:bg-neutral-950">
+    <div className="h-screen bg-white dark:bg-neutral-950 flex flex-col overflow-hidden">
       {/* Top bar */}
       <header className="h-14 border-b border-neutral-200 dark:border-neutral-800 flex items-center justify-between px-8 bg-white dark:bg-neutral-950 sticky top-0 z-10">
         <div className="flex items-center gap-6">
@@ -248,9 +248,9 @@ export function CCREditor({ fileResume }: { fileResume: Resume }) {
         </div>
       </header>
 
-      <div className="flex">
-        {/* Sidebar — sticky */}
-        <aside className="w-56 shrink-0 border-r border-neutral-200 dark:border-neutral-800 min-h-[calc(100vh-3.5rem)] sticky top-14 self-start">
+      <div className="flex flex-1 min-h-0">
+        {/* Sidebar — scrolls independently */}
+        <aside className="w-56 shrink-0 border-r border-neutral-200 dark:border-neutral-800 overflow-y-auto">
           <nav className="p-3 space-y-0.5">
             {TABS.map((t) => (
               <button
@@ -277,8 +277,8 @@ export function CCREditor({ fileResume }: { fileResume: Resume }) {
           </div>
         </aside>
 
-        {/* Content */}
-        <main className="flex-1 p-8 sm:p-12 max-w-4xl">
+        {/* Content — scrollable */}
+        <main className="flex-1 p-8 sm:p-12 max-w-4xl overflow-y-auto">
 
           {/* ============== HERO TAB ============== */}
           {activeTab === "hero" && (
@@ -320,9 +320,7 @@ export function CCREditor({ fileResume }: { fileResume: Resume }) {
                   <Field l="Summary (EN)" a v={summaryEn} onChange={setSummaryEn} />
                 </div>
 
-                <div className="sticky bottom-6 bg-white dark:bg-neutral-950 py-4 border-t border-neutral-200 dark:border-neutral-800">
-                  <SaveBtn onClick={saveResumeToCookie} label="保存基本信息" hint="保存后去简历页刷新即可看到更新" />
-                </div>
+                <SaveBtn onClick={saveResumeToCookie} label="保存基本信息" hint="保存后去简历页刷新即可看到更新" />
               </section>
 
               <hr className="border-neutral-200 dark:border-neutral-800" />
@@ -563,6 +561,35 @@ export function CCREditor({ fileResume }: { fileResume: Resume }) {
           )}
 
         </main>
+      </div>
+
+      {/* Fixed bottom save bar */}
+      <div className="shrink-0 border-t border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-950 px-8 py-3 flex items-center justify-end gap-4">
+        {activeTab === "resume" && (
+          <>
+            <span className="text-xs text-neutral-500">编辑完毕记得保存，去简历页刷新看效果</span>
+            <button onClick={saveResumeToCookie} className="px-6 py-2 rounded-sm text-sm font-medium bg-black text-white dark:bg-white dark:text-black hover:opacity-80 transition-opacity">保存基本信息</button>
+          </>
+        )}
+        {activeTab === "hero" && (
+          <>
+            <span className="text-xs text-neutral-500">编辑完毕记得保存，去首页刷新看效果</span>
+            <button onClick={saveHeroToCookie} className="px-6 py-2 rounded-sm text-sm font-medium bg-black text-white dark:bg-white dark:text-black hover:opacity-80 transition-opacity">保存 Hero 内容</button>
+          </>
+        )}
+        {activeTab === "pages" && (
+          <>
+            <span className="text-xs text-neutral-500">编辑完毕记得保存</span>
+            <button onClick={savePagesToCookie} className="px-6 py-2 rounded-sm text-sm font-medium bg-black text-white dark:bg-white dark:text-black hover:opacity-80 transition-opacity">保存页面文字</button>
+          </>
+        )}
+        {activeTab === "site" && (
+          <>
+            <span className="text-xs text-neutral-500">编辑完毕记得保存</span>
+            <button onClick={saveSiteToCookie} className="px-6 py-2 rounded-sm text-sm font-medium bg-black text-white dark:bg-white dark:text-black hover:opacity-80 transition-opacity">保存网站设置</button>
+          </>
+        )}
+        <span className="text-xs text-neutral-400">{savedMsg}</span>
       </div>
     </div>
   );
