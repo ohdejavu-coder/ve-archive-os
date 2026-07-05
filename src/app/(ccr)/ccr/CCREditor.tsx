@@ -44,7 +44,6 @@ interface EduEntry {
   field: string; fieldEn: string;
   startDate: string; endDate: string;
 }
-interface SkillEntry { name: string; nameEn: string; category: string; level: number }
 interface LangEntry { name: string; nameEn: string; level: string }
 interface AwardEntry { title: string; titleEn: string; year: number; issuer: string }
 
@@ -62,11 +61,11 @@ export function CCREditor({ fileResume }: { fileResume: Resume }) {
   const [education, setEducation] = useState<EduEntry[]>(() =>
     fileResume.education.map((e) => ({ ...e }))
   );
-  const [skills, setSkills] = useState<SkillEntry[]>(() =>
-    fileResume.skills.map((s) => ({ ...s }))
-  );
-  const [coreStrengths, setCoreStrengths] = useState<{ zh: string; en: string }[]>(() =>
-    (fileResume.coreStrengths ?? []).map((s) => ({ ...s }))
+  const [coreStrengths, setCoreStrengths] = useState<{ zh: string; en: string; items?: { zh: string; en: string }[] }[]>(() =>
+    (fileResume.coreStrengths ?? []).map((s) => ({
+      zh: s.zh, en: s.en,
+      items: (s.items ?? []).map((it) => ({ ...it })),
+    }))
   );
   const [languages, setLanguages] = useState<LangEntry[]>(() =>
     fileResume.languages.map((l) => ({ ...l }))
@@ -175,12 +174,11 @@ export function CCREditor({ fileResume }: { fileResume: Resume }) {
       coreStrengths,
       experience,
       education,
-      skills,
       languages,
       awards,
     };
     setResumeJson(JSON.stringify(obj, null, 2));
-  }, [basicsName, basicsNameEn, basicsTitle, basicsTitleEn, basicsLocation, basicsEmail, basicsPhone, basicsWebsite, summary, summaryEn, coreStrengths, experience, education, skills, languages, awards]);
+  }, [basicsName, basicsNameEn, basicsTitle, basicsTitleEn, basicsLocation, basicsEmail, basicsPhone, basicsWebsite, summary, summaryEn, coreStrengths, experience, education, languages, awards]);
 
   // Reset
   const reset = useCallback(() => {
@@ -295,14 +293,57 @@ export function CCREditor({ fileResume }: { fileResume: Resume }) {
               <SectionCard
                 title="核心优势"
                 count={coreStrengths.length}
-                onAdd={() => setCoreStrengths((p) => [...p, { zh: "", en: "" }])}
+                onAdd={() => setCoreStrengths((p) => [...p, { zh: "", en: "", items: [] }])}
               >
                 {coreStrengths.map((s, i) => (
-                  <div key={i} className="flex items-center gap-3 p-2 rounded border border-neutral-100 dark:border-neutral-800">
-                    <span className="text-xs text-neutral-400 w-5">{i + 1}</span>
-                    <FieldL l="中文" v={s.zh} onChange={(v) => { const n = [...coreStrengths]; n[i] = { ...n[i], zh: v }; setCoreStrengths(n); }} inline />
-                    <FieldL l="English" v={s.en} onChange={(v) => { const n = [...coreStrengths]; n[i] = { ...n[i], en: v }; setCoreStrengths(n); }} inline />
-                    <button onClick={() => setCoreStrengths((p) => p.filter((_, j) => j !== i))} className="text-xs text-red-400 hover:text-red-600 shrink-0">✕</button>
+                  <div key={i} className="p-3 rounded border border-neutral-100 dark:border-neutral-800 space-y-3">
+                    <div className="flex items-center gap-3">
+                      <span className="text-xs text-neutral-400 w-5">#{i + 1}</span>
+                      <FieldL l="中文" v={s.zh} onChange={(v) => { const n = [...coreStrengths]; n[i] = { ...n[i], zh: v }; setCoreStrengths(n); }} inline />
+                      <FieldL l="English" v={s.en} onChange={(v) => { const n = [...coreStrengths]; n[i] = { ...n[i], en: v }; setCoreStrengths(n); }} inline />
+                      <button onClick={() => setCoreStrengths((p) => p.filter((_, j) => j !== i))} className="text-xs text-red-400 hover:text-red-600 shrink-0">✕</button>
+                    </div>
+                    {/* Sub-items */}
+                    <div className="ml-5 pl-3 border-l-2 border-neutral-200 dark:border-neutral-700 space-y-2">
+                      <div className="flex items-center justify-between">
+                        <span className="text-xs text-neutral-500">子标签（hover 时展示）</span>
+                        <button
+                          onClick={() => {
+                            const items = s.items ?? [];
+                            setCoreStrengths((p) => {
+                              const n = [...p];
+                              n[i] = { ...n[i], items: [...items, { zh: "", en: "" }] };
+                              return n;
+                            });
+                          }}
+                          className="text-xs px-2 py-0.5 rounded bg-neutral-100 dark:bg-neutral-800 hover:bg-neutral-200 dark:hover:bg-neutral-700"
+                        >+ 添加</button>
+                      </div>
+                      {(s.items ?? []).map((sub, j) => (
+                        <div key={j} className="flex items-center gap-2">
+                          <span className="text-[10px] text-neutral-400 w-4">{j + 1}</span>
+                          <FieldL l="" v={sub.zh} onChange={(v) => {
+                            const n = [...coreStrengths];
+                            const items = [...(n[i].items ?? [])];
+                            items[j] = { ...items[j], zh: v };
+                            n[i] = { ...n[i], items };
+                            setCoreStrengths(n);
+                          }} inline />
+                          <FieldL l="" v={sub.en} onChange={(v) => {
+                            const n = [...coreStrengths];
+                            const items = [...(n[i].items ?? [])];
+                            items[j] = { ...items[j], en: v };
+                            n[i] = { ...n[i], items };
+                            setCoreStrengths(n);
+                          }} inline />
+                          <button onClick={() => {
+                            const n = [...coreStrengths];
+                            n[i] = { ...n[i], items: (n[i].items ?? []).filter((_, k) => k !== j) };
+                            setCoreStrengths(n);
+                          }} className="text-xs text-red-400 hover:text-red-600 shrink-0">✕</button>
+                        </div>
+                      ))}
+                    </div>
                   </div>
                 ))}
               </SectionCard>
@@ -357,26 +398,6 @@ export function CCREditor({ fileResume }: { fileResume: Resume }) {
                       <FieldL l="开始日期" v={edu.startDate} onChange={(v) => { const n = [...education]; n[i] = { ...n[i], startDate: v }; setEducation(n); }} />
                       <FieldL l="结束日期" v={edu.endDate} onChange={(v) => { const n = [...education]; n[i] = { ...n[i], endDate: v }; setEducation(n); }} />
                     </div>
-                  </div>
-                ))}
-              </SectionCard>
-
-              {/* ---- Skills ---- */}
-              <SectionCard
-                title="技能"
-                count={skills.length}
-                onAdd={() => setSkills((p) => [...p, { name: "", nameEn: "", category: "", level: 3 }])}
-              >
-                {skills.map((sk, i) => (
-                  <div key={i} className="flex items-center gap-3 p-2 rounded border border-neutral-100 dark:border-neutral-800">
-                    <span className="text-xs text-neutral-400 w-5">{i + 1}</span>
-                    <FieldL l="技能名" v={sk.name} onChange={(v) => { const n = [...skills]; n[i] = { ...n[i], name: v }; setSkills(n); }} inline />
-                    <FieldL l="Name (EN)" v={sk.nameEn} onChange={(v) => { const n = [...skills]; n[i] = { ...n[i], nameEn: v }; setSkills(n); }} inline />
-                    <FieldL l="类别" v={sk.category} onChange={(v) => { const n = [...skills]; n[i] = { ...n[i], category: v }; setSkills(n); }} inline />
-                    <select value={sk.level} onChange={(e) => { const n = [...skills]; n[i] = { ...n[i], level: Number(e.target.value) }; setSkills(n); }} className="w-16 px-2 py-1.5 rounded border border-neutral-300 dark:border-neutral-700 bg-white dark:bg-neutral-900 text-xs">
-                      {[1,2,3,4,5].map((lv) => <option key={lv} value={lv}>{lv}</option>)}
-                    </select>
-                    <button onClick={() => setSkills((p) => p.filter((_, j) => j !== i))} className="text-xs text-red-400 hover:text-red-600 shrink-0">✕</button>
                   </div>
                 ))}
               </SectionCard>

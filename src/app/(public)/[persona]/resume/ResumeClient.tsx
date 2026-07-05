@@ -7,7 +7,6 @@ import { Container } from "@/components/ui/Container";
 import { Typography } from "@/components/ui/Typography";
 import { Divider } from "@/components/ui/Divider";
 import { Timeline } from "@/components/sections/Timeline";
-import { SkillMatrix } from "@/components/sections/SkillMatrix";
 import { CTA } from "@/components/sections/CTA";
 import { Mail, MapPin, Globe, Download } from "lucide-react";
 import type { Resume } from "@/types/content";
@@ -52,7 +51,7 @@ export function ResumeClient({ identity, fileResume }: { identity: IdentityState
           <Typography variant="body">{lang === "en" ? summaryEn : summary}</Typography>
         </div>
 
-        {/* Core Strengths — above Experience */}
+        {/* Core Strengths — hover-expand chips */}
         {fileResume.coreStrengths && fileResume.coreStrengths.length > 0 && (
           <div className="mb-12">
             <Typography variant="h3" className="mb-6">{lang === "en" ? "Core Strengths" : "核心优势"}</Typography>
@@ -60,9 +59,21 @@ export function ResumeClient({ identity, fileResume }: { identity: IdentityState
               {fileResume.coreStrengths.map((s, i) => (
                 <span
                   key={i}
-                  className="px-4 py-2 rounded-lg border border-neutral-200 dark:border-neutral-700 bg-neutral-50 dark:bg-neutral-900 text-sm font-medium text-neutral-700 dark:text-neutral-300 hover:border-[var(--red)] hover:text-[var(--red)] transition-colors"
+                  className="group relative px-4 py-2 rounded-lg border border-neutral-200 dark:border-neutral-700 bg-neutral-50 dark:bg-neutral-900 text-sm font-medium text-neutral-700 dark:text-neutral-300 hover:border-[var(--red)] hover:text-[var(--red)] transition-colors cursor-default"
                 >
                   {lang === "en" ? s.en : s.zh}
+                  {s.items && s.items.length > 0 && (
+                    <span className="absolute top-full left-0 mt-1 pt-1 hidden group-hover:flex flex-wrap gap-1.5 z-20">
+                      {s.items.map((sub, j) => (
+                        <span
+                          key={j}
+                          className="whitespace-nowrap px-3 py-1 rounded-md border border-[var(--red)]/30 bg-white dark:bg-neutral-900 text-xs text-neutral-600 dark:text-neutral-400 shadow-sm hover:bg-neutral-50 dark:hover:bg-neutral-800 transition-colors"
+                        >
+                          {lang === "en" ? sub.en : sub.zh}
+                        </span>
+                      ))}
+                    </span>
+                  )}
                 </span>
               ))}
             </div>
@@ -73,12 +84,6 @@ export function ResumeClient({ identity, fileResume }: { identity: IdentityState
           <div className="mb-12">
             <Typography variant="h3" className="mb-6">{lang === "en" ? "Experience" : "工作经历"}</Typography>
             <Timeline items={fileResume.experience} type="experience" />
-          </div>
-        )}
-        {showSection("skills") && fileResume.skills.length > 0 && (
-          <div className="mb-12">
-            <Typography variant="h3" className="mb-6">{lang === "en" ? "Skills" : "技能"}</Typography>
-            <SkillMatrix skills={fileResume.skills} />
           </div>
         )}
         {showSection("education") && fileResume.education.length > 0 && (

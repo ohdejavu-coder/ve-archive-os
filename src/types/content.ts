@@ -77,7 +77,7 @@ export interface Resume {
   basics: ResumeBasics;
   summary: string;
   summaryEn: string;
-  coreStrengths: { zh: string; en: string }[];
+  coreStrengths: { zh: string; en: string; items?: { zh: string; en: string }[] }[];
   experience: ResumeExperience[];
   education: ResumeEducation[];
   skills: ResumeSkill[];

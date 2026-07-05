@@ -11,11 +11,26 @@
   "summary": "拥有电影制作专业背景的视觉创作者，擅长摄影、短片导演及 AI 辅助创作。致力于用影像语言讲述具有人文深度的故事。",
   "summaryEn": "A visual creator with a background in film production, specializing in photography, short film directing, and AI-assisted creation. Dedicated to telling stories with humanistic depth through visual language.",
   "coreStrengths": [
-    { "zh": "电影感视觉叙事", "en": "Cinematic Visual Storytelling" },
-    { "zh": "全流程制作能力", "en": "End-to-End Production" },
-    { "zh": "AI 辅助创作", "en": "AI-Assisted Creation" },
-    { "zh": "跨领域协作", "en": "Cross-Disciplinary Collaboration" },
-    { "zh": "项目管理", "en": "Project Management" }
+    {
+      "zh": "电影感视觉叙事", "en": "Cinematic Visual Storytelling",
+      "items": [{ "zh": "镜头语言", "en": "Visual Language" }, { "zh": "光影造型", "en": "Lighting Design" }, { "zh": "色彩控制", "en": "Color Grading" }]
+    },
+    {
+      "zh": "全流程制作能力", "en": "End-to-End Production",
+      "items": [{ "zh": "前期策划", "en": "Pre-Production" }, { "zh": "现场执行", "en": "On-Set Execution" }, { "zh": "后期制作", "en": "Post-Production" }]
+    },
+    {
+      "zh": "AI 辅助创作", "en": "AI-Assisted Creation",
+      "items": [{ "zh": "Prompt 工程", "en": "Prompt Engineering" }, { "zh": "AI 影像生成", "en": "AI Image Generation" }, { "zh": "工作流自动化", "en": "Workflow Automation" }]
+    },
+    {
+      "zh": "跨领域协作", "en": "Cross-Disciplinary Collaboration",
+      "items": [{ "zh": "品牌合作", "en": "Brand Collaboration" }, { "zh": "剧组统筹", "en": "Crew Coordination" }, { "zh": "客户沟通", "en": "Client Communication" }]
+    },
+    {
+      "zh": "项目管理", "en": "Project Management",
+      "items": [{ "zh": "预算控制", "en": "Budget Control" }, { "zh": "时间管理", "en": "Timeline Management" }, { "zh": "风险预判", "en": "Risk Assessment" }]
+    }
   ],
   "experience": [
     {
