@@ -77,7 +77,9 @@ export function ResumeClient({ identity, fileResume }: { identity: IdentityState
             {website && <span className="flex items-center gap-1"><Globe size={14} />{website}</span>}
           </div>
           <Divider className="my-4" />
-          <MDXRenderer content={lang === "en" ? summaryEn : summary} />
+          <div className="whitespace-pre-line [&_p]:mb-4 [&_strong]:font-bold [&_strong]:text-[1.02em]">
+            <MDXRenderer content={lang === "en" ? summaryEn : summary} />
+          </div>
         </div>
 
         {/* Core Strengths — expand-on-hover chips that push content down */}
