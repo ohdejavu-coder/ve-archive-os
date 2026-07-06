@@ -62,7 +62,7 @@ export function ResumeClient({ identity, fileResume }: { identity: IdentityState
     <section className="py-16">
       <Container size="narrow">
         <div className="mb-12">
-          <Typography variant="h1">{lang === "en" ? "Resume" : "简历"}</Typography>
+          <Typography variant="h1" cinematic>{lang === "en" ? "Resume" : "简历"}</Typography>
           <Typography variant="body" className="text-neutral-500 mt-2">
             {lang === "en" ? `Current identity: ${persona.nameEn}` : `当前展示身份：${persona.name}`}
           </Typography>
