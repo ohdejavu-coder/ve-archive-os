@@ -127,12 +127,12 @@ export function CCREditor({ fileResume }: { fileResume: Resume }) {
     if (c.resume_summaryEn) setSummaryEn(c.resume_summaryEn);
 
     // Core strengths from cookie
-    if (c.coreStrengths_json) {
-      try {
-        const parsed = JSON.parse(c.coreStrengths_json);
-        setCoreStrengths(parsed);
-      } catch {}
-    }
+    if (c.coreStrengths_json) { try { setCoreStrengths(JSON.parse(c.coreStrengths_json)); } catch {} }
+    // Experience, education, languages, awards from cookie
+    if (c.experience_json) { try { setExperience(JSON.parse(c.experience_json)); } catch {} }
+    if (c.education_json) { try { setEducation(JSON.parse(c.education_json)); } catch {} }
+    if (c.languages_json) { try { setLanguages(JSON.parse(c.languages_json)); } catch {} }
+    if (c.awards_json) { try { setAwards(JSON.parse(c.awards_json)); } catch {} }
 
     // Hidden sections
     if (c.hiddenResumeSections) {
@@ -164,6 +164,30 @@ export function CCREditor({ fileResume }: { fileResume: Resume }) {
       return next;
     });
   }, []);
+
+  // AUTO-SAVE: saves all resume content every 3s when tab is active
+  useEffect(() => {
+    if (activeTab !== "resume") return;
+    const timer = setTimeout(() => {
+      const c = loadCookie();
+      const updates: Record<string, string> = {
+        resume_basics_name: basicsName, resume_basics_nameEn: basicsNameEn,
+        resume_basics_title: basicsTitle, resume_basics_titleEn: basicsTitleEn,
+        resume_basics_location: basicsLocation, resume_basics_email: basicsEmail,
+        resume_basics_phone: basicsPhone, resume_basics_website: basicsWebsite,
+        resume_summary: summary, resume_summaryEn: summaryEn,
+        coreStrengths_json: JSON.stringify(coreStrengths),
+        experience_json: JSON.stringify(experience),
+        education_json: JSON.stringify(education),
+        languages_json: JSON.stringify(languages),
+        awards_json: JSON.stringify(awards),
+        hiddenResumeSections: Array.from(hiddenSections).join(","),
+      };
+      saveCookie({ ...c, ...updates });
+      setSavedMsg(`自动保存 ${new Date().toLocaleTimeString("zh-CN")}`);
+    }, 3000);
+    return () => clearTimeout(timer);
+  }, [activeTab, basicsName, basicsNameEn, basicsTitle, basicsTitleEn, basicsLocation, basicsEmail, basicsPhone, basicsWebsite, summary, summaryEn, coreStrengths, experience, education, languages, awards]);
 
   // Save basics + ALL resume data to cookie
   const saveResumeToCookie = useCallback(() => {
