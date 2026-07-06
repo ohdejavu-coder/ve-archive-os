@@ -66,9 +66,7 @@ export function Timeline({ items, type }: TimelineProps) {
                   <ul className="mt-2 space-y-1">
                     {(item as ResumeExperience).highlights.map((h, j) => (
                       <li key={j}>
-                        <Typography variant="body-sm" className="text-neutral-500">
-                          · {h}
-                        </Typography>
+                        <MDXRenderer content={`· ${h}`} />
                       </li>
                     ))}
                   </ul>
