@@ -57,9 +57,7 @@ export function Timeline({ items, type }: TimelineProps) {
 
               {/* Description — rendered as Markdown with line break preservation */}
               {"description" in item && item.description && (
-                <div className="whitespace-pre-line [&_p]:mb-3 [&_strong]:font-bold [&_strong]:text-[1.02em]">
-                  <MDXRenderer content={item.description} />
-                </div>
+                <MDXRenderer content={item.description} />
               )}
 
               {/* Highlights */}
