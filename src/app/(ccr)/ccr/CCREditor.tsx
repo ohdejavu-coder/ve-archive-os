@@ -462,6 +462,54 @@ export function CCREditor({ fileResume }: { fileResume: Resume }) {
                     </div>
                     <FieldL l="描述（中文）" a v={exp.description} onChange={(v) => { const n = [...experience]; n[i] = { ...n[i], description: v }; setExperience(n); }} />
                     <FieldL l="Description (EN)" a v={exp.descriptionEn} onChange={(v) => { const n = [...experience]; n[i] = { ...n[i], descriptionEn: v }; setExperience(n); }} />
+                    {/* Highlights */}
+                    <div className="space-y-2">
+                      <div className="flex items-center justify-between">
+                        <span className="text-xs text-neutral-500">亮点 (Highlights)：用 · 开头展示在网页上</span>
+                        <button
+                          onClick={() => {
+                            setExperience((p) => {
+                              const n = [...p];
+                              n[i] = { ...n[i], highlights: [...n[i].highlights, ""] };
+                              return n;
+                            });
+                          }}
+                          className="text-xs px-2 py-0.5 rounded bg-neutral-100 dark:bg-neutral-800 hover:bg-neutral-200 dark:hover:bg-neutral-700"
+                        >+ 添加</button>
+                      </div>
+                      {exp.highlights.length === 0 && (
+                        <span className="text-xs text-neutral-400">暂无亮点</span>
+                      )}
+                      {exp.highlights.map((h, j) => (
+                        <div key={j} className="flex items-center gap-2">
+                          <span className="text-neutral-400 text-xs">·</span>
+                          <input
+                            className="flex-1 px-2.5 py-1.5 rounded border border-neutral-300 dark:border-neutral-700 bg-white dark:bg-neutral-900 text-xs focus:outline-none focus:ring-2 focus:ring-[var(--red)] focus:border-transparent transition-colors"
+                            placeholder="完成 3 个商业项目的摄影指导"
+                            value={h}
+                            onChange={(e) => {
+                              setExperience((p) => {
+                                const n = [...p];
+                                const hl = [...n[i].highlights];
+                                hl[j] = e.target.value;
+                                n[i] = { ...n[i], highlights: hl };
+                                return n;
+                              });
+                            }}
+                          />
+                          <button
+                            onClick={() => {
+                              setExperience((p) => {
+                                const n = [...p];
+                                n[i] = { ...n[i], highlights: n[i].highlights.filter((_, k) => k !== j) };
+                                return n;
+                              });
+                            }}
+                            className="text-xs text-red-400 hover:text-red-600 shrink-0"
+                          >✕</button>
+                        </div>
+                      ))}
+                    </div>
                   </div>
                 ))}
               </SectionCard>
