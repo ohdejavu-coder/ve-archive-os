@@ -2,6 +2,24 @@ import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import { cn } from "@/lib/utils/cn";
 
+/**
+ * Preprocess Markdown content:
+ * - Single \n → "  \n" (GFM hard line break — renders as <br />)
+ * - \n\n preserved as paragraph break
+ */
+function preprocess(md: string): string {
+  if (!md) return "";
+  const lines = md.split("\n");
+  for (let i = 0; i < lines.length; i++) {
+    const line = lines[i];
+    // If this line has content AND the next line has content (single newline = hard break)
+    if (line.length > 0 && i + 1 < lines.length && lines[i + 1].length > 0) {
+      lines[i] = line + "  ";
+    }
+  }
+  return lines.join("\n");
+}
+
 interface MDXRendererProps {
   content: string;
   className?: string;
@@ -10,10 +28,12 @@ interface MDXRendererProps {
 export function MDXRenderer({ content, className }: MDXRendererProps) {
   if (!content) return null;
 
+  const processed = preprocess(content);
+
   return (
     <div
       className={cn(
-        "prose prose-neutral dark:prose-invert max-w-none",
+        "text-base prose prose-neutral dark:prose-invert max-w-none",
         "prose-headings:font-semibold prose-headings:tracking-tight prose-headings:text-neutral-900 dark:prose-headings:text-neutral-100",
         "prose-h1:text-3xl md:prose-h1:text-4xl prose-h1:mt-8 prose-h1:mb-4",
         "prose-h2:text-2xl md:prose-h2:text-3xl prose-h2:mt-6 prose-h2:mb-3",
@@ -48,7 +68,7 @@ export function MDXRenderer({ content, className }: MDXRendererProps) {
           ),
         }}
       >
-        {content}
+        {processed}
       </ReactMarkdown>
     </div>
   );
