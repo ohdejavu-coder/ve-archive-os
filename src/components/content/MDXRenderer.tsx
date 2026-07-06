@@ -3,9 +3,9 @@ import remarkGfm from "remark-gfm";
 import { cn } from "@/lib/utils/cn";
 
 /**
- * Preprocess: single \n between content lines → "  \n" (GFM hard break).
- * Double \n\n → paragraph break (left alone).
- * No content on blank lines between blocks → preserved as-is.
+ * Preprocess:
+ * - Single \n between content lines → "  \n" (GFM hard break = tight line break)
+ * - Double \n\n → paragraph break (left alone)
  */
 function preprocess(md: string): string {
   if (!md) return "";
@@ -13,13 +13,8 @@ function preprocess(md: string): string {
   for (let i = 0; i < lines.length; i++) {
     const cur = lines[i];
     const nxt = lines[i + 1];
-    // If current line has content AND next line has content AND next line is not empty:
-    // add GFM hard break (two trailing spaces) to current line
     if (cur.length > 0 && nxt !== undefined && nxt.length > 0) {
-      // Don't add hard break if current line already ends with two spaces
-      if (!cur.endsWith("  ")) {
-        lines[i] = cur + "  ";
-      }
+      if (!cur.endsWith("  ")) lines[i] = cur + "  ";
     }
   }
   return lines.join("\n");
@@ -38,21 +33,17 @@ export function MDXRenderer({ content, className }: MDXRendererProps) {
   return (
     <div
       className={cn(
-        // prose-lg = 18px base font for everything inside
-        "prose prose-lg prose-neutral dark:prose-invert max-w-none",
-        // Safety net: render raw newlines as line breaks
-        "whitespace-pre-line",
+        "prose prose-neutral dark:prose-invert max-w-none",
+        // 16px base, normal paragraph spacing, tight within paragraphs
+        "prose-p:leading-relaxed prose-p:mb-3 prose-p:mt-0",
+        // Bold inherits color + weight
+        "prose-strong:font-bold prose-strong:text-neutral-900 dark:prose-strong:text-neutral-100",
         // Headings
-        "prose-headings:font-semibold prose-headings:tracking-tight",
+        "prose-headings:font-semibold prose-headings:tracking-tight prose-headings:text-neutral-900 dark:prose-headings:text-neutral-100",
         "prose-h1:text-3xl md:prose-h1:text-4xl",
         "prose-h2:text-2xl md:prose-h2:text-3xl",
         "prose-h3:text-xl md:prose-h3:text-2xl",
-        // Paragraph spacing
-        "[&_p]:mb-5 [&_p]:leading-relaxed",
-        // Bold
-        "[&_strong]:font-bold [&_strong]:text-inherit",
-        // Links
-        "[&_a]:text-accent [&_a]:no-underline hover:[&_a]:underline",
+        "prose-li:leading-relaxed",
         className
       )}
     >
