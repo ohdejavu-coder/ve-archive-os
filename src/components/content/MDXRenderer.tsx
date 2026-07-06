@@ -18,7 +18,7 @@ export function MDXRenderer({ content, className }: MDXRendererProps) {
         "prose-h1:text-3xl md:prose-h1:text-4xl prose-h1:mt-8 prose-h1:mb-4",
         "prose-h2:text-2xl md:prose-h2:text-3xl prose-h2:mt-6 prose-h2:mb-3",
         "prose-h3:text-xl md:prose-h3:text-2xl prose-h3:mt-4 prose-h3:mb-2",
-        "prose-p:leading-relaxed prose-p:my-2 prose-p:text-neutral-700 dark:prose-p:text-neutral-300",
+        "prose-p:leading-relaxed prose-p:mb-5 prose-p:text-neutral-700 dark:prose-p:text-neutral-300",
         "prose-a:text-accent prose-a:no-underline hover:prose-a:underline prose-a:transition-all",
         "prose-strong:text-neutral-900 dark:prose-strong:text-neutral-100 prose-strong:font-bold",
         "prose-li:leading-relaxed prose-li:marker:text-neutral-400 prose-li:my-1",
