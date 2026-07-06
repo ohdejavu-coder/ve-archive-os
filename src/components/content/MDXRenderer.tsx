@@ -3,18 +3,23 @@ import remarkGfm from "remark-gfm";
 import { cn } from "@/lib/utils/cn";
 
 /**
- * Preprocess Markdown content:
- * - Single \n → "  \n" (GFM hard line break — renders as <br />)
- * - \n\n preserved as paragraph break
+ * Preprocess: single \n between content lines → "  \n" (GFM hard break).
+ * Double \n\n → paragraph break (left alone).
+ * No content on blank lines between blocks → preserved as-is.
  */
 function preprocess(md: string): string {
   if (!md) return "";
   const lines = md.split("\n");
   for (let i = 0; i < lines.length; i++) {
-    const line = lines[i];
-    // If this line has content AND the next line has content (single newline = hard break)
-    if (line.length > 0 && i + 1 < lines.length && lines[i + 1].length > 0) {
-      lines[i] = line + "  ";
+    const cur = lines[i];
+    const nxt = lines[i + 1];
+    // If current line has content AND next line has content AND next line is not empty:
+    // add GFM hard break (two trailing spaces) to current line
+    if (cur.length > 0 && nxt !== undefined && nxt.length > 0) {
+      // Don't add hard break if current line already ends with two spaces
+      if (!cur.endsWith("  ")) {
+        lines[i] = cur + "  ";
+      }
     }
   }
   return lines.join("\n");
@@ -33,23 +38,21 @@ export function MDXRenderer({ content, className }: MDXRendererProps) {
   return (
     <div
       className={cn(
-        "text-lg prose prose-neutral dark:prose-invert max-w-none",
-        "prose-p:text-lg",
-        "prose-headings:font-semibold prose-headings:tracking-tight prose-headings:text-neutral-900 dark:prose-headings:text-neutral-100",
-        "prose-h1:text-3xl md:prose-h1:text-4xl prose-h1:mt-8 prose-h1:mb-4",
-        "prose-h2:text-2xl md:prose-h2:text-3xl prose-h2:mt-6 prose-h2:mb-3",
-        "prose-h3:text-xl md:prose-h3:text-2xl prose-h3:mt-4 prose-h3:mb-2",
-        "prose-p:leading-relaxed prose-p:mb-5 prose-p:text-neutral-700 dark:prose-p:text-neutral-300",
-        "prose-a:text-accent prose-a:no-underline hover:prose-a:underline prose-a:transition-all",
-        "prose-strong:text-neutral-900 dark:prose-strong:text-neutral-100 prose-strong:font-bold",
-        "prose-li:leading-relaxed prose-li:marker:text-neutral-400 prose-li:my-1",
-        "prose-ul:list-disc prose-ul:pl-5 prose-ul:my-2",
-        "prose-ol:list-decimal prose-ol:pl-5 prose-ol:my-2",
-        "prose-blockquote:border-l-accent prose-blockquote:bg-neutral-50 dark:prose-blockquote:bg-neutral-900/50",
-        "prose-code:bg-neutral-100 dark:prose-code:bg-neutral-800 prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded text-sm",
-        "prose-img:rounded-lg prose-img:shadow-md",
-        "prose-table:text-sm prose-th:font-semibold",
-        "prose-hr:border-neutral-200 dark:prose-hr:border-neutral-800",
+        // prose-lg = 18px base font for everything inside
+        "prose prose-lg prose-neutral dark:prose-invert max-w-none",
+        // Safety net: render raw newlines as line breaks
+        "whitespace-pre-line",
+        // Headings
+        "prose-headings:font-semibold prose-headings:tracking-tight",
+        "prose-h1:text-3xl md:prose-h1:text-4xl",
+        "prose-h2:text-2xl md:prose-h2:text-3xl",
+        "prose-h3:text-xl md:prose-h3:text-2xl",
+        // Paragraph spacing
+        "[&_p]:mb-5 [&_p]:leading-relaxed",
+        // Bold
+        "[&_strong]:font-bold [&_strong]:text-inherit",
+        // Links
+        "[&_a]:text-accent [&_a]:no-underline hover:[&_a]:underline",
         className
       )}
     >
