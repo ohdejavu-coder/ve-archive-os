@@ -733,6 +733,7 @@ function FmtBar({ onChange }: { onChange: (v: string) => void }) {
       <button type="button" className={fmtBtn} onClick={(e) => { const el = (e.target as HTMLElement).closest(".fmt-area")!.nextElementSibling as HTMLTextAreaElement; if (el) insertAtCursor(el, "## 小标题", onChange); }}># H</button>
       <button type="button" className={fmtBtn} onClick={(e) => { const el = (e.target as HTMLElement).closest(".fmt-area")!.nextElementSibling as HTMLTextAreaElement; if (el) insertAtCursor(el, "---\n", onChange); }}>―</button>
       <button type="button" className={fmtBtn} onClick={(e) => { const el = (e.target as HTMLElement).closest(".fmt-area")!.nextElementSibling as HTMLTextAreaElement; if (el) insertAtCursor(el, "- 列表项", onChange); }}>•</button>
+      <button type="button" className={fmtBtn} onClick={(e) => { const el = (e.target as HTMLElement).closest(".fmt-area")!.nextElementSibling as HTMLTextAreaElement; if (el) insertAtCursor(el, "[显示文字](网址)", onChange); }} title="插入链接">🔗</button>
       <button type="button" onClick={(e) => { const guide = (e.target as HTMLElement).closest(".fmt-area")!.nextElementSibling!.nextElementSibling as HTMLElement; if (guide) guide.classList.toggle("hidden"); }} className="ml-1 px-2 py-0.5 rounded-full text-[11px] font-medium border border-dashed border-neutral-300 dark:border-neutral-600 text-neutral-400 hover:text-neutral-600 hover:border-neutral-500 transition-colors cursor-pointer" title="Markdown 语法帮助">?</button>
     </div>
   );
@@ -754,7 +755,9 @@ function Field({ l, v, onChange, ph, a, n }: { l?: string; v: string; onChange: 
           <div><code className="bg-neutral-200 dark:bg-neutral-700 px-1 rounded">## 文字</code> → <span className="text-lg font-semibold">小标题</span></div>
           <div><code className="bg-neutral-200 dark:bg-neutral-700 px-1 rounded">---</code> → 分割线</div>
           <div><code className="bg-neutral-200 dark:bg-neutral-700 px-1 rounded">- 文字</code> → 列表项</div>
-          <div className="pt-1 text-[11px] text-neutral-400">在 CCR 里写语法 → 保存 → 去网页刷新看效果</div>
+          <div className="mt-2 pt-2 border-t border-neutral-200 dark:border-neutral-700"><em>链接：</em></div>
+<div><code className="bg-neutral-200 dark:bg-neutral-700 px-1 rounded">[显示文字](网址)</code> → <span className="text-accent underline">蓝色可点击链接</span></div>
+<div className="pt-1 text-[11px] text-neutral-400">在 CCR 里写语法 → 保存 → 去网页刷新看效果</div>
         </div>
       )}
     </div>
@@ -780,7 +783,9 @@ function FieldL({ l, v, onChange, a, inline }: { l?: string; v: string; onChange
           <div><code className="bg-neutral-200 dark:bg-neutral-700 px-1 rounded">## 文字</code> → <span className="text-lg font-semibold">小标题</span></div>
           <div><code className="bg-neutral-200 dark:bg-neutral-700 px-1 rounded">---</code> → 分割线</div>
           <div><code className="bg-neutral-200 dark:bg-neutral-700 px-1 rounded">- 文字</code> → 列表项</div>
-          <div className="pt-1 text-[11px] text-neutral-400">在 CCR 里写语法 → 保存 → 去网页刷新看效果</div>
+          <div className="mt-2 pt-2 border-t border-neutral-200 dark:border-neutral-700"><em>链接：</em></div>
+<div><code className="bg-neutral-200 dark:bg-neutral-700 px-1 rounded">[显示文字](网址)</code> → <span className="text-accent underline">蓝色可点击链接</span></div>
+<div className="pt-1 text-[11px] text-neutral-400">在 CCR 里写语法 → 保存 → 去网页刷新看效果</div>
         </div>
       )}
     </div>
