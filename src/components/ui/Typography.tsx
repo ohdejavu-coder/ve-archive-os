@@ -24,7 +24,7 @@ const variantStyles: Record<TypographyVariant, string> = {
   h2: "text-3xl md:text-4xl font-semibold leading-tight tracking-tight",
   h3: "text-2xl md:text-3xl font-semibold leading-snug",
   h4: "text-xl md:text-2xl font-medium leading-snug",
-  body: "text-base leading-relaxed",
+  body: "text-lg leading-relaxed",
   "body-sm": "text-sm leading-relaxed",
   caption: "text-xs text-neutral-500 leading-normal",
   label: "text-sm font-medium uppercase tracking-wider text-neutral-500",

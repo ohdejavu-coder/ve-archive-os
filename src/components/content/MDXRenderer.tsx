@@ -33,7 +33,8 @@ export function MDXRenderer({ content, className }: MDXRendererProps) {
   return (
     <div
       className={cn(
-        "text-base prose prose-neutral dark:prose-invert max-w-none",
+        "text-lg prose prose-neutral dark:prose-invert max-w-none",
+        "prose-p:text-lg",
         "prose-headings:font-semibold prose-headings:tracking-tight prose-headings:text-neutral-900 dark:prose-headings:text-neutral-100",
         "prose-h1:text-3xl md:prose-h1:text-4xl prose-h1:mt-8 prose-h1:mb-4",
         "prose-h2:text-2xl md:prose-h2:text-3xl prose-h2:mt-6 prose-h2:mb-3",
