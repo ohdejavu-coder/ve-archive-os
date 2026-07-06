@@ -696,9 +696,21 @@ function FieldL({ l, v, onChange, a, inline }: { l?: string; v: string; onChange
   return (
     <div className={inline ? "flex-1 min-w-0" : ""}>
       {l && <label className="block text-xs font-medium text-neutral-500 mb-1.5">{l}</label>}
+      {a && !inline && <FmtBar onChange={onChange} />}
       {a
         ? <textarea className={cls + " resize-y"} rows={3} value={v} onChange={(e) => onChange(e.target.value)} />
         : <input className={cls} value={v} onChange={(e) => onChange(e.target.value)} />}
+      {a && !inline && (
+        <div className="hidden mt-2 p-3 rounded border border-neutral-200 dark:border-neutral-700 bg-neutral-50 dark:bg-neutral-900 text-xs text-neutral-500 dark:text-neutral-400 space-y-1 max-w-md">
+          <div className="font-medium text-neutral-700 dark:text-neutral-300 mb-2">Markdown 语法速查</div>
+          <div><code className="bg-neutral-200 dark:bg-neutral-700 px-1 rounded">**文字**</code> → <strong>粗体</strong></div>
+          <div><code className="bg-neutral-200 dark:bg-neutral-700 px-1 rounded">*文字*</code> → <em>斜体</em></div>
+          <div><code className="bg-neutral-200 dark:bg-neutral-700 px-1 rounded">## 文字</code> → <span className="text-lg font-semibold">小标题</span></div>
+          <div><code className="bg-neutral-200 dark:bg-neutral-700 px-1 rounded">---</code> → 分割线</div>
+          <div><code className="bg-neutral-200 dark:bg-neutral-700 px-1 rounded">- 文字</code> → 列表项</div>
+          <div className="pt-1 text-[11px] text-neutral-400">在 CCR 里写语法 → 保存 → 去网页刷新看效果</div>
+        </div>
+      )}
     </div>
   );
 }
