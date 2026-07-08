@@ -3,6 +3,7 @@ import { cookies } from "next/headers";
 import { resolveIdentity } from "@/lib/identity/resolver";
 import { PersonaShell } from "@/components/layout/PersonaShell";
 import { createMetadata } from "@/lib/utils/metadata";
+import { loadSiteConfig } from "@/lib/content/loader";
 
 const VALID_PERSONAS = ["default", "photographer", "ai", "director", "freelance"];
 
@@ -50,6 +51,11 @@ export default async function PersonaLayout({
     const raw = c.get("ve-json")?.value;
     if (raw) {
       contentOverrides = JSON.parse(decodeURIComponent(raw)) as Record<string, string>;
+    }
+    // Inject siteUrl from site.json — QR code uses this for scan-to-visit
+    const siteConfig = loadSiteConfig();
+    if (siteConfig.siteUrl) {
+      contentOverrides.siteUrl = siteConfig.siteUrl;
     }
   } catch {
     // cookies() may fail — default to zh, no overrides

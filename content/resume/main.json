@@ -1,94 +1,229 @@
 {
   "basics": {
-    "name": "创作者姓名",
-    "nameEn": "Your Name",
-    "title": "摄影师 / 导演 / AI 创作者",
-    "titleEn": "Photographer / Director / AI Creator",
-    "location": "中国 · 上海",
-    "email": "hello@vearchive.com",
-    "website": "https://vearchive.com"
+    "name": "刘佳蕾",
+    "nameEn": "Jialei Liu",
+    "title": "AI-Powered Content Creator",
+    "titleEn": "AI-Powered Content Creator",
+    "location": "",
+    "email": "",
+    "website": ""
   },
-  "summary": "拥有电影制作专业背景的视觉创作者，擅长摄影、短片导演及 AI 辅助创作。致力于用影像语言讲述具有人文深度的故事。",
-  "summaryEn": "A visual creator with a background in film production, specializing in photography, short film directing, and AI-assisted creation. Dedicated to telling stories with humanistic depth through visual language.",
-  "coreStrengths": [
-    {
-      "zh": "电影感视觉叙事", "en": "Cinematic Visual Storytelling",
-      "items": [{ "zh": "镜头语言", "en": "Visual Language" }, { "zh": "光影造型", "en": "Lighting Design" }, { "zh": "色彩控制", "en": "Color Grading" }]
-    },
-    {
-      "zh": "全流程制作能力", "en": "End-to-End Production",
-      "items": [{ "zh": "前期策划", "en": "Pre-Production" }, { "zh": "现场执行", "en": "On-Set Execution" }, { "zh": "后期制作", "en": "Post-Production" }]
-    },
-    {
-      "zh": "AI 辅助创作", "en": "AI-Assisted Creation",
-      "items": [{ "zh": "Prompt 工程", "en": "Prompt Engineering" }, { "zh": "AI 影像生成", "en": "AI Image Generation" }, { "zh": "工作流自动化", "en": "Workflow Automation" }]
-    },
-    {
-      "zh": "跨领域协作", "en": "Cross-Disciplinary Collaboration",
-      "items": [{ "zh": "品牌合作", "en": "Brand Collaboration" }, { "zh": "剧组统筹", "en": "Crew Coordination" }, { "zh": "客户沟通", "en": "Client Communication" }]
-    },
-    {
-      "zh": "项目管理", "en": "Project Management",
-      "items": [{ "zh": "预算控制", "en": "Budget Control" }, { "zh": "时间管理", "en": "Timeline Management" }, { "zh": "风险预判", "en": "Risk Assessment" }]
-    }
-  ],
+  "summary": "影视摄影与制作专业在读，具备视频策划、商业摄影、新媒体运营及AI内容工作流能力，可独立完成内容策划、拍摄、剪辑、运营全流程。",
+  "summaryEn": "Film production student with skills in video planning, commercial photography, new media operations, and AI content workflows. Capable of independently handling the full content pipeline — from planning and shooting to editing and operations.",
+  "coreStrengths": [],
   "experience": [
     {
-      "company": "某影视制作公司",
-      "companyEn": "A Film Production Company",
-      "role": "导演助理 / 摄影师",
-      "roleEn": "Assistant Director / Photographer",
-      "startDate": "2023-06",
-      "endDate": "2025-03",
-      "description": "参与多部商业短片及纪录片的拍摄制作，负责摄影、灯光及后期调色。独立完成 3 个商业项目的摄影指导工作。",
-      "descriptionEn": "Participated in the production of multiple commercial short films and documentaries. Served as Director of Photography for 3 commercial projects.",
+      "company": "「张小知」抖音商业IP（178.5W粉丝）",
+      "companyEn": "178.5W-Follower Douyin Business IP",
+      "role": "内容运营",
+      "roleEn": "Content Operations",
+      "startDate": "",
+      "endDate": "",
+      "description": "参与百万级商业IP账号「张小知」的内容运营工作，负责短视频选题策划、脚本创作及内容优化，参与账号商业内容生产流程，积累品牌内容传播及新媒体运营经验。",
+      "descriptionEn": "Content operations for a 1.78M+ follower business IP account. Responsible for short-video topic planning, script writing, and content optimization.",
       "highlights": [
-        "完成 3 个商业项目的摄影指导",
-        "建立标准化后期工作流程"
+        "178.5W+ 商业账号粉丝规模",
+        "30W+ 单条视频最高播放量",
+        "20W+ 累计视频点赞量",
+        "参与打造多条高传播内容，熟悉商业账号内容生产及运营流程"
       ]
     },
     {
-      "company": "自由创作",
-      "companyEn": "Freelance",
-      "role": "独立创作者",
-      "roleEn": "Independent Creator",
-      "startDate": "2021-09",
-      "endDate": "2023-05",
-      "description": "以自由职业者身份承接摄影及短视频制作项目。期间探索 AI 工具在创作流程中的应用。",
-      "descriptionEn": "Worked as a freelance photographer and video creator. Explored AI tools in creative workflows during this period.",
+      "company": "澳雪澜蝶品牌重启",
+      "companyEn": "Aoxue Landie Brand Relaunch",
+      "role": "品牌视觉 / 内容策划",
+      "roleEn": "Brand Visual / Content Planning",
+      "startDate": "",
+      "endDate": "",
+      "description": "参与品牌从0到1的重启项目，独立完成品牌宣传视频拍摄、产品摄影、品牌文案撰写及招商物料设计，从零搭建品牌官方小红书账号，协助团队完成品牌推广、招商宣传及市场传播工作。",
+      "descriptionEn": "Participated in a brand relaunch from scratch. Independently handled promotional video, product photography, brand copywriting, and marketing material design. Built the brand's Xiaohongshu account from zero.",
       "highlights": [
-        "服务 10+ 品牌客户",
-        "建立 AI 辅助创作工作流"
+        "独立完成品牌宣传视频 1 支 + 产品摄影",
+        "制作宣传海报 10 张及招商物料",
+        "从零搭建品牌官方小红书账号",
+        "参与品牌重塑全过程，积累品牌定位、内容营销及商业传播经验"
+      ]
+    },
+    {
+      "company": "个人创作",
+      "companyEn": "Independent Project",
+      "role": "导演 / 摄影 / 剪辑",
+      "roleEn": "Director / Cinematographer / Editor",
+      "startDate": "",
+      "endDate": "",
+      "description": "以青海、甘肃地区人文文化及自然景观为创作主题的纪录片，独立完成从前期策划、人物采访、实地拍摄到后期剪辑、调色、成片输出的完整创作流程，探索纪实影像的视觉表达方式。",
+      "descriptionEn": "Independent documentary exploring the culture and landscapes of Qinghai and Gansu. Completed the full production pipeline from planning to final output.",
+      "highlights": [
+        "17W+ 单条作品最高播放量",
+        "独立完成选题策划、拍摄、剪辑、调色全流程",
+        "积累纪实影像创作及导演思维",
+        "具备从策划到成片的完整项目执行能力"
+      ]
+    },
+    {
+      "company": "Livehouse 演出现场",
+      "companyEn": "Livehouse Venues",
+      "role": "官方摄影师",
+      "roleEn": "Official Photographer",
+      "startDate": "",
+      "endDate": "",
+      "description": "根据不同演出风格完成现场摄影及视频拍摄，根据舞台灯光及现场环境完成影像创作，输出官方宣传照片及短视频素材。",
+      "descriptionEn": "Official photographer for live music events. Captured performances across various genres, delivering photo and video assets for official promotion and social media.",
+      "highlights": [
+        "参与多场 Livehouse 演出官方影像记录",
+        "积累演出现场摄影及快速内容生产经验",
+        "熟悉复杂光线环境下人像摄影及现场拍摄流程"
+      ]
+    },
+    {
+      "company": "酒店及餐饮品牌",
+      "companyEn": "Hotel & F&B Brands",
+      "role": "小红书内容策划 / 运营",
+      "roleEn": "Xiaohongshu Content & Operations",
+      "startDate": "",
+      "endDate": "",
+      "description": "围绕品牌定位及用户需求，独立完成内容策划、摄影、图文创作及账号运营，根据热点趋势优化选题方向，配合品牌营销活动完成线上推广及到店引流。",
+      "descriptionEn": "Managed Xiaohongshu accounts for hotel and F&B brands. Independently handled content planning, photography, copywriting, and operations to drive brand exposure and in-store traffic.",
+      "highlights": [
+        "原创发布小红书笔记 20+ 篇",
+        "单篇最高阅读量 2W+",
+        "打造千赞爆款内容 1–2 篇",
+        "活动期间门店到店客流提升约 30%~40%"
+      ]
+    },
+    {
+      "company": "AI-Driven Content Creation",
+      "companyEn": "AI-Driven Content Creation",
+      "role": "AI 内容创作者",
+      "roleEn": "AI Content Creator",
+      "startDate": "",
+      "endDate": "",
+      "description": "将 AI 作为内容创作的核心生产力，自主搭建 AI 内容工作流，将 ChatGPT、Claude 等大语言模型应用于创意策划、脚本创作、品牌文案、网站建设及内容优化。",
+      "descriptionEn": "Built AI-powered content workflows as a core creative productivity system. Applied LLMs to creative planning, script writing, brand copy, and website development.",
+      "highlights": [
+        "独立策划并搭建个人作品集网站（本项目）",
+        "建立标准化 Prompt Workflow，可快速生成策划方案及营销内容",
+        "持续探索 AI 在网页开发、视觉设计及内容营销中的应用"
+      ]
+    },
+    {
+      "company": "自由接单",
+      "companyEn": "Freelance",
+      "role": "商业摄影师",
+      "roleEn": "Commercial Photographer",
+      "startDate": "",
+      "endDate": "",
+      "description": "面向个人客户及商业活动提供摄影服务，根据客户需求完成拍摄方案制定、现场拍摄及后期修图，独立完成摄影项目全流程交付。",
+      "descriptionEn": "Provide photography services for individual clients and commercial events. Handle shooting plans, on-site photography, and post-processing independently.",
+      "highlights": [
+        "累计完成商业摄影项目 20+ 场",
+        "服务个人及商业客户 30+ 人次",
+        "独立完成从沟通、拍摄到交付全流程",
+        "积累人物摄影、商业沟通及客户服务经验"
+      ]
+    },
+    {
+      "company": "商场活动",
+      "companyEn": "Shopping Mall Events",
+      "role": "活动策划 / 运营",
+      "roleEn": "Event Planning & Operations",
+      "startDate": "",
+      "endDate": "",
+      "description": "参与商场主题活动策划及现场执行，根据活动目标协助完成宣传推广、现场运营及活动复盘，提升用户参与度及品牌传播效果。",
+      "descriptionEn": "Participated in shopping mall event planning and on-site execution. Assisted with promotion, operations, and post-event analysis.",
+      "highlights": [
+        "实现小红书当日涨粉 500+",
+        "商场日客流增加 1000+",
+        "高效增加品牌曝光"
       ]
     }
   ],
   "education": [
     {
-      "institution": "某电影学院",
-      "institutionEn": "A Film Academy",
-      "degree": "学士",
+      "institution": "长沙理工大学",
+      "institutionEn": "Changsha University of Science & Technology",
+      "degree": "本科",
       "degreeEn": "Bachelor",
-      "field": "电影制作",
-      "fieldEn": "Film Production",
-      "startDate": "2017",
-      "endDate": "2021"
+      "field": "影视摄影与制作",
+      "fieldEn": "Film, TV & Photography Production",
+      "startDate": "2024.09",
+      "endDate": "至今"
     }
   ],
   "skills": [
-    { "name": "摄影", "nameEn": "Photography", "category": "创作", "level": 5 },
-    { "name": "导演", "nameEn": "Directing", "category": "创作", "level": 4 },
-    { "name": "后期剪辑", "nameEn": "Editing", "category": "技术", "level": 4 },
-    { "name": "调色", "nameEn": "Color Grading", "category": "技术", "level": 4 },
-    { "name": "灯光", "nameEn": "Lighting", "category": "技术", "level": 3 },
-    { "name": "AI 创作", "nameEn": "AI Creation", "category": "技术", "level": 4 },
-    { "name": "项目管理", "nameEn": "Project Management", "category": "软技能", "level": 3 }
+    { "name": "视频剪辑", "nameEn": "Video Editing", "category": "创作", "level": 5 },
+    { "name": "商业摄影", "nameEn": "Commercial Photography", "category": "创作", "level": 5 },
+    { "name": "新媒体运营", "nameEn": "New Media Operation", "category": "运营", "level": 5 },
+    { "name": "AI 内容创作", "nameEn": "AI Content Creation", "category": "技术", "level": 5 },
+    { "name": "内容策划", "nameEn": "Content Planning", "category": "策划", "level": 4 },
+    { "name": "品牌传播", "nameEn": "Brand Communication", "category": "运营", "level": 4 },
+    { "name": "后期制作", "nameEn": "Post-Production", "category": "技术", "level": 4 }
   ],
   "languages": [
     { "name": "中文", "nameEn": "Chinese", "level": "母语" },
     { "name": "英语", "nameEn": "English", "level": "工作语言" }
   ],
-  "awards": [
-    { "title": "大学生电影节 · 最佳摄影提名", "titleEn": "Student Film Festival · Best Cinematography Nominee", "year": 2024, "issuer": "大学生电影节组委会" },
-    { "title": "城市摄影展 · 入围作品", "titleEn": "Urban Photography Exhibition · Selected Work", "year": 2025, "issuer": "城市摄影展组委会" }
+  "awards": [],
+  "projects": [
+    {
+      "name": "抖音内容运营 — 178.5W粉丝商业IP",
+      "nameEn": "Douyin Content — 1.78M Followers Business IP",
+      "type": "新媒体运营",
+      "description": "参与百万级商业IP账号「张小知」的内容运营工作，负责短视频选题策划、脚本创作及内容优化。",
+      "descriptionEn": "Content operations for a 1.78M+ follower business IP account on Douyin.",
+      "role": "内容运营",
+      "outcome": "178.5W+ 粉丝 · 30W+ 单条最高播放量 · 20W+ 累计点赞",
+      "thumbnail": ""
+    },
+    {
+      "name": "澳雪澜蝶品牌重启",
+      "nameEn": "Aoxue Landie Brand Relaunch",
+      "type": "品牌内容",
+      "description": "参与品牌从0到1重启，负责品牌视觉内容建设、新媒体运营及品牌宣传。",
+      "descriptionEn": "Brand relaunch from scratch — visual content, new media operations, and brand promotion.",
+      "role": "品牌视觉 / 内容策划",
+      "outcome": "品牌宣传视频 + 产品摄影 + 小红书冷启动 + 招商物料",
+      "thumbnail": ""
+    },
+    {
+      "name": "《青甘人文纪录片》",
+      "nameEn": "Qinghai-Gansu Documentary",
+      "type": "纪录片",
+      "description": "独立完成以青海、甘肃人文文化为主题的纪录片全流程制作。",
+      "descriptionEn": "Independent documentary on the culture and landscapes of Qinghai and Gansu.",
+      "role": "导演 / 摄影 / 剪辑",
+      "outcome": "17W+ 最高播放量 · 全流程独立制作",
+      "thumbnail": ""
+    },
+    {
+      "name": "Livehouse 官方摄影",
+      "nameEn": "Livehouse Official Photography",
+      "type": "现场摄影",
+      "description": "负责 Livehouse 演出现场官方摄影及影像记录，根据不同演出风格完成现场创作。",
+      "descriptionEn": "Official live music event photography — capturing performances across genres.",
+      "role": "官方摄影师",
+      "outcome": "多场演出官方影像记录 · 复杂光线现场拍摄",
+      "thumbnail": ""
+    },
+    {
+      "name": "小红书运营 — 酒店及餐饮品牌",
+      "nameEn": "Xiaohongshu — Hotel & F&B Brands",
+      "type": "新媒体运营",
+      "description": "负责酒店及餐饮品牌小红书账号内容策划、摄影、图文创作及账号运营。",
+      "descriptionEn": "Xiaohongshu content strategy and operations for hotel and F&B brands.",
+      "role": "内容策划 / 运营",
+      "outcome": "20+ 篇原创 · 单篇 2W+ 阅读 · 门店客流提升 30%~40%",
+      "thumbnail": ""
+    },
+    {
+      "name": "AI-Driven Content Creation",
+      "nameEn": "AI-Driven Content Creation",
+      "type": "AI 创作",
+      "description": "自主搭建 AI 内容工作流，将 LLM 应用于创意策划、脚本创作、品牌文案及网站建设。",
+      "descriptionEn": "Built AI-powered content workflows for creative planning, script writing, and web development.",
+      "role": "AI 内容创作者",
+      "outcome": "个人作品集网站 · 标准化 Prompt Workflow",
+      "thumbnail": ""
+    }
   ]
 }

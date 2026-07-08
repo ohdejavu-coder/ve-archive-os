@@ -105,6 +105,7 @@ export function CCREditor({ fileResume }: { fileResume: Resume }) {
   const [cookieSiteFields, setCookieSiteFields] = useState<Record<string, string>>({
     site_title: "",
     site_footer: "",
+    site_url: "",
   });
 
   // Section visibility toggles (stored in cookie)
@@ -150,7 +151,7 @@ export function CCREditor({ fileResume }: { fileResume: Resume }) {
       page_about_zh: c.page_about_zh ?? "", page_about_en: c.page_about_en ?? "",
       page_contact_zh: c.page_contact_zh ?? "", page_contact_en: c.page_contact_en ?? "",
     });
-    setCookieSiteFields({ site_title: c.site_title ?? "", site_footer: c.site_footer ?? "" });
+    setCookieSiteFields({ site_title: c.site_title ?? "", site_footer: c.site_footer ?? "", site_url: c.site_url ?? "" });
   }, []);
 
   // Toggle section visibility
@@ -264,7 +265,7 @@ export function CCREditor({ fileResume }: { fileResume: Resume }) {
     setSavedMsg("");
     setCookieHeroFields({ heroHeadline: "", heroHeadlineEn: "", heroSubtitle: "", heroSubtitleEn: "", personalStatement: "", personalStatementEn: "", profilePhoto: "" });
     setCookiePageFields({ page_about_zh: "", page_about_en: "", page_contact_zh: "", page_contact_en: "" });
-    setCookieSiteFields({ site_title: "", site_footer: "" });
+    setCookieSiteFields({ site_title: "", site_footer: "", site_url: "" });
   }, []);
 
   // Works tab
@@ -663,6 +664,10 @@ export function CCREditor({ fileResume }: { fileResume: Resume }) {
                 <h2 className="text-xl font-semibold mb-6">网站设置</h2>
                 <div className="space-y-6">
                   <Field l="网站标题" v={cookieSiteFields.site_title ?? ""} onChange={(v) => setCookieSiteFields((p) => ({ ...p, site_title: v }))} ph="VE Archive" />
+                  <div>
+                    <Field l="站点公开 URL（QR 码使用）" v={cookieSiteFields.site_url ?? ""} onChange={(v) => setCookieSiteFields((p) => ({ ...p, site_url: v }))} ph="https://your-domain.com 或 http://172.20.10.3:3000" />
+                    <p className="text-xs text-neutral-400 mt-1">部署时设为你的正式域名，预览阶段设为你的局域网 IP。留空则自动使用当前访问地址。</p>
+                  </div>
                   <Field l="页脚文本" a v={cookieSiteFields.site_footer ?? ""} onChange={(v) => setCookieSiteFields((p) => ({ ...p, site_footer: v }))} ph="© 2026 VE Archive. All rights reserved." />
                 </div>
               </div>

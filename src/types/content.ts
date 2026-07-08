@@ -14,6 +14,8 @@ export interface SiteConfig {
   tagline: string;
   /** Default persona ID — redirect target for / */
   defaultPersona: PersonaId;
+  /** Public-facing site URL — used by QR code. Falls back to window.location.origin if empty. */
+  siteUrl?: string;
   /** Footer text */
   footer: string;
   /** Social links */
@@ -73,6 +75,17 @@ export interface ResumeSkill {
   level: number; // 1-5
 }
 
+export interface ResumeProject {
+  name: string;
+  nameEn: string;
+  type: string; // e.g. "Short Film", "Photography", "New Media"
+  description: string;
+  descriptionEn: string;
+  role: string; // Your role
+  outcome: string; // Key result / metric
+  thumbnail: string; // e.g. "/media/projects/project-name/thumb.jpg"
+}
+
 export interface Resume {
   basics: ResumeBasics;
   summary: string;
@@ -83,4 +96,5 @@ export interface Resume {
   skills: ResumeSkill[];
   languages: { name: string; nameEn: string; level: string }[];
   awards: { title: string; titleEn: string; year: number; issuer: string }[];
+  projects: ResumeProject[];
 }

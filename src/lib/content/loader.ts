@@ -105,7 +105,7 @@ function parseFrontmatter(raw: string): {
 /**
  * Parses a simple subset of YAML sufficient for our frontmatter schema.
  * Supports: strings, numbers, booleans, arrays (inline [] and multiline -),
- * and nested objects with 2-space indentation.
+ * nested objects, and arrays of nested objects.
  */
 function parseSimpleYAML(
   yaml: string,
@@ -134,17 +134,55 @@ function parseSimpleYAML(
     const value = keyMatch[2].trim();
 
     if (value === "") {
-      // Could be multiline array or nested object
-      // Check next lines for indented list items
+      // Could be: multiline array, array of objects, or nested object
       const arrayValues: unknown[] = [];
       let j = i + 1;
 
+      // First, try parsing as an array (lines starting with "  - ")
       while (j < lines.length) {
         const nextLine = lines[j];
-        const listMatch = nextLine.match(/^\s+-\s+(.+)/);
+        const listMatch = nextLine.match(/^(\s+)-\s+(.*)/);
         if (listMatch) {
-          arrayValues.push(parseYAMLValue(listMatch[1].trim()));
-          j++;
+          const indent = listMatch[1].length;
+          const itemValue = listMatch[2].trim();
+
+          // Check if this item is a nested object (next lines are indented key-value pairs)
+          const nestedLines: string[] = [];
+          let k = j + 1;
+          while (k < lines.length) {
+            const nl = lines[k];
+            // A line is part of this nested object if it's more indented than the "- " line
+            // AND it's not another "- " at the same or shallower level
+            const nestedListMatch = nl.match(/^(\s+)-\s+/);
+            if (nestedListMatch && nestedListMatch[1].length <= indent) break;
+            if (nl.trim() === "") { k++; continue; }
+            // Check indentation — should be > indent
+            const nestedKeyMatch = nl.match(/^(\s+)([a-zA-Z_][a-zA-Z0-9_]*):\s*(.*)/);
+            if (nestedKeyMatch && nestedKeyMatch[1].length > indent) {
+              nestedLines.push(nl);
+              k++;
+            } else if (nl.trim() && !nl.match(/^\s+-\s+/)) {
+              // Non-empty, non-list line at same/shallower indent = end of this item
+              break;
+            } else {
+              k++;
+            }
+          }
+
+          // Check if this item is an object (starts with key: value on same line, or has nested props)
+          const looksLikeObject = /^[a-zA-Z_][a-zA-Z0-9_]*:/.test(itemValue);
+          if (looksLikeObject || nestedLines.length > 0) {
+            // Parse as nested object — include the itemValue line
+            const allLines = ["  " + itemValue, ...nestedLines].join("\n");
+            const nestedObj: Record<string, unknown> = {};
+            parseSimpleYAML(allLines, nestedObj);
+            arrayValues.push(nestedObj);
+            j = k;
+          } else {
+            // Simple value
+            arrayValues.push(parseYAMLValue(itemValue));
+            j++;
+          }
         } else if (nextLine.trim() === "") {
           j++;
         } else {
@@ -158,6 +196,7 @@ function parseSimpleYAML(
         continue;
       }
 
+      // Not an array — empty value
       target[key] = "";
       i++;
     } else {

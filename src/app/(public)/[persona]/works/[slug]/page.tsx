@@ -74,9 +74,16 @@ export default async function WorkDetailPage({
     "new-media": "新媒体",
   }[work.category];
 
-  // Hero image: use first media item or thumbnail
-  const heroImage =
-    work.media.length > 0 ? work.media[0].src : work.thumbnail;
+  // Hero image: use poster for video, first media image, or thumbnail
+  let heroImage = work.thumbnail;
+  if (work.media.length > 0) {
+    const first = work.media[0];
+    if (first.type === "video" && first.poster) {
+      heroImage = first.poster;
+    } else if (first.type === "image") {
+      heroImage = first.src;
+    }
+  }
 
   return (
     <IdentityProvider identity={identity}>
@@ -97,8 +104,11 @@ export default async function WorkDetailPage({
             </div>
           )}
 
+          {/* Dark overlay for text readability on any background */}
+          <div className={`absolute inset-0 ${work.darkOverlay ? "bg-black/30" : ""}`} />
+
           {/* Gradient overlay at bottom for readability */}
-          <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-white dark:from-neutral-950 to-transparent" />
+          <div className={`absolute inset-x-0 bottom-0 h-48 bg-gradient-to-t ${work.darkOverlay ? "from-black/80 via-black/30" : "from-white dark:from-neutral-950"} to-transparent`} />
 
           {/* Title overlay on hero */}
           <div className="absolute bottom-8 left-0 right-0 z-10">
@@ -136,13 +146,20 @@ export default async function WorkDetailPage({
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 pt-8">
             {/* Left: Media + MDX content */}
             <div className="lg:col-span-8 space-y-12">
-              {/* Media Gallery */}
-              {work.media.length > 1 && (
+              {/* Media Gallery: all media + thumbnail */}
+              {work.media.length > 0 && (
                 <section>
                   <Typography variant="label" className="mb-4">
                     作品图集
                   </Typography>
-                  <WorkViewer media={work.media.slice(1)} />
+                  <WorkViewer media={(() => {
+                    // Include thumbnail in the gallery if it exists and isn't already the hero
+                    const all = [...work.media];
+                    if (work.thumbnail && work.thumbnail !== work.media[0]?.src) {
+                      all.unshift({ type: "image" as const, src: work.thumbnail, alt: "封面" });
+                    }
+                    return all;
+                  })()} />
                 </section>
               )}
 

@@ -6,6 +6,7 @@ import { IdentityProvider } from "@/lib/identity/context";
 import { OverrideProvider } from "@/lib/content/OverrideContext";
 import { Container } from "@/components/ui/Container";
 import Link from "next/link";
+import { ScrollToTop } from "@/components/layout/ScrollToTop";
 import type { IdentityState } from "@/lib/identity/types";
 
 export function PersonaShell({
@@ -74,6 +75,9 @@ export function PersonaShell({
                     {t(item.label, item.labelEn)}
                   </Link>
                 ))}
+                <Link href="/tools/resume-builder" className="px-3 py-1.5 rounded-md text-sm font-medium text-neutral-500 hover:text-neutral-900 hover:bg-neutral-50 transition-colors">
+                  {t("工具", "Tools")}
+                </Link>
               </nav>
               <div className="flex items-center gap-3">
                 <details className="relative">
@@ -112,6 +116,7 @@ export function PersonaShell({
             </div>
           </Container>
         </footer>
+        <ScrollToTop />
         </OverrideProvider>
       </IdentityProvider>
     </LanguageProvider>

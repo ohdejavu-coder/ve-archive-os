@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import Link from "next/link";
 import { usePersona } from "@/lib/identity/context";
 import { useLang } from "@/lib/language/context";
 import { useOverrides } from "@/lib/content/OverrideContext";
@@ -162,9 +163,31 @@ export function ResumeClient({ identity, fileResume }: { identity: IdentityState
         )}
 
         <div className="mt-10 pt-6 pb-16 border-t border-neutral-200 dark:border-neutral-800">
-          <a href="/resume/ve-archive-resume.pdf" download className="inline-flex items-center gap-2 px-6 py-3 rounded-sm text-sm font-medium bg-black text-white dark:bg-white dark:text-black hover:opacity-80 transition-opacity">
-            <Download size={16} />{lang === "en" ? "Download Resume (PDF)" : "下载我的简历 (PDF)"}
-          </a>
+          <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3">
+            <a
+              href="/resume/刘佳蕾Viddy的个人简历.pdf"
+              download
+              className="inline-flex items-center gap-2 px-6 py-3 rounded-sm text-sm font-medium bg-black text-white dark:bg-white dark:text-black hover:opacity-80 transition-opacity"
+            >
+              <Download size={16} />{lang === "en" ? "Download Resume (PDF)" : "下载简历 (PDF)"}
+            </a>
+            <a
+              href={`/${persona.id}/print`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 px-6 py-3 rounded-sm text-sm font-medium border border-neutral-300 dark:border-neutral-700 text-neutral-700 dark:text-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors"
+            >
+              {lang === "en" ? "Open Print Layout" : "打开打印版"}
+            </a>
+          </div>
+          <p className="mt-3 text-xs text-neutral-400">
+            {lang === "en"
+              ? "This resume was styled with our own resume builder — try it at "
+              : "这份简历使用我们自己开发的排版工具生成 — 试试看："}
+            <Link href="/tools/resume-builder" className="underline hover:text-neutral-600 transition-colors">
+              {lang === "en" ? "Resume Builder" : "简历排版工具"}
+            </Link>
+          </p>
         </div>
       </Container>
       <CTA />

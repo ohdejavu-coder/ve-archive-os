@@ -2,6 +2,7 @@
 
 import { Container } from "@/components/ui/Container";
 import { Typography } from "@/components/ui/Typography";
+import { QRCodeSection } from "@/components/sections/QRCodeSection";
 import { usePersona } from "@/lib/identity/context";
 import { useLang } from "@/lib/language/context";
 
@@ -29,12 +30,16 @@ export function CTA() {
                 : "对我的作品和能力感兴趣？随时联系我。"}
             </Typography>
           </div>
-          <a
-            href={`/${persona.id}/contact`}
-            className="inline-flex items-center px-8 py-3.5 rounded-sm text-sm font-semibold tracking-wide bg-black text-white dark:bg-white dark:text-black hover:opacity-80 transition-opacity uppercase"
-          >
-            {lang === "en" ? "Contact" : "联系我"}
-          </a>
+
+          <div className="flex items-center gap-5">
+            <a
+              href={`/${persona.id}/contact`}
+              className="inline-flex items-center px-8 py-3.5 rounded-sm text-sm font-semibold tracking-wide bg-black text-white dark:bg-white dark:text-black hover:opacity-80 transition-opacity uppercase whitespace-nowrap"
+            >
+              {lang === "en" ? "Contact" : "联系我"}
+            </a>
+            <QRCodeSection />
+          </div>
         </div>
       </Container>
     </section>

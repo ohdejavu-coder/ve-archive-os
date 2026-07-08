@@ -32,7 +32,7 @@ export function AboutPageClient({ fileContent }: { fileContent: string }) {
   const pageAboutEn = localData.page_about_en ?? overrides.page_about_en ?? "";
   const content = lang === "en" && pageAboutEn ? pageAboutEn : pageAboutZh;
 
-  const photoPath = localData.profilePhoto ?? persona.profilePhoto ?? "/media/profile/avatar.jpg";
+  const photoPath = (localData.profilePhoto && localData.profilePhoto.trim()) || persona.profilePhoto || "/media/profile/avatar.jpg";
   const statementZh = localData.personalStatement ?? persona.personalStatement ?? "";
   const statementEn = localData.personalStatementEn ?? persona.personalStatementEn ?? "";
   const statement = lang === "en" && statementEn ? statementEn : statementZh;
@@ -52,7 +52,7 @@ export function AboutPageClient({ fileContent }: { fileContent: string }) {
               <MDXRenderer content={content} />
             </div>
             <div className="mt-10 pt-6 pb-16 border-t border-neutral-200 dark:border-neutral-800">
-              <a href="/resume/ve-archive-resume.pdf" download className="inline-flex items-center gap-2 px-6 py-3 rounded-sm text-sm font-medium bg-black text-white dark:bg-white dark:text-black hover:opacity-80 transition-opacity">
+              <a href="/resume/刘佳蕾Viddy的个人简历.pdf" download className="inline-flex items-center gap-2 px-6 py-3 rounded-sm text-sm font-medium bg-black text-white dark:bg-white dark:text-black hover:opacity-80 transition-opacity">
                 <Download size={16} />{lang === "en" ? "Download Resume (PDF)" : "下载我的简历 (PDF)"}
               </a>
             </div>

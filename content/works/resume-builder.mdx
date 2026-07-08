@@ -1,0 +1,53 @@
+---
+id: "resume-builder"
+title: "Resume Builder — AI 协作开发的简历排版工具"
+titleEn: "Resume Builder — AI-Powered Resume Typesetting Tool"
+category: "ai"
+tags: ["AI", "Web 开发", "工具", "前端", "Claude"]
+personas: ["default", "ai", "freelance"]
+featured: true
+thumbnail: "/media/works/resume-builder/thumb.jpg"
+year: 2026
+url: "/tools/resume-builder"
+darkOverlay: true
+media:
+  - type: "image"
+    src: "/media/works/resume-builder/thumb.jpg"
+    alt: "Resume Builder 界面截图"
+    caption: "左侧编辑面板 + 右侧 A4 实时预览"
+---
+
+# Resume Builder — 简历排版工具
+
+## 项目背景
+
+找工作时，每个人都面临同一个痛点：如何让简历看起来专业、有设计感，而不是千篇一律的 Word 模板？
+
+市面上大多数简历工具要么收费，要么模板审美过时。作为一个影视创作者，我对排版和视觉有更高的要求——所以我决定自己做一个。
+
+## 技术实现
+
+这是一个纯前端的交互式简历排版工具，整个开发过程由我与 **Claude（AI）** 协作完成：
+
+- **前端框架**：Next.js + TypeScript + Tailwind CSS
+- **实时预览**：左侧编辑面板 → 右侧 A4 纸实时渲染
+- **数据持久化**：浏览器 localStorage 自动保存
+- **导出方式**：浏览器打印 → 另存为 PDF
+- **排版引擎**：PrintSection、BoldText、PrintExperience 等自定义组件
+- **零服务器成本**：完全运行在浏览器端
+
+## 核心功能
+
+- 基本信息编辑（姓名、身份标签、联系方式）
+- 多身份标签支持（主身份 + 副身份）
+- 工作经历自由增删（支持 **Markdown 粗体** 和换行格式化）
+- 教育背景编辑
+- A4 实时预览
+- 一键导出 PDF
+- 数据自动保存，刷新不丢失
+
+## 设计理念
+
+简历不是填表，是视觉传达。
+
+这个工具采用了 **Apple 式的克制美学**：黑白灰主色调、红色小面积强调、充足的留白、清晰的字体层级。目标是让任何一个填写内容的人，都能得到一份设计感在线的简历——不需要懂设计。

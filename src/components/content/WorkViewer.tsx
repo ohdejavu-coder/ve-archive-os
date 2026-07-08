@@ -1,6 +1,7 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { createPortal } from "react-dom";
 import { cn } from "@/lib/utils/cn";
 import { ChevronLeft, ChevronRight, X } from "lucide-react";
 import type { WorkMedia } from "@/types/work";
@@ -17,6 +18,36 @@ interface WorkViewerProps {
  */
 export function WorkViewer({ media, className }: WorkViewerProps) {
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => { setMounted(true); }, []);
+
+  // Lock body scroll when lightbox is open
+  useEffect(() => {
+    if (lightboxIndex !== null) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [lightboxIndex]);
+
+  // Close on Escape key
+  useEffect(() => {
+    const handler = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setLightboxIndex(null);
+      if (e.key === "ArrowLeft" && lightboxIndex !== null && lightboxIndex > 0) {
+        setLightboxIndex(lightboxIndex - 1);
+      }
+      if (e.key === "ArrowRight" && lightboxIndex !== null && lightboxIndex < media.length - 1) {
+        setLightboxIndex(lightboxIndex + 1);
+      }
+    };
+    window.addEventListener("keydown", handler);
+    return () => window.removeEventListener("keydown", handler);
+  }, [lightboxIndex, media.length]);
 
   if (media.length === 0) {
     return (
@@ -61,13 +92,18 @@ export function WorkViewer({ media, className }: WorkViewerProps) {
                 )}
               </>
             ) : (
-              <div className="aspect-video relative">
+              <div className="aspect-video relative group/video">
                 <video
+                  ref={(el) => { if (el) el.removeAttribute("controls"); }}
                   src={item.src}
                   poster={item.poster}
-                  controls
                   preload="metadata"
-                  className="w-full h-full object-cover"
+                  onClick={(e) => { const v = e.currentTarget; v.paused ? v.play() : v.pause(); }}
+                  onMouseEnter={(e) => { e.currentTarget.setAttribute("controls", ""); }}
+                  onMouseLeave={(e) => { if (e.currentTarget.paused) e.currentTarget.removeAttribute("controls"); }}
+                  onPause={(e) => { e.currentTarget.removeAttribute("controls"); }}
+                  onPlay={(e) => { e.currentTarget.setAttribute("controls", ""); }}
+                  className="w-full h-full object-cover cursor-pointer"
                 >
                   你的浏览器不支持视频播放。
                 </video>
@@ -80,10 +116,10 @@ export function WorkViewer({ media, className }: WorkViewerProps) {
         ))}
       </div>
 
-      {/* Lightbox */}
-      {lightboxIndex !== null && (
+      {/* Lightbox — portal to document.body to escape parent transforms */}
+      {lightboxIndex !== null && mounted && createPortal(
         <div
-          className="fixed inset-0 z-50 bg-black/90 flex items-center justify-center"
+          className="fixed inset-0 z-[9990] bg-black/90 flex items-center justify-center"
           onClick={() => setLightboxIndex(null)}
         >
           <button
@@ -142,7 +178,8 @@ export function WorkViewer({ media, className }: WorkViewerProps) {
               {lightboxIndex + 1} / {media.length}
             </span>
           </div>
-        </div>
+        </div>,
+        document.body
       )}
     </>
   );

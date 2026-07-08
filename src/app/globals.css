@@ -95,4 +95,116 @@
     to { opacity: 1; transform: scale(1); }
   }
   .hero-image-reveal { animation: image-reveal 1s ease-out both; }
+
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  .animate-fadeIn { animation: fadeIn 1.2s ease-out; }
+}
+
+/* ============================================================
+   A4 page container — used by BOTH screen preview AND print
+   Screen: shows A4-proportioned white card
+   Print:  @page margin handles edges, padding reset to 0
+   ============================================================ */
+.print-a4-page {
+  width: 210mm;
+  background: #ffffff;
+  margin: 0 auto;
+  padding: 8mm 16mm 10mm 16mm;
+}
+
+/* ============================================================
+   Print styles — A4 PDF resume
+   ============================================================ */
+@media print {
+  /* --- Reset --- */
+  *, *::before, *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+
+  /* --- Hide screen-only chrome --- */
+  header, footer, nav,
+  #cursor-dot,
+  .no-print,
+  [role="banner"],
+  [data-print-hide] {
+    display: none !important;
+  }
+
+  /* --- Page setup --- */
+  @page {
+    size: A4;
+    margin: 8mm 16mm 10mm 16mm;
+  }
+
+  /* --- Body --- */
+  body {
+    font-family: "Geist Sans", "PingFang SC", "Microsoft YaHei", "Hiragino Sans GB", -apple-system, BlinkMacSystemFont, sans-serif;
+    font-size: 10pt;
+    line-height: 1.55;
+    color: #111111;
+    background: #ffffff;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  /* --- Typography overrides for print --- */
+  .print-only { display: block !important; }
+  .screen-only { display: none !important; }
+
+  /* --- Avoid breaks inside sections --- */
+  .print-avoid-break {
+    page-break-inside: avoid;
+    break-inside: avoid;
+  }
+
+  .print-page-break {
+    page-break-before: always;
+    break-before: page;
+  }
+
+  /* --- Links: readable but not colored --- */
+  a, a:visited {
+    color: #111111;
+    text-decoration: none;
+  }
+
+  /* --- Images --- */
+  img {
+    max-width: 100%;
+    page-break-inside: avoid;
+    break-inside: avoid;
+  }
+
+  /* --- Grayscale project thumbnails --- */
+  .print-thumb {
+    filter: grayscale(100%);
+    -webkit-filter: grayscale(100%);
+  }
+
+  /* --- Red accent preserved --- */
+  .print-accent { color: #e63946; }
+  .print-accent-bg { background-color: #e63946; }
+
+  /* --- Skill bar --- */
+  .print-skill-bar {
+    height: 3px;
+    background: #e0e0e0;
+    border-radius: 2px;
+    overflow: hidden;
+  }
+  .print-skill-bar-fill {
+    height: 3px;
+    background: #e63946;
+    border-radius: 2px;
+  }
+
+  /* --- A4 page: reset screen padding during print (@page handles margins) --- */
+  .print-a4-page {
+    padding: 0;
+    min-height: 0;
+  }
 }

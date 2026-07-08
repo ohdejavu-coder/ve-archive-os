@@ -33,6 +33,8 @@ export interface WorkFrontmatter {
   client?: string;
   /** External URL if applicable */
   url?: string;
+  /** If true, uses a dark gradient overlay on the hero image for light backgrounds */
+  darkOverlay?: boolean;
 }
 
 export interface Work extends WorkFrontmatter {

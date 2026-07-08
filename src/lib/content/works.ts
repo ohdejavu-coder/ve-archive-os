@@ -31,6 +31,7 @@ export function loadWorks(): Work[] {
       year: Number(frontmatter.year ?? 0),
       client: frontmatter.client ? String(frontmatter.client) : undefined,
       url: frontmatter.url ? String(frontmatter.url) : undefined,
+      darkOverlay: frontmatter.darkOverlay === true,
       content,
       slug,
     } satisfies Work);
