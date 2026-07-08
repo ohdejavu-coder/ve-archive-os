@@ -75,7 +75,7 @@ export function ContentProvider({
 
   // Merge overrides into site config
   const site = merge(initialSite, overrides.site) as unknown as SiteConfig;
-  const resume = merge(initialResume, overrides.resume) as Resume;
+  const resume = merge(initialResume, overrides.resume) as unknown as Resume;
   const personas = mergePersonas(initialPersonas, overrides.personas);
   const pages = {
     about: (overrides.pages?.about as string) ?? initialPages.about,
@@ -94,9 +94,9 @@ export function useSiteContent(): ContentState {
   // Return safe fallback during SSR / before hydration
   if (!ctx) {
     return {
-      site: { title: "", tagline: "", defaultPersona: "default", footer: "", social: [], navigation: [] } as SiteConfig,
+      site: { title: "", tagline: "", defaultPersona: "default", footer: "", social: [], navigation: [] } as unknown as SiteConfig,
       personas: [],
-      resume: { basics: {} as Resume["basics"], summary: "", summaryEn: "", experience: [], education: [], skills: [], languages: [], awards: [] } as Resume,
+      resume: { basics: {} as Resume["basics"], summary: "", summaryEn: "", experience: [], education: [], skills: [], languages: [], awards: [] } as unknown as Resume,
       pages: { about: "", contact: "" },
       overrides: {},
       setField: () => {},
@@ -131,7 +131,7 @@ function mergePersonas(base: Persona[], overrides: Record<string, Record<string,
   if (!overrides) return base;
   return base.map((p) => {
     if (overrides[p.id]) {
-      return { ...p, ...overrides[p.id] } as Persona;
+      return { ...p, ...overrides[p.id] } as unknown as Persona;
     }
     return p;
   });
