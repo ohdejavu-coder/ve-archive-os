@@ -5,7 +5,7 @@ interface ContainerProps {
   className?: string;
   /** Default: "page". Use "full" for full-width, "narrow" for reading. */
   size?: "page" | "full" | "narrow";
-  as?: keyof JSX.IntrinsicElements;
+  as?: React.ElementType;
 }
 
 const sizeStyles = {

@@ -7,7 +7,11 @@ export default function CCRPage() {
   try {
     fileResume = loadJSON<Resume>("resume/main.json");
   } catch {
-    fileResume = { basics: {} as Resume["basics"], summary: "", summaryEn: "", experience: [], education: [], skills: [], languages: [], awards: [] } as Resume;
+    fileResume = {
+      basics: { name: "", nameEn: "", title: "", titleEn: "", location: "", email: "" },
+      summary: "", summaryEn: "",
+      coreStrengths: [], experience: [], education: [], skills: [], languages: [], awards: [], projects: [],
+    } as Resume;
   }
 
   return <CCREditor fileResume={fileResume} />;

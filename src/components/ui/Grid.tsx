@@ -6,7 +6,7 @@ interface GridProps {
   /** Columns at different breakpoints. Default: 1 / 2 / 3 */
   cols?: { base?: number; sm?: number; md?: number; lg?: number; xl?: number };
   gap?: "sm" | "md" | "lg";
-  as?: keyof JSX.IntrinsicElements;
+  as?: React.ElementType;
 }
 
 // Tailwind v4 requires complete class names for tree-shaking — no dynamic construction.

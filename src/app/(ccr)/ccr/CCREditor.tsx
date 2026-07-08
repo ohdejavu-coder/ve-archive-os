@@ -43,7 +43,7 @@ type TabId = typeof TABS[number]["id"];
 interface ExpEntry {
   company: string; companyEn: string;
   role: string; roleEn: string;
-  startDate: string; endDate: string;
+  startDate: string; endDate?: string;
   description: string; descriptionEn: string;
   highlights: string[];
 }
@@ -483,7 +483,7 @@ export function CCREditor({ fileResume }: { fileResume: Resume }) {
                       <FieldL l="职位" v={exp.role} onChange={(v) => { const n = [...experience]; n[i] = { ...n[i], role: v }; setExperience(n); }} />
                       <FieldL l="Role (EN)" v={exp.roleEn} onChange={(v) => { const n = [...experience]; n[i] = { ...n[i], roleEn: v }; setExperience(n); }} />
                       <FieldL l="开始日期" v={exp.startDate} onChange={(v) => { const n = [...experience]; n[i] = { ...n[i], startDate: v }; setExperience(n); }} />
-                      <FieldL l="结束日期" v={exp.endDate} onChange={(v) => { const n = [...experience]; n[i] = { ...n[i], endDate: v }; setExperience(n); }} />
+                      <FieldL l="结束日期" v={exp.endDate ?? ""} onChange={(v) => { const n = [...experience]; n[i] = { ...n[i], endDate: v }; setExperience(n); }} />
                     </div>
                     <FieldL l="描述（中文）" a v={exp.description} onChange={(v) => { const n = [...experience]; n[i] = { ...n[i], description: v }; setExperience(n); }} />
                     <FieldL l="Description (EN)" a v={exp.descriptionEn} onChange={(v) => { const n = [...experience]; n[i] = { ...n[i], descriptionEn: v }; setExperience(n); }} />

@@ -75,7 +75,7 @@ export default async function WorksPage({
   try { const c = await cookies(); if (c.get("ve-lang")?.value === "en") lang = "en"; } catch {}
   const t = (zh: string, en: string) => lang === "en" ? en : zh;
 
-  const activeCat = sp.category as WorkCategory | undefined;
+  const activeCat = (sp.category as string) as WorkCategory | "all" | undefined;
   const activeTag = sp.tag;
 
   if (activeCat && activeCat !== "all") {

@@ -12,7 +12,7 @@ type TypographyVariant =
 
 interface TypographyProps {
   variant?: TypographyVariant;
-  as?: keyof JSX.IntrinsicElements;
+  as?: React.ElementType;
   className?: string;
   children: React.ReactNode;
   /** If true, use serif font for cinematic headings */
@@ -30,7 +30,7 @@ const variantStyles: Record<TypographyVariant, string> = {
   label: "text-sm font-medium uppercase tracking-wider text-neutral-500",
 };
 
-const defaultElements: Record<TypographyVariant, keyof JSX.IntrinsicElements> = {
+const defaultElements: Record<TypographyVariant, string> = {
   h1: "h1",
   h2: "h2",
   h3: "h3",
