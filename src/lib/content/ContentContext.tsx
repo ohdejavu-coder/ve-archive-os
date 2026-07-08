@@ -122,12 +122,12 @@ export function useContentField(path: string, defaultValue?: unknown) {
 
 // ---- Helpers ----
 
-function merge<T extends Record<string, unknown>>(base: T, override: unknown): T {
+function merge<T extends object>(base: T, override: unknown): T {
   if (!override || typeof override !== "object") return base;
-  return { ...base, ...(override as Record<string, unknown>) } as T;
+  return { ...base, ...(override as Record<string, unknown>) } as unknown as T;
 }
 
-function mergePersonas(base: Persona[], overrides: Record<string, Record<string, unknown>> | undefined): Persona[] {
+function mergePersonas(base: Persona[], overrides: Record<string, object> | undefined): Persona[] {
   if (!overrides) return base;
   return base.map((p) => {
     if (overrides[p.id]) {
