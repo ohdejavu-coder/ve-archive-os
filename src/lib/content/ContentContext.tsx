@@ -74,7 +74,7 @@ export function ContentProvider({
   }, []);
 
   // Merge overrides into site config
-  const site = merge(initialSite, overrides.site) as SiteConfig;
+  const site = merge(initialSite, overrides.site) as unknown as SiteConfig;
   const resume = merge(initialResume, overrides.resume) as Resume;
   const personas = mergePersonas(initialPersonas, overrides.personas);
   const pages = {
