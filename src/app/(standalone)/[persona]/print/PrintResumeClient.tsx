@@ -23,12 +23,17 @@ export function PrintResumeClient({
   const { lang } = useLang();
   const overrides = useOverrides();
 
+  const [mounted, setMounted] = useState(false);
+
   const [localData, setLocalData] = useState<Record<string, string>>({});
   useEffect(() => {
+    setMounted(true);
     // Ensure custom cursor is active on this page
-    if (document.getElementById("cursor-dot")) {
-      document.body.classList.add("cursor-ready");
-    }
+    requestAnimationFrame(() => {
+      if (document.getElementById("cursor-dot")) {
+        document.body.classList.add("cursor-ready");
+      }
+    });
     try {
       const raw = localStorage.getItem("ve-content");
       if (raw) setLocalData(JSON.parse(raw));
@@ -116,9 +121,8 @@ export function PrintResumeClient({
         </div>
       </div>
 
-      {/* ============ RESUME CONTENT (single flow, browser handles page breaks) ============ */}
+      {/* ============ RESUME — single continuous flow, browser handles page breaks ============ */}
       <div className="print-a4-page mt-14">
-        {/* Header: Name + subtitle + contact — centered */}
         <PrintHeader
           name={name}
           subtitle={subtitleLines}
@@ -127,22 +131,16 @@ export function PrintResumeClient({
           website={website}
         />
 
-        {/* Profile */}
         <PrintSection label={lang === "en" ? "Profile" : "简介"}>
           <PrintProfile text={summary} />
         </PrintSection>
 
-        {/* Experience — flows to page 2 naturally if overflows */}
         {expEntries.length > 0 && (
           <PrintSection label={lang === "en" ? "Experience" : "工作经历"}>
             <PrintExperienceList experiences={expEntries} />
           </PrintSection>
         )}
-      </div>
 
-      {/* ============ PAGE BREAK — education + QR + contact on a clean new page ============ */}
-      <div className="print-a4-page print-page-break">
-        {/* Education */}
         {education.length > 0 && (
           <PrintSection label={lang === "en" ? "Education" : "教育背景"}>
             {education.map((edu, i) => (
@@ -158,7 +156,6 @@ export function PrintResumeClient({
           </PrintSection>
         )}
 
-        {/* QR Code */}
         <PrintSection label={lang === "en" ? "Scan to Visit" : "扫码访问网站"}>
           <div className="flex items-start gap-5">
             <div className="w-[100px] h-[100px] bg-white p-1 border border-[#e8e8e8] rounded flex items-center justify-center shrink-0 overflow-hidden [&_svg]:block">
@@ -181,7 +178,6 @@ export function PrintResumeClient({
           </div>
         </PrintSection>
 
-        {/* Contact */}
         <PrintSection label={lang === "en" ? "Contact" : "联系方式"}>
           <PrintContact email={email} phone={phone} website={website} />
         </PrintSection>
