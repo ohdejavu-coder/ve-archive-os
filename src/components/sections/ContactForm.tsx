@@ -8,11 +8,40 @@ import { Mail, Send } from "lucide-react";
 
 export function ContactForm() {
   const [submitted, setSubmitted] = useState(false);
+  const [sending, setSending] = useState(false);
+  const [error, setError] = useState("");
   const { lang } = useLang();
 
-  function handleSubmit(e: FormEvent<HTMLFormElement>) {
+  async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    setSubmitted(true);
+    setSending(true);
+    setError("");
+
+    const form = e.currentTarget;
+    const data = {
+      name: (form.elements.namedItem("name") as HTMLInputElement).value,
+      email: (form.elements.namedItem("email") as HTMLInputElement).value,
+      type: (form.elements.namedItem("type") as HTMLSelectElement).value,
+      message: (form.elements.namedItem("message") as HTMLTextAreaElement).value,
+    };
+
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+      });
+      if (res.ok) {
+        setSubmitted(true);
+      } else {
+        const err = await res.json();
+        setError(err.error || "发送失败");
+      }
+    } catch {
+      setError(lang === "en" ? "Network error. Please email ohdejavu@163.com directly." : "网络错误，请直接发送邮件至 ohdejavu@163.com");
+    } finally {
+      setSending(false);
+    }
   }
 
   if (submitted) {
@@ -59,6 +88,7 @@ export function ContactForm() {
         </label>
         <input
           type="text"
+          name="name"
           required
           className="w-full px-4 py-3 rounded-lg border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 text-sm focus:outline-none focus:ring-2 focus:ring-neutral-400 focus:border-transparent transition-colors"
           placeholder={labels.namePlaceholder}
@@ -71,6 +101,7 @@ export function ContactForm() {
         </label>
         <input
           type="email"
+          name="email"
           required
           className="w-full px-4 py-3 rounded-lg border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 text-sm focus:outline-none focus:ring-2 focus:ring-neutral-400 focus:border-transparent transition-colors"
           placeholder={labels.emailPlaceholder}
@@ -79,7 +110,7 @@ export function ContactForm() {
 
       <div>
         <label className="block text-sm font-medium mb-2">{labels.type}</label>
-        <select className="w-full px-4 py-3 rounded-lg border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 text-sm focus:outline-none focus:ring-2 focus:ring-neutral-400 focus:border-transparent transition-colors">
+        <select name="type" className="w-full px-4 py-3 rounded-lg border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 text-sm focus:outline-none focus:ring-2 focus:ring-neutral-400 focus:border-transparent transition-colors">
           {labels.typeOptions.map((o) => (
             <option key={o}>{o}</option>
           ))}
@@ -91,6 +122,7 @@ export function ContactForm() {
           {labels.message} <span className="text-neutral-400 text-xs">· {labels.nameRequired}</span>
         </label>
         <textarea
+          name="message"
           required
           rows={5}
           className="w-full px-4 py-3 rounded-lg border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 text-sm focus:outline-none focus:ring-2 focus:ring-neutral-400 focus:border-transparent transition-colors resize-y"
@@ -98,9 +130,13 @@ export function ContactForm() {
         />
       </div>
 
-      <Button type="submit" variant="primary" size="lg" className="w-full">
+      {error && (
+        <p className="text-sm text-red-500 text-center">{error}</p>
+      )}
+
+      <Button type="submit" variant="primary" size="lg" className="w-full" disabled={sending}>
         <Send size={16} className="mr-2" />
-        {labels.send}
+        {sending ? (lang === "en" ? "Sending..." : "发送中...") : labels.send}
       </Button>
 
       <p className="flex items-center gap-1.5 text-xs text-neutral-400 text-center justify-center pt-2">
