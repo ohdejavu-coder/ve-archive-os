@@ -138,8 +138,11 @@ export function PrintResumeClient({
             <PrintExperienceList experiences={expEntries} />
           </PrintSection>
         )}
+      </div>
 
-        {/* Education — only shown after experience finishes */}
+      {/* ============ PAGE BREAK — education + QR + contact on a clean new page ============ */}
+      <div className="print-a4-page print-page-break">
+        {/* Education */}
         {education.length > 0 && (
           <PrintSection label={lang === "en" ? "Education" : "教育背景"}>
             {education.map((edu, i) => (
