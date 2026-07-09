@@ -111,7 +111,7 @@
 .print-a4-page {
   width: 210mm;
   background: #ffffff;
-  margin: 0 auto;
+  margin: 0 auto 24px auto;
   padding: 8mm 16mm 10mm 16mm;
 }
 
@@ -204,6 +204,7 @@
 
   /* --- A4 page: reset screen padding during print (@page handles margins) --- */
   .print-a4-page {
+    margin: 0 auto;
     padding: 0;
     min-height: 0;
   }
