@@ -26,8 +26,8 @@ export function ContactForm() {
         </Typography>
         <Typography variant="body" className="text-neutral-500 max-w-sm mx-auto">
           {lang === "en"
-            ? "We'll reply within 48 hours. For urgent matters, email hello@vearchive.com with [URGENT] in the subject."
-            : "我们会在 48 小时内回复。紧急合作请直接发送邮件至 hello@vearchive.com，标题注明 [URGENT]。"}
+            ? "We'll reply within 48 hours. For urgent matters, email ohdejavu@163.com with [URGENT] in the subject."
+            : "我们会在 48 小时内回复。紧急合作请直接发送邮件至 ohdejavu@163.com，标题注明 [URGENT]。"}
         </Typography>
       </div>
     );
@@ -105,7 +105,7 @@ export function ContactForm() {
 
       <p className="flex items-center gap-1.5 text-xs text-neutral-400 text-center justify-center pt-2">
         <Mail size={12} />
-        {labels.orEmail} hello@vearchive.com
+        {labels.orEmail} ohdejavu@163.com
       </p>
     </form>
   );

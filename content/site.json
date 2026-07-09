@@ -2,10 +2,10 @@
   "title": "VE Archive",
   "tagline": "Personal Brand Operating System",
   "defaultPersona": "default",
-  "siteUrl": "http://172.20.10.3:3000",
+  "siteUrl": "https://veisviddy.com",
   "footer": "© 2025 VE Archive. 保留所有权利。Built with clarity, maintained with care.",
   "social": [
-    { "label": "Email", "url": "mailto:hello@vearchive.com", "icon": "mail" },
+    { "label": "Email", "url": "mailto:ohdejavu@163.com", "icon": "mail" },
     { "label": "GitHub", "url": "https://github.com/ve-archive", "icon": "github" }
   ],
   "navigation": [
