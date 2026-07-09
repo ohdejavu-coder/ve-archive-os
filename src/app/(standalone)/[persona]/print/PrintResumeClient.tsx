@@ -9,6 +9,7 @@ import { PrintProfile } from "@/components/print/PrintProfile";
 import { PrintExperienceList } from "@/components/print/PrintExperienceList";
 import { PrintEducation } from "@/components/print/PrintEducation";
 import { PrintContact } from "@/components/print/PrintContact";
+import * as QRCodeLib from "qrcode";
 import type { Resume } from "@/types/content";
 import type { IdentityState } from "@/lib/identity/types";
 
@@ -79,8 +80,15 @@ export function PrintResumeClient({
     .map((s) => s.trim())
     .filter(Boolean);
 
-  // --- QR code ---
-  const qrCodePath = merged.resume_qrcode ?? "";
+  // --- QR code: generate dynamically from siteUrl ---
+  const siteUrl = merged.siteUrl ?? "https://veisviddy.com";
+  const [qrSvg, setQrSvg] = useState("");
+
+  useEffect(() => {
+    QRCodeLib.toString(siteUrl + "/", { type: "svg", width: 88, margin: 2, color: { dark: "#111111", light: "#ffffff" } })
+      .then(setQrSvg)
+      .catch(() => {});
+  }, [siteUrl]);
 
   return (
     <>
@@ -145,25 +153,22 @@ export function PrintResumeClient({
 
         {/* QR Code */}
         <PrintSection label={lang === "en" ? "Scan to Visit" : "扫码访问网站"}>
-          <div className="flex items-start gap-6">
-            <div className="w-[120px] h-[120px] border border-[#e8e8e8] rounded flex items-center justify-center bg-[#fafafa]">
-              {qrCodePath ? (
-                <img
-                  src={qrCodePath}
-                  alt="Website QR Code"
-                  className="w-full h-full object-contain p-1"
-                />
+          <div className="flex items-start gap-5">
+            <div className="w-[100px] h-[100px] bg-white p-1 border border-[#e8e8e8] rounded flex items-center justify-center shrink-0 overflow-hidden [&_svg]:block">
+              {qrSvg ? (
+                <div dangerouslySetInnerHTML={{ __html: qrSvg }} />
               ) : (
-                <span className="text-[#cccccc] text-[7pt] text-center px-2 leading-relaxed">
-                  {lang === "en" ? "Upload QR code\nin resume JSON" : "在此上传\n网站二维码"}
-                </span>
+                <span className="text-[#cccccc] text-[6pt]">QR</span>
               )}
             </div>
             <div className="flex-1">
-              <p className="text-[8pt] text-[#999999] leading-relaxed">
+              <p className="text-[9pt] text-[#444444] leading-relaxed font-medium">
+                {siteUrl.replace("https://", "").replace("http://", "")}
+              </p>
+              <p className="text-[8pt] text-[#999999] leading-relaxed mt-1">
                 {lang === "en"
-                  ? "Scan the QR code to view my full portfolio website, including selected works, resume, and contact information."
-                  : "扫描二维码访问我的个人作品集网站，查看作品、简历及联系方式。"}
+                  ? "Scan to view my full portfolio and resume online."
+                  : "扫描二维码在线查看完整作品集与简历。"}
               </p>
             </div>
           </div>
