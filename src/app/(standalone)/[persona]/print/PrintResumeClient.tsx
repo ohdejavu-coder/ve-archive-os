@@ -156,31 +156,33 @@ export function PrintResumeClient({
           </PrintSection>
         )}
 
-        <PrintSection label={lang === "en" ? "Scan to Visit" : "扫码访问网站"}>
-          <div className="flex items-start gap-5">
-            <div className="w-[100px] h-[100px] bg-white p-1 border border-[#e8e8e8] rounded flex items-center justify-center shrink-0 overflow-hidden [&_svg]:block">
-              {qrSvg ? (
-                <div dangerouslySetInnerHTML={{ __html: qrSvg }} />
-              ) : (
-                <span className="text-[#cccccc] text-[6pt]">QR</span>
-              )}
+        <div className="print-avoid-break">
+          <PrintSection label={lang === "en" ? "Scan to Visit" : "扫码访问网站"}>
+            <div className="flex items-start gap-5">
+              <div className="w-[100px] h-[100px] bg-white p-1 border border-[#e8e8e8] rounded flex items-center justify-center shrink-0 overflow-hidden [&_svg]:block">
+                {qrSvg ? (
+                  <div dangerouslySetInnerHTML={{ __html: qrSvg }} />
+                ) : (
+                  <span className="text-[#cccccc] text-[6pt]">QR</span>
+                )}
+              </div>
+              <div className="flex-1">
+                <p className="text-[9pt] text-[#444444] leading-relaxed font-medium">
+                  {siteUrl.replace("https://", "").replace("http://", "")}
+                </p>
+                <p className="text-[8pt] text-[#999999] leading-relaxed mt-1">
+                  {lang === "en"
+                    ? "Scan to view my full portfolio and resume online."
+                    : "扫描二维码在线查看完整作品集与简历。"}
+                </p>
+              </div>
             </div>
-            <div className="flex-1">
-              <p className="text-[9pt] text-[#444444] leading-relaxed font-medium">
-                {siteUrl.replace("https://", "").replace("http://", "")}
-              </p>
-              <p className="text-[8pt] text-[#999999] leading-relaxed mt-1">
-                {lang === "en"
-                  ? "Scan to view my full portfolio and resume online."
-                  : "扫描二维码在线查看完整作品集与简历。"}
-              </p>
-            </div>
-          </div>
-        </PrintSection>
+          </PrintSection>
 
-        <PrintSection label={lang === "en" ? "Contact" : "联系方式"}>
-          <PrintContact email={email} phone={phone} website={website} />
-        </PrintSection>
+          <PrintSection label={lang === "en" ? "Contact" : "联系方式"}>
+            <PrintContact email={email} phone={phone} website={website} />
+          </PrintSection>
+        </div>
       </div>
     </>
   );
