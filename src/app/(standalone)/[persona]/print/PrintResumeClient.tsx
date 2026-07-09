@@ -156,6 +156,10 @@ export function PrintResumeClient({
           </PrintSection>
         )}
 
+        <PrintSection label={lang === "en" ? "Contact" : "联系方式"}>
+          <PrintContact email={email} phone={phone} website={website} />
+        </PrintSection>
+
         <div className="print-avoid-break">
           <PrintSection label={lang === "en" ? "Scan to Visit" : "扫码访问网站"}>
             <div className="flex items-start gap-5">
@@ -177,10 +181,6 @@ export function PrintResumeClient({
                 </p>
               </div>
             </div>
-          </PrintSection>
-
-          <PrintSection label={lang === "en" ? "Contact" : "联系方式"}>
-            <PrintContact email={email} phone={phone} website={website} />
           </PrintSection>
         </div>
       </div>
