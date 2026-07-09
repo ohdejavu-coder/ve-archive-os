@@ -35,6 +35,8 @@ export interface WorkFrontmatter {
   url?: string;
   /** If true, uses a dark gradient overlay on the hero image for light backgrounds */
   darkOverlay?: boolean;
+  /** Bilibili embed BV ID — embedded player instead of self-hosted video */
+  bilibiliBV?: string;
 }
 
 export interface Work extends WorkFrontmatter {

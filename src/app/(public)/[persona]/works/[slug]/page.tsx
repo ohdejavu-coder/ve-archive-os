@@ -146,6 +146,23 @@ export default async function WorkDetailPage({
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 pt-8">
             {/* Left: Media + MDX content */}
             <div className="lg:col-span-8 space-y-12">
+              {/* Bilibili video embed */}
+              {work.bilibiliBV && (
+                <section>
+                  <Typography variant="label" className="mb-4">
+                    视频
+                  </Typography>
+                  <div className="aspect-video rounded-lg overflow-hidden bg-black">
+                    <iframe
+                      src={`//player.bilibili.com/player.html?bvid=${work.bilibiliBV}&page=1&high_quality=1`}
+                      allowFullScreen
+                      className="w-full h-full"
+                      style={{ border: "none" }}
+                    />
+                  </div>
+                </section>
+              )}
+
               {/* Media Gallery: all media + thumbnail */}
               {work.media.length > 0 && (
                 <section>

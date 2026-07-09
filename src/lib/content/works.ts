@@ -32,6 +32,7 @@ export function loadWorks(): Work[] {
       client: frontmatter.client ? String(frontmatter.client) : undefined,
       url: frontmatter.url ? String(frontmatter.url) : undefined,
       darkOverlay: frontmatter.darkOverlay === true,
+      bilibiliBV: frontmatter.bilibiliBV ? String(frontmatter.bilibiliBV) : undefined,
       content,
       slug,
     } satisfies Work);
