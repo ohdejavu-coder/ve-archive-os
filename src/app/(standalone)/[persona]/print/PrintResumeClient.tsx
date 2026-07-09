@@ -25,6 +25,10 @@ export function PrintResumeClient({
 
   const [localData, setLocalData] = useState<Record<string, string>>({});
   useEffect(() => {
+    // Ensure custom cursor is active on this page
+    if (document.getElementById("cursor-dot")) {
+      document.body.classList.add("cursor-ready");
+    }
     try {
       const raw = localStorage.getItem("ve-content");
       if (raw) setLocalData(JSON.parse(raw));
